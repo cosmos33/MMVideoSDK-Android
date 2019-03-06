@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/video_record_recommend_layout_height"
+    android:clipChildren="false">
+
+    <ViewStub
+        android:id="@+id/recording_face_stub"
+        android:layout_width="@dimen/video_record_recommend_item_width"
+        android:layout_height="@dimen/video_record_recommend_item_width"
+        android:layout_gravity="center"
+        android:layout="@layout/listitem_moment_recommend_face" />
+
+    <com.immomo.videosdk.widget.VideoDefaultRecordButton
+        android:id="@+id/video_default_record_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        app:prod_progress_width="4dp"
+        app:prod_start_angle="-90"
+        app:vdrb_inner_color="#fff"
+        app:vdrb_inner_size="61dp"
+        app:vdrb_max_size="64dp"
+        app:vdrb_min_size="60dp"
+        app:vdrb_progress_size="2dp"
+        app:vdrb_record_duration="200"
+        tools:visibility="visible" />
+
+</FrameLayout>

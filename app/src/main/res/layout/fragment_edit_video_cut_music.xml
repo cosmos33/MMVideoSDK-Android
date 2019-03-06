@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="42dp"
+        android:drawableLeft="@drawable/ic_music"
+        android:drawablePadding="4dp"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        tools:text="允许部分艺术家先富起来 - 二手玫瑰" />
+
+    <TextView
+        android:id="@+id/music_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:textColor="#66ffffff"
+        android:textSize="9sp"
+        tools:text=" 00:37 " />
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:id="@+id/music_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.immomo.videosdk.recorder.musicpanel.widget.MusicHorizontalScrollView
+            android:id="@+id/scroll_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <com.immomo.videosdk.recorder.musicpanel.widget.MusicWaveView
+                android:id="@+id/wave_view"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp" />
+        </com.immomo.videosdk.recorder.musicpanel.widget.MusicHorizontalScrollView>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_oval_gray" />
+    </RelativeLayout>
+
+</LinearLayout>

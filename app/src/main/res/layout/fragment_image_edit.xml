@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical">
+
+    <project.android.imageprocessing.FastImageProcessingView
+        android:id="@+id/media_cover_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/filter_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_46px"
+        android:visibility="invisible"
+        tools:text="美白滤镜"
+        tools:visibility="visible" />
+
+    <!--所有贴纸 包括文字贴纸-->
+    <FrameLayout
+        android:id="@+id/media_edit_all_sticker_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:clipChildren="false">
+
+        <com.immomo.videosdk.widget.sticker.StickerContainerView
+            android:id="@+id/media_edit_sticker_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false" />
+
+        <ImageView
+            android:id="@+id/media_edit_draw_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/media_edit_btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="13dp"
+        android:paddingTop="16dp"
+        app:srcCompat="@drawable/ic_moment_close" />
+
+    <TextView
+        android:id="@+id/media_edit_btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_video_edit_send_drawable"
+        android:gravity="center|left"
+        android:paddingLeft="14dp"
+        android:paddingRight="13.5dp"
+        android:text="完成"
+        android:textColor="#fff"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bmp_moment_gradient_bottom" />
+
+    <LinearLayout
+        android:id="@+id/media_edit_tools_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:clipChildren="false"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/media_edit_filter_tv"
+                style="@style/media_function_text_new"
+                android:drawableTop="@drawable/ic_media_switch_filter"
+                android:text="@string/moment_switch_filter" />
+
+            <View
+                android:id="@+id/edit_filter_red_point"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="18dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_moment_face_new"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/media_edit_slimming_tv"
+                style="@style/media_function_text_new"
+                android:drawableTop="@drawable/ic_media_slimming_filter"
+                android:text="美颜" />
+
+            <View
+                android:id="@+id/edit_slimming_red_point"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="18dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_moment_face_new"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/media_edit_sticker_tv"
+                style="@style/media_function_text_new"
+                android:drawableTop="@drawable/ic_moment_edit_add_sticker"
+                android:text="@string/moment_edit_add_sticker" />
+
+            <View
+                android:id="@+id/edit_sticker_red_point"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="18dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_moment_face_new"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/media_edit_text_tv"
+            style="@style/media_function_text_new"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_moment_edit_add_text"
+            android:text="@string/moment_edit_add_text" />
+
+        <TextView
+            android:id="@+id/media_edit_paint_tv"
+            style="@style/media_function_text_new"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_moment_edit_paint"
+            android:text="@string/moment_edit_paint" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/media_edit_delete_sticker"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
+        android:src="@drawable/ic_moment_edit_delete_sticker_dark"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/media_edit_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#20000000"
+        android:clickable="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/media_edit_music_progressview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
+
+        <ProgressBar
+            android:id="@+id/media_edit_progresssbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true" />
+
+        <TextView
+            android:id="@+id/media_edit_send_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/media_edit_progresssbar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="处理中..."
+            android:textColor="#DDffffff"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <ViewStub
+        android:id="@+id/media_filter_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout="@layout/layout_moment_filter_drawer_panel" />
+
+    <!--涂鸦-->
+    <ViewStub
+        android:id="@+id/media_edit_paint_layout_stub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout="@layout/moment_paint_layout" />
+
+    <!--编辑文字贴纸界面-->
+    <ViewStub
+        android:id="@+id/media_edit_text_layout_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/moment_edittext_layout" />
+
+    <!--所有贴纸-->
+    <ViewStub
+        android:id="@+id/media_edit_sticker_panel_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/moment_sticker_panel"
+        android:paddingLeft="10dp" />
+    <ViewStub
+        android:id="@+id/vs_media_quality_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout="@layout/include_test_text" />
+</RelativeLayout>

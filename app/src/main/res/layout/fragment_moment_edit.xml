@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/video_cover_and_process"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/video_cover_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+        <TextureView
+            android:id="@+id/video_process_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+
+    <!--所有贴纸 包括文字贴纸-->
+    <FrameLayout
+        android:id="@+id/moment_edit_all_sticker_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:clipChildren="false">
+
+        <com.immomo.videosdk.widget.sticker.StickerContainerView
+            android:id="@+id/moment_edit_sticker_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false" />
+
+        <ImageView
+            android:id="@+id/moment_edit_draw_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/moment_edit_btn_close"
+        style="@style/Title_LEFT_RIGHT"
+        android:text="重拍" />
+
+    <TextView
+        android:id="@+id/moment_edit_title"
+        style="@style/Title_LEFT_RIGHT"
+        android:layout_centerHorizontal="true"
+        android:text="00:10" />
+
+    <TextView
+        android:id="@+id/moment_edit_btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/bg_video_edit_send_drawable"
+        android:drawablePadding="1dp"
+        android:gravity="center|left"
+        android:paddingLeft="14dp"
+        android:paddingRight="12dp"
+        android:text="完成"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+
+    <include
+        layout="@layout/fragment_moment_edit_tools_for_normal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+
+    <ImageView
+        android:id="@+id/moment_edit_delete_sticker"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
+        android:src="@drawable/ic_moment_edit_delete_sticker_dark"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/moment_edit_progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#20000000"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/moment_edit_music_progressview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true" />
+
+        <com.immomo.videosdk.widget.progress.CircleProgressView
+            android:id="@+id/moment_edit_progressview"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            app:circle_progress_background_color="#50ffffff"
+            app:circle_progress_color="#DDffffff"
+            app:circle_progress_width="4dp" />
+
+        <TextView
+            android:id="@+id/moment_edit_send_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/moment_edit_progressview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="发送中..."
+            android:textColor="#DDffffff"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <!--涂鸦-->
+    <ViewStub
+        android:id="@+id/moment_edit_paint_layout_stub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout="@layout/moment_paint_layout" />
+    <!--编辑文字贴纸界面-->
+    <ViewStub
+        android:id="@+id/moment_edit_text_layout_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/moment_edittext_layout" />
+    <!--所有贴纸-->
+    <ViewStub
+        android:id="@+id/moment_edit_sticker_panel_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/moment_dynamic_sticker_panel"
+        android:paddingLeft="10dp" />
+
+    <ViewStub
+        android:id="@+id/stub_special_filter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout="@layout/viewstub_moment_special_filter" />
+
+    <ViewStub
+        android:id="@+id/music_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout="@layout/viewstub_edit_video_music_panel" />
+
+    <FrameLayout
+        android:id="@+id/moment_edit_filter_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ViewStub
+            android:id="@+id/media_filter_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout="@layout/layout_moment_filter_drawer_panel" />
+    </FrameLayout>
+
+
+</RelativeLayout>

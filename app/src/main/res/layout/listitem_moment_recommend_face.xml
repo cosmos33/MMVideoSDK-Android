@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/video_record_recommend_item_width"
+    android:layout_height="@dimen/video_record_recommend_item_width"
+    android:clickable="true">
+    <View
+        android:id="@+id/moment_face_bg"
+        android:layout_width="@dimen/video_record_recommend_bg_width"
+        android:layout_height="@dimen/video_record_recommend_bg_width"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_recommend_face_item_icon" />
+
+    <ImageView
+        android:id="@+id/moment_face_icon"
+        android:layout_width="@dimen/video_record_recommend_face_width"
+        android:layout_height="@dimen/video_record_recommend_face_width"
+        android:layout_gravity="center" />
+
+    <View
+        android:id="@+id/moment_face_ring"
+        android:layout_width="@dimen/video_record_recommend_bg_width"
+        android:layout_height="@dimen/video_record_recommend_bg_width"
+        android:layout_gravity="center"
+        android:background="@drawable/ring_recommend_face_item" />
+
+    <ImageView
+        android:id="@+id/moment_face_loading"
+        android:layout_width="@dimen/video_record_recommend_bg_width"
+        android:layout_height="@dimen/video_record_recommend_bg_width"
+        android:padding="11dp"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_oval_gray"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_moment_recommend_face_loading"
+        android:visibility="gone" />
+</FrameLayout>

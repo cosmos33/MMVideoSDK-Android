@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/special_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/special_cancel_btn"
+            style="@style/Title_LEFT_RIGHT"
+            android:text="取消" />
+
+
+        <TextView
+            android:id="@+id/special_affirm_btn"
+            style="@style/Title_LEFT_RIGHT"
+            android:layout_alignParentRight="true"
+            android:text="确认" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/video_play_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/video_edit_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_video_edit_status" />
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/special_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/hint_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="13dp"
+            android:text="拖动游标，选择开始位置"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="13dp"
+            android:clipChildren="false">
+
+            <com.immomo.videosdk.widget.RoundCornerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                app:bottomLeftRadius="5dp"
+                app:bottomRightRadius="5dp"
+                app:topLeftRadius="5dp"
+                app:topRightRadius="5dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/keyframes"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical" />
+
+            </com.immomo.videosdk.widget.RoundCornerFrameLayout>
+
+            <com.immomo.videosdk.recorder.specialfilter.widget.FilterSeekView
+                android:id="@+id/filter_seekview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+
+        </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_filter_panel"
+            android:clipChildren="false"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="28dp"
+                android:paddingTop="10dp"
+                android:paddingRight="28dp">
+
+                <TextView
+                    android:id="@+id/frames_special_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="28dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="11dp"
+                    android:text="画面特效"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/frames_special_line"
+                    android:layout_width="56dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/frames_special_btn"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/special_filter_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawableLeft="@drawable/video_edit_speical_filter_back"
+                    android:drawablePadding="4dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="11dp"
+                    android:text="撤销"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp"
+                android:background="#4Dffffff" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/special_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="24dp"
+                android:clipChildren="false" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

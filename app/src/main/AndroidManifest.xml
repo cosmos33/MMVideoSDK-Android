@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.immomo.videosdk">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".DemoApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".recorder.activity.VideoRecordAndEditActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".recorder.activity.ImageEditActivity" />
+        <activity android:name=".recorder.activity.VideoCutActivity" />
+        <activity android:name=".recorder.activity.VideoSpeedAdjustActivity" />
+        <activity android:name=".recorder.activity.SelectMomentCoverActivity" />
+        <activity android:name="com.function.FunctionListActivity" />
+        <activity android:name="com.function.takephoto.TakePhotoTestActivity" />
+        <activity android:name="com.function.recordvideo.VideoRecordTestActivity" />
+        <activity android:name="com.function.videoprocess.VideoProcessTestActivity" />
+        <activity android:name="com.function.imageprocess.ImageProcessTestActivity" />
+    </application>
+
+</manifest>

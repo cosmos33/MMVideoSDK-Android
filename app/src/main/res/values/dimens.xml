@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <dimen name="text_46px">23sp</dimen>
+    <dimen name="text_40px">20sp</dimen>
+    <dimen name="text_30px">15sp</dimen>
+    <dimen name="text_28px">14sp</dimen>
+    <dimen name="text_24px">12sp</dimen>
+
+    <!-- 列表页通用的主要文字大小 -->
+    <!-- 列表页通用的描述文字 -->
+    <!-- 详情页 通用主要文字 -->
+    <!-- 详情页 描述文字 -->
+    <!-- 气泡数字 小标记文本 -->
+    <dimen name="shape_corners">1.0dip</dimen>
+    <!-- 消息内容靠近箭头方向的填充距离 -->
+    <!-- 消息列表各种消息气泡里面的边距大小 -->
+    <!-- 消息列表左右缩进大小 （用户头像大小的距离） -->
+    <!-- <dimen name="params2_top">5.333333333dp</dimen> -->
+
+    <!-- 招呼 -->
+
+    <!-- 游戏中心 -->
+
+    <!-- 通用的列表水平间隔-->
+    <dimen name="dimen_dip_5">5dp</dimen>
+    <dimen name="dimen_dip_15">15dp</dimen>
+    <dimen name="dimen_dip_50">50dp</dimen>
+    <dimen name="dimen_dip_30">30dp</dimen>
+    <dimen name="dimen_dip_20">20dp</dimen>
+
+    <!--6.3 dp for sp尝试解决屏蔽系统字体放大缩小问题-->
+
+    <!--新的联系人的头像大小-->
+
+    <!-- video宽度高度 -->
+
+    <!--Feed分割线的高度-->
+
+
+    <!--Feed的边距-->
+    <dimen name="feed_padding_5dp">5dp</dimen>
+
+    <!-- moment_face_items_height + moment_face_indicator_height-->
+    <dimen name="moment_common_panel_height">239dp</dimen>
+    <!-- 2 * moment_face_item_height + 4 * moment_face_item_margin-->
+    <!-- 设计稿上是50dp，但为了做动画不影响增加10dp-->
+    <!-- 所以这里要减去10dp-->
+    <dimen name="moment_face_panel_margin_bottom">-10dp</dimen>
+    <dimen name="moment_face_panel_width">87.dp</dimen>
+
+    <!--VideoRangeBar 选框的边线宽度-->
+    <dimen name="vrb_range_border_width">3dp</dimen>
+    <!--VideoRangeBar 选框左右把手的宽度-->
+    <dimen name="vrb_range_handler_width">10dp</dimen>
+
+    <!--视频选区列表中 一个缩略图的尺寸-->
+    <dimen name="video_range_bar_item_width">40dp</dimen>
+    <dimen name="video_range_bar_item_height">59dp</dimen>
+
+    <!--关联表情尺寸-->
+
+    <!-- 单人快聊 -->
+    <dimen name="multimedia_list_item_space_half">1.5dp</dimen>
+
+    <dimen name="video_record_recommend_layout_height">70dp</dimen>
+    <dimen name="video_record_recommend_item_width">54dp</dimen>
+    <dimen name="video_record_recommend_bg_width">44dp</dimen>
+    <dimen name="video_record_recommend_face_width">30dp</dimen>
+
+    <!-- VChat BEGIN -->
+
+    <!-- member dialog -->
+    <!-- VChat END -->
+
+</resources>

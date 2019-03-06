@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        tools:background="@color/black_overlay"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/music_panel_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/music_video_volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:drawableTop="@drawable/video_music_volume_drawable"
+                android:gravity="center"
+                android:text="100%"
+                android:textColor="#63ffffff"
+                android:textSize="10sp" />
+
+            <com.immomo.videosdk.recorder.musicpanel.widget.VolumeSeekBar
+                android:id="@+id/music_os_seek_bar"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                app:vsb_bgMaxHeight="12dp"
+                app:vsb_bgMinHeight="4dp"
+                app:vsb_endColor="@color/music_panle_music_range_blue"
+                app:vsb_startColor="@color/music_panle_music_range_green"
+                app:vsb_thumbDrawable="@drawable/music_sound_seek_bar_thumb" />
+
+            <TextView
+                android:id="@+id/music_music_volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:drawableTop="@drawable/video_music_drawable"
+                android:gravity="center"
+                android:text="100%"
+                android:textColor="#63ffffff"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/music_panel_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/music_panel_toolbar"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:maxWidth="200dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="100%"
+            android:textColor="@color/music_panel_text_color_gray"
+            android:textSize="10sp"
+            tools:text="音乐：无音乐" />
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/music_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" />
+
+</LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?><!-- @see com.immomo.momo.moment.widget.MomentFilterPanelTabLayout -->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/filter_drawer_top_panel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorGravity="bottom"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        app:tabPadding="10dp"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+        app:tabTextColor="@color/music_panel_text_color_gray">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/filter_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="滤镜" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/filter_beauty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="美肌" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/filter_bigeye_thin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="美颜" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/filter_slimming_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="瘦身" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/filter_long_legs_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="长腿" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <ImageView
+        android:id="@+id/tab_more_btn"
+        android:layout_width="41dp"
+        android:layout_height="41dp"
+        android:layout_below="@id/tab_layout"
+        android:layout_marginLeft="@dimen/dimen_dip_30"
+        android:layout_marginRight="@dimen/dimen_dip_15"
+        android:scaleType="center"
+        android:src="@drawable/icon_more"
+        android:visibility="invisible" />
+
+</merge>

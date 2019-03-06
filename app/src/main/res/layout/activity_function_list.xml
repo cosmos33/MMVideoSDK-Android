@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/take_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_dip_20"
+        android:text="拍照" />
+
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/record_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_dip_20"
+        android:text="录制" />
+
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/video_process"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_dip_20"
+        android:text="视频处理" />
+
+    <Button
+        android:onClick="onClick"
+        android:id="@+id/photo_process"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_dip_20"
+        android:text="图片处理" />
+</LinearLayout>

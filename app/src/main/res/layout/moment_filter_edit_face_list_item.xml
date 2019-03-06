@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="129dp"
+    android:clickable="true"
+    android:focusable="true">
+    <TextView
+        android:id="@+id/filter_edit_face_text"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:background="@drawable/moment_filter_edit_face_selector"
+        android:text="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_40px"
+        android:gravity="center"/>
+
+</FrameLayout>

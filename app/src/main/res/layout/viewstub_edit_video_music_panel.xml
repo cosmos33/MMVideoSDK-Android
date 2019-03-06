@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/close_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <LinearLayout
+        android:id="@+id/edit_video_music_panel"
+        android:layout_width="match_parent"
+        android:layout_height="263dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_common_panel"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="7dp"
+            app:tabIndicatorColor="#ffffff"
+            app:tabIndicatorHeight="1dp"
+            app:tabMinWidth="10dp"
+            app:tabMode="scrollable"
+            app:tabPaddingBottom="-1dp"
+            app:tabPaddingEnd="2dp"
+            app:tabPaddingStart="2dp"
+            app:tabPaddingTop="-1dp"
+            app:tabSelectedTextColor="#ffffff"
+            app:tabTextColor="#4Daaaaaa" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp"
+            android:background="#1Affffff" />
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/edit_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

@@ -1,0 +1,130 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--对部分页面，禁止掉滑动返回后，应该去掉windowIsTranslucent 设置，避免进入时，背景透明的情况，比如时刻录制-->
+
+
+    <style name="BaseToolBarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="elevation">0dp</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="overlapAnchor">false</item>
+        <item name="android:background">#00000000</item>
+        <item name="actionOverflowMenuStyle">@style/PopupMenu</item>
+
+        <item name="title">@null</item>
+        <!--默认返回按钮是灰色的-->
+        <!--从 24.0.0 开始，Toolbar的标题和返回键之间多了 16dp的间距，通过此属性可以调整-->
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="@style/BaseToolBarTheme" />
+
+    <!--标题样式-->
+
+
+    <!--悬浮菜单的样式-->
+    <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <!--是否覆盖在Toolbar上面-->
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">?attr/actionBarSize</item>
+    </style>
+
+
+    <style name="CommonTabLayout" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="tabIndicatorColor">@color/tab_selected</item>
+        <item name="tabBackground">@null</item>
+        <item name="tabMinWidth">32dp</item>
+        <item name="tabPaddingStart">10dp</item>
+        <item name="tabPaddingEnd">10dp</item>
+        <!--标题中的Tab的游标高度稍微高一些-->
+        <item name="tabIndicatorHeight">2dp</item>
+        <!--高度与Toolbar保持一致-->
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+    <!--背景色白色样式-->
+    <!--背景色透明样式-->
+    <style name="CommonTabLayout.Transparent" parent="CommonTabLayout">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="ShadowedText">
+        <item name="android:shadowDx">0.0</item>
+        <item name="android:shadowDy">-1.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
+
+    <style name="Title_LEFT_RIGHT">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_marginTop">15sp</item>
+        <item name="android:layout_marginLeft">10sp</item>
+        <item name="android:layout_marginRight">10sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ShadowedText.Light" parent="@style/ShadowedText">
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:shadowColor">#ff555555</item>
+    </style>
+
+    <style name="moment_video_function_text" parent="ShadowedText.Light">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
+    <style name="Anim_Checkable_Group_View_Style">
+        <item name="acgv_orientation">horizontal_right</item>
+        <item name="acgv_show_anim_duration">700</item>
+        <item name="acgv_show_anim_delay">50</item>
+        <item name="acgv_check_anim_duration">500</item>
+        <item name="acgv_outside_width">2dp</item>
+        <item name="acgv_radius">12.5dp</item>
+        <item name="acgv_padding">8dp</item>
+        <item name="acgv_checked_radius">16dp</item>
+        <item name="acgv_outside_color">#00000000</item>
+        <item name="acgv_draw_outside">true</item>
+        <item name="acgv_fixed_outside">true</item>
+    </style>
+
+
+    <style name="media_function_text_new" parent="ShadowedText.Light">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:drawablePadding">6dp</item>
+    </style>
+
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>

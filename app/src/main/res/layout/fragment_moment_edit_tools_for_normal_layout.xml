@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/moment_edit_tools_layout"
+    android:background="@drawable/bg_gradient_bottom"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/dimen_dip_20"
+    android:layout_alignParentBottom="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/moment_edit_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_dip_15"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_video_edit_icon"
+                android:scaleType="center"
+                android:src="@drawable/ic_moment_switch_filter" />
+
+            <TextView
+                style="@style/moment_video_function_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="滤镜" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/moment_edit_add_sticker_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_dip_15"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_video_edit_icon"
+                android:scaleType="center"
+                android:src="@drawable/ic_moment_edit_add_sticker" />
+
+            <TextView
+                style="@style/moment_video_function_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="贴纸" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/moment_edit_text_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_dip_15"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_video_edit_icon"
+                android:scaleType="center"
+                android:src="@drawable/ic_moment_edit_add_text" />
+
+            <TextView
+                style="@style/moment_video_function_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="文字" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/moment_edit_music_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_dip_15"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_video_edit_icon"
+                android:scaleType="center"
+                android:src="@drawable/ic_moment_edit_music_normal" />
+
+            <TextView
+                style="@style/moment_video_function_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="配乐" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/moment_edit_select_cover_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_dip_15"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_video_edit_icon"
+                android:scaleType="center"
+                android:src="@drawable/ic_moment_edit_select_cover" />
+
+            <TextView
+                style="@style/moment_video_function_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="封面" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/special_fiter_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_dip_15"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_video_edit_icon"
+                android:scaleType="center"
+                android:src="@drawable/ic_video_edit_special_filter" />
+
+            <TextView
+                style="@style/moment_video_function_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="特效" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/moment_edit_paint_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_dip_15"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_video_edit_icon"
+                android:scaleType="center"
+                android:src="@drawable/ic_moment_edit_paint" />
+
+            <TextView
+                style="@style/moment_video_function_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="涂鸦" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/moment_edit_change_speed_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_dip_15"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/bg_video_edit_icon"
+                android:scaleType="center"
+                android:src="@drawable/ic_moment_edit_btn_change_speed" />
+
+            <TextView
+                style="@style/moment_video_function_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="变速" />
+        </LinearLayout>
+    </LinearLayout>
+
+</HorizontalScrollView>

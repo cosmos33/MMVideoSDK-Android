@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|bottom"
+    android:layout_marginBottom="220.5dp"
+    android:gravity="center_horizontal"
+    android:shadowColor="#3f000000"
+    android:shadowDx="0"
+    android:shadowDy="0"
+    android:shadowRadius="2"
+    android:text="点击垃圾桶删除前段视频"
+    android:textColor="@color/white"
+    android:textSize="18sp"
+    android:visibility="gone"></TextView>

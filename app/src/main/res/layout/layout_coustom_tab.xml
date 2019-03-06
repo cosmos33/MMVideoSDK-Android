@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:gravity="bottom">
+
+    <com.google.android.material.tabs.ScaleLayout
+        android:id="@+id/tab_title_scale_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tab_title"
+                android:textColor="@color/tab_selected"
+                android:textSize="@dimen/text_30px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxEms="4"
+                android:singleLine="true"
+                android:ellipsize="end"
+                tools:text="Title" />
+
+            <ImageView
+                android:id="@+id/tab_coustom_img"
+                android:layout_width="6.5dp"
+                android:layout_height="3.75dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@+id/tab_title" />
+        </RelativeLayout>
+    </com.google.android.material.tabs.ScaleLayout>
+
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/water_mark_background"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <ImageView
+        android:layout_width="39dp"
+        android:layout_height="9dp"
+        android:src="@drawable/moment_watermark_large"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/water_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:textColor="#4c000000"
+        android:textSize="10sp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textStyle="bold"
+        tools:text="1234556" />
+</LinearLayout>
