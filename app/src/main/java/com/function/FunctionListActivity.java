@@ -2,16 +2,15 @@ package com.function;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.function.imageprocess.ImageProcessTestActivity;
 import com.function.recordvideo.VideoRecordTestActivity;
 import com.function.takephoto.TakePhotoTestActivity;
 import com.function.videoprocess.VideoProcessTestActivity;
-import com.immomo.videosdk.R;
-import com.immomo.videosdk.base.BaseActivity;
-
-import androidx.annotation.Nullable;
+import com.mm.sdkdemo.R;
+import com.mm.sdkdemo.base.BaseActivity;
 
 public class FunctionListActivity extends BaseActivity {
 

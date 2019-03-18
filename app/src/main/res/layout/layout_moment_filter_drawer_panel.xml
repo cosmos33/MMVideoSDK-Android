@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.immomo.videosdk.widget.MomentFilterPanelLayout
+<com.mm.sdkdemo.widget.MomentFilterPanelLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/moment_face_panel"

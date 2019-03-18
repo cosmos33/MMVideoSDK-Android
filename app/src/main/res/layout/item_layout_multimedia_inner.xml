@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.immomo.videosdk.widget.RoundCornerImageView
+    <com.mm.sdkdemo.widget.RoundCornerImageView
         app:radius="4dp"
         android:id="@+id/iv_item_image"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:background="@drawable/album_item_bg_selector"
         android:clickable="false" />
 
-    <com.immomo.videosdk.widget.SelectView
+    <com.mm.sdkdemo.widget.SelectView
         android:id="@+id/iv_item_select"
         android:layout_width="31dp"
         android:layout_height="31dp"
@@ -65,7 +65,7 @@
         tools:text="00:15"
         tools:visibility="visible" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_item_edit"
         android:layout_width="17dp"
         android:layout_height="17dp"

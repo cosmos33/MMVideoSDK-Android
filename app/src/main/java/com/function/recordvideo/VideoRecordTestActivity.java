@@ -10,11 +10,12 @@ import android.view.View;
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
 import com.immomo.mdlog.MDLog;
-import com.immomo.mediasdk.IMultiRecorder;
-import com.immomo.mediasdk.MoMediaManager;
+import com.mm.mediasdk.IMultiRecorder;
+import com.mm.mediasdk.MoMediaManager;
 import com.immomo.moment.config.MRecorderActions;
-import com.immomo.videosdk.R;
-import com.immomo.videosdk.recorder.activity.BaseFullScreenActivity;
+import com.mm.sdkdemo.DemoApplication;
+import com.mm.sdkdemo.R;
+import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
 
 import java.io.File;
 
@@ -26,7 +27,7 @@ public class VideoRecordTestActivity extends BaseFullScreenActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_record_test);
-        recorder = MoMediaManager.createRecorder(null);
+        recorder = MoMediaManager.createRecorder(DemoApplication.mToken);
         recorder.prepare(this, getConfig());
         File file = new File(Environment.getExternalStorageDirectory(), "video_test.mp4");
         recorder.setMediaOutPath(file.getAbsolutePath());
@@ -43,7 +44,7 @@ public class VideoRecordTestActivity extends BaseFullScreenActivity {
                 recorder.setPreviewDisplay(holder);
                 recorder.startPreview();
                 //                //磨皮，美颜
-                //                recorder.setSkinLevel(1f);
+                //                recorder.setSkinAndLightingLevel(1f);
                 //                recorder.setSkinLightingScale(1f);
                 //                //瘦脸
                 //                recorder.setFaceThinScale(1f);
@@ -93,7 +94,7 @@ public class VideoRecordTestActivity extends BaseFullScreenActivity {
                 break;
 
             case R.id.pause_record:
-                recorder.stopRecording();
+                recorder.pauseRecording();
                 break;
             case R.id.finish_record:
                 recorder.finishRecord(new MRecorderActions.OnRecordFinishedListener() {
@@ -115,7 +116,7 @@ public class VideoRecordTestActivity extends BaseFullScreenActivity {
                 break;
 
             case R.id.switch_camera:
-                recorder.switchCamera(this);
+                recorder.switchCamera();
                 break;
         }
     }

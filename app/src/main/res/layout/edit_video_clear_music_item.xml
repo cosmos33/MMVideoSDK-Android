@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.immomo.videosdk.widget.RoundCornerFrameLayout
+    <com.mm.sdkdemo.widget.RoundCornerFrameLayout
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="#282828"
@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_clear_select_music" />
 
-    </com.immomo.videosdk.widget.RoundCornerFrameLayout>
+    </com.mm.sdkdemo.widget.RoundCornerFrameLayout>
 
 
     <TextView

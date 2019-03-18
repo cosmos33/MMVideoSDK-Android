@@ -6,7 +6,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <com.immomo.videosdk.widget.RoundCornerImageView
+    <com.mm.sdkdemo.widget.RoundCornerImageView
         android:id="@+id/diretory_cover"
         android:layout_width="60dp"
         android:layout_height="60dp"

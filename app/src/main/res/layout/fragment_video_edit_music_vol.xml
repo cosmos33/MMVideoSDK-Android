@@ -34,7 +34,7 @@
                 android:textColor="#63ffffff"
                 android:textSize="10sp" />
 
-            <com.immomo.videosdk.recorder.musicpanel.widget.VolumeSeekBar
+            <com.mm.sdkdemo.recorder.musicpanel.widget.VolumeSeekBar
                 android:id="@+id/music_os_seek_bar"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
@@ -75,7 +75,7 @@
     </RelativeLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/music_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -48,7 +48,7 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <com.immomo.videosdk.widget.seekbar.TickSeekBar
+        <com.mm.sdkdemo.widget.seekbar.TickSeekBar
             android:id="@+id/moment_speed_slideindicatorbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.immomo.videosdk.widget.videorangebar.VideoRangeBar
+            <com.mm.sdkdemo.widget.videorangebar.VideoRangeBar
                 android:id="@+id/moment_speed_video_range_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

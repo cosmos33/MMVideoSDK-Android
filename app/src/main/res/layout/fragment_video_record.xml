@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout="@layout/include_test_text" />
 
-    <com.immomo.videosdk.widget.FilterScrollMoreViewPager
+    <com.mm.sdkdemo.widget.FilterScrollMoreViewPager
         android:id="@+id/change_fragment_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,7 +63,7 @@
         android:layout_marginRight="42dp"
         android:layout="@layout/viewstub_video_speed" />
 
-    <com.immomo.videosdk.widget.FaceTipView
+    <com.mm.sdkdemo.widget.FaceTipView
         android:id="@+id/record_sticker_trigger_tip"
         android:layout_width="168dp"
         android:layout_height="168dp"
@@ -106,7 +106,7 @@
         tools:text="3"
         tools:visibility="visible" />
 
-    <com.immomo.videosdk.widget.MomentRecordProgressView
+    <com.mm.sdkdemo.widget.MomentRecordProgressView
         android:id="@+id/video_advanced_progress_view"
         android:layout_width="match_parent"
         android:layout_height="5dp"
@@ -315,7 +315,7 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-            <com.immomo.videosdk.widget.OrientationTextView
+            <com.mm.sdkdemo.widget.OrientationTextView
                 android:id="@+id/video_advanced_btn_goto_edit"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -325,13 +325,13 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-            <com.immomo.videosdk.widget.VideoRecordControllerLayout
+            <com.mm.sdkdemo.widget.VideoRecordControllerLayout
                 android:id="@+id/video_record_btn_layout"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_gravity="center" />
 
-            <com.immomo.videosdk.widget.VideoAdvancedRecordButton
+            <com.mm.sdkdemo.widget.VideoAdvancedRecordButton
                 android:id="@+id/video_advanced_record_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -361,7 +361,7 @@
         </FrameLayout>
     </FrameLayout>
 
-    <com.immomo.videosdk.widget.RecordPageIndicator
+    <com.mm.sdkdemo.widget.RecordPageIndicator
         android:id="@+id/record_pager_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

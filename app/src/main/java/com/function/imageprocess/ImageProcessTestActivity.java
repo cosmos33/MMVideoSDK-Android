@@ -1,33 +1,32 @@
 package com.function.imageprocess;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.immomo.mdlog.MDLog;
-import com.immomo.mediasdk.ImageProcess;
-import com.immomo.mediasdk.MoMediaManager;
+import com.mm.mediasdk.IImageProcess;
+import com.mm.mediasdk.MoMediaManager;
 import com.immomo.mmutil.log.Log4Android;
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
-import com.immomo.mmutil.toast.Toaster;
-import com.immomo.videosdk.R;
-import com.immomo.videosdk.config.Configs;
-import com.immomo.videosdk.recorder.activity.BaseFullScreenActivity;
-import com.immomo.videosdk.utils.DeviceUtils;
-import com.immomo.videosdk.utils.filter.FiltersManager;
+import com.mm.mediasdk.utils.UIUtils;
+import com.mm.sdkdemo.R;
+import com.mm.sdkdemo.config.Configs;
+import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
+import com.mm.sdkdemo.utils.DeviceUtils;
+import com.mm.sdkdemo.utils.filter.FiltersManager;
 
 import java.io.File;
 
 import project.android.imageprocessing.FastImageProcessingView;
 
 public class ImageProcessTestActivity extends BaseFullScreenActivity {
-    private ImageProcess imageProcess;
+    private IImageProcess imageProcess;
     private FastImageProcessingView processingView;
     private final String TAG = "ImageProcessTestActivity";
 
@@ -37,7 +36,7 @@ public class ImageProcessTestActivity extends BaseFullScreenActivity {
         setContentView(R.layout.activity_image_process_test);
         processingView = findViewById(R.id.media_cover_image);
 
-        imageProcess = MoMediaManager.createImageProcessor();
+        imageProcess = MoMediaManager.createImageProcessor(null);
         imageProcess.initFilters(FiltersManager.getAllFilters());
     }
 
@@ -49,10 +48,10 @@ public class ImageProcessTestActivity extends BaseFullScreenActivity {
                 break;
 
             case R.id.addFilter:
-                imageProcess.switchFilterPreview(2);
+                imageProcess.changeToFilter(2, false, 0);
                 break;
             case R.id.export_image:
-                imageProcess.setImageProcessListener(new ImageProcess.ImageProcessListener() {
+                imageProcess.setImageProcessListener(new IImageProcess.ImageProcessListener() {
                     @Override
                     public void onProcessCompleted(final String path) {
                         MDLog.e(TAG, "onProcessCompleted %s", path);
@@ -66,10 +65,10 @@ public class ImageProcessTestActivity extends BaseFullScreenActivity {
                 imageProcess.startImageProcess(null, null, 0, 0);
                 break;
             case R.id.skin:
-                imageProcess.updateSkinLevel(1f);
+                imageProcess.setSkinLevel(1f);
                 break;
             case R.id.skin_light:
-                imageProcess.updateSkinLightingLevel(1f);
+                imageProcess.setSkinLightingLevel(1f);
                 break;
         }
     }
@@ -90,8 +89,37 @@ public class ImageProcessTestActivity extends BaseFullScreenActivity {
             File file = new File(Configs.getDir("ProcessImage"), System.currentTimeMillis() + "_process.jpg");
             imageProcess.init(this, processFilePath, processingView, file.getAbsolutePath());
             int[] widthHeight = loadMediaInfo(processFilePath);
-            processingView.getHolder().setFixedSize(widthHeight[0], widthHeight[1]);
+            handleImageDisplay(widthHeight[0], widthHeight[1]);
         }
+    }
+
+    /**
+     * 处理图片显示变形问题
+     * @param imageWidth
+     * @param imageHeight
+     */
+    private void handleImageDisplay(int imageWidth, int imageHeight) {
+        int displayWidth;
+        int displayHeight;
+        int bgWidth = UIUtils.getScreenWidth();
+        int bgHeight = UIUtils.getScreenHeight();
+        if (imageWidth / (float) imageHeight >= bgWidth / (float) bgHeight) {
+            displayWidth = bgWidth;
+            float scale = bgWidth / (float) imageWidth;
+            displayHeight = (int) (imageHeight * scale);
+        } else {
+            displayHeight = bgHeight;
+            float scale = bgHeight / (float) imageHeight;
+            displayWidth = (int) (imageWidth * scale);
+        }
+        int stickerMarginTop = (bgHeight - displayHeight) / 2;
+        int stickerMarginLeft = (bgWidth - displayWidth) / 2;
+
+        ViewGroup.MarginLayoutParams imageParams = new ViewGroup.MarginLayoutParams(displayWidth, displayHeight);
+        imageParams.setMargins(stickerMarginLeft, stickerMarginTop, 0, 0);
+
+        processingView.setLayoutParams(new RelativeLayout.LayoutParams(imageParams));
+        processingView.getHolder().setFixedSize(imageWidth, imageHeight);
     }
 
     /**

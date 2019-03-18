@@ -33,7 +33,7 @@
         android:layout_centerInParent="true"
         android:clipChildren="false">
 
-        <com.immomo.videosdk.widget.sticker.StickerContainerView
+        <com.mm.sdkdemo.widget.sticker.StickerContainerView
             android:id="@+id/media_edit_sticker_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

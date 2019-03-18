@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
 
-    <com.immomo.videosdk.recorder.specialfilter.widget.FilterImageView
+    <com.mm.sdkdemo.recorder.specialfilter.widget.FilterImageView
         android:id="@+id/filter_img"
         android:layout_width="55dp"
         android:layout_height="55dp"

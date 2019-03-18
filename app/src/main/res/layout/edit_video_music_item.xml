@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <com.immomo.videosdk.widget.RoundCornerFrameLayout
+    <com.mm.sdkdemo.widget.RoundCornerFrameLayout
         android:id="@+id/fragment_container"
         app:radius="10dp"
         android:layout_width="60dp"
@@ -32,7 +32,7 @@
             android:text="截取\n音乐" />
 
 
-    </com.immomo.videosdk.widget.RoundCornerFrameLayout>
+    </com.mm.sdkdemo.widget.RoundCornerFrameLayout>
 
 
     <TextView

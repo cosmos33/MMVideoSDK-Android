@@ -35,7 +35,7 @@
         android:layout_centerInParent="true"
         android:clipChildren="false">
 
-        <com.immomo.videosdk.widget.sticker.StickerContainerView
+        <com.mm.sdkdemo.widget.sticker.StickerContainerView
             android:id="@+id/moment_edit_sticker_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -110,7 +110,7 @@
             android:layout_height="50dp"
             android:layout_centerInParent="true" />
 
-        <com.immomo.videosdk.widget.progress.CircleProgressView
+        <com.mm.sdkdemo.widget.progress.CircleProgressView
             android:id="@+id/moment_edit_progressview"
             android:layout_width="50dp"
             android:layout_height="50dp"

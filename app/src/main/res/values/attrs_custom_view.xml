@@ -172,7 +172,7 @@
         <!--绘制的分割线颜色-->
         <attr name="dlw_lineColor" format="reference|color" />
         <!--绘制的分割线的宽度 整数值，代表像素-->
-        <!--<attr name="dlw_lineWidth" format="integer"/>-->
+        <attr name="dlw_lineWidth" format="integer"/>
         <!--是否绘制顶部的分割线  默认false-->
         <attr name="drawTopLine" format="boolean" />
         <!--是否绘制底部的分割线 默认true-->

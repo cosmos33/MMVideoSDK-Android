@@ -1,7 +1,6 @@
 package com.function.videoprocess;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.SurfaceHolder;
@@ -9,18 +8,17 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.immomo.mdlog.MDLog;
-import com.immomo.mediasdk.IVideoProcessor;
-import com.immomo.mediasdk.MoMediaManager;
-import com.immomo.mediasdk.filters.FilterUtils;
-import com.immomo.mediasdk.videoprocess.MoVideo;
+import com.mm.mediasdk.IVideoProcessor;
+import com.mm.mediasdk.MoMediaManager;
+import com.mm.mediasdk.filters.FilterUtils;
+import com.mm.mediasdk.videoprocess.MoVideo;
 import com.immomo.mmutil.app.AppContext;
 import com.immomo.mmutil.toast.Toaster;
 import com.immomo.moment.config.MRecorderActions;
-import com.immomo.videosdk.R;
-import com.immomo.videosdk.recorder.activity.BaseFullScreenActivity;
-import com.immomo.videosdk.recorder.helper.VideoFaceUtils;
-import com.immomo.videosdk.utils.DeviceUtils;
-import com.immomo.videosdk.utils.filter.FiltersManager;
+import com.mm.sdkdemo.R;
+import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
+import com.mm.sdkdemo.utils.DeviceUtils;
+import com.mm.sdkdemo.utils.filter.FiltersManager;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.mask.MaskModel;
 import com.momo.mcamera.mask.MaskStore;
@@ -41,7 +39,7 @@ public class VideoProcessTestActivity extends BaseFullScreenActivity {
         setContentView(R.layout.activity_video_process_test);
         videoProcessor = MoMediaManager.createVideoProcessor(null);
         videoProcessor.setLoopBack(true);
-        videoProcessor.setOutVideoInfo(720, 1280, 30, 4<<20, false);
+        videoProcessor.setOutVideoInfo(720, 1280, 30, 4<<20);
         videoProcessor.setOnProcessErrorListener(new MRecorderActions.OnProcessErrorListener() {
             @Override
             public void onErrorCallback(int what, int errorCode, String msg) {
@@ -92,7 +90,7 @@ public class VideoProcessTestActivity extends BaseFullScreenActivity {
             case R.id.addFilter:
                 List<MMPresetFilter> filters = FiltersManager.getAllFilters();
                 lastFilter = FilterUtils.getFilterGroupByIndex(2, filters);
-                videoProcessor.addFilters(lastFilter);
+                videoProcessor.addFilter(lastFilter);
                 break;
             case R.id.removeFilter:
                 if (null != lastFilter) {

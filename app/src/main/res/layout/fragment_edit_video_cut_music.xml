@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.immomo.videosdk.recorder.musicpanel.widget.MusicHorizontalScrollView
+        <com.mm.sdkdemo.recorder.musicpanel.widget.MusicHorizontalScrollView
             android:id="@+id/scroll_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,11 +46,11 @@
             android:overScrollMode="never"
             android:scrollbars="none">
 
-            <com.immomo.videosdk.recorder.musicpanel.widget.MusicWaveView
+            <com.mm.sdkdemo.recorder.musicpanel.widget.MusicWaveView
                 android:id="@+id/wave_view"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp" />
-        </com.immomo.videosdk.recorder.musicpanel.widget.MusicHorizontalScrollView>
+        </com.mm.sdkdemo.recorder.musicpanel.widget.MusicHorizontalScrollView>
 
         <ImageView
             android:layout_width="200dp"

@@ -18,7 +18,7 @@
             android:background="@drawable/bg_moment_filter_select"
             android:visibility="invisible" />
 
-        <com.immomo.videosdk.widget.CircleImageView
+        <com.mm.sdkdemo.widget.CircleImageView
             android:id="@+id/moment_filter_item_img"
             android:layout_width="60dp"
             android:layout_height="60dp"

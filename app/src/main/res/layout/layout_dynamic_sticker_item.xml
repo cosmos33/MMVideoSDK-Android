@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.immomo.videosdk.recorder.sticker.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.mm.sdkdemo.recorder.sticker.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="75dp"
     android:clickable="true"
@@ -18,4 +18,4 @@
         android:scaleType="centerInside"
         android:src="@drawable/ic_moment_face_loading"
         android:visibility="gone" />
-</com.immomo.videosdk.recorder.sticker.SquareFrameLayout>
+</com.mm.sdkdemo.recorder.sticker.SquareFrameLayout>

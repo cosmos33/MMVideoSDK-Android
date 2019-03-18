@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout="@layout/listitem_moment_recommend_face" />
 
-    <com.immomo.videosdk.widget.VideoDefaultRecordButton
+    <com.mm.sdkdemo.widget.VideoDefaultRecordButton
         android:id="@+id/video_default_record_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

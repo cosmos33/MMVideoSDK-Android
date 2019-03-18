@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.immomo.videosdk.widget.MomentFilterPanelTabLayout
+    <com.mm.sdkdemo.widget.MomentFilterPanelTabLayout
         app:lineLeftMargin="20dp"
         app:lineRightMargin="20dp"
         app:dlw_lineColor="@color/music_panel_text_color_gray"
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/filter_drawer_main_panel"
         android:layout_width="match_parent"
         android:layout_height="160dp"
@@ -23,7 +23,7 @@
         android:background="@color/filter_bg"
         android:visibility="gone" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/filter_drawer_edit_face_panel"
         android:layout_width="match_parent"
         android:layout_height="160dp"
@@ -57,7 +57,7 @@
                 android:text="大眼"
                 android:textColor="@color/white" />
 
-            <com.immomo.videosdk.widget.seekbar.TickSeekBar
+            <com.mm.sdkdemo.widget.seekbar.TickSeekBar
                 android:id="@+id/more_layout_seekbar1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:text="瘦脸"
                 android:textColor="@color/white" />
 
-            <com.immomo.videosdk.widget.seekbar.TickSeekBar
+            <com.mm.sdkdemo.widget.seekbar.TickSeekBar
                 android:id="@+id/more_layout_seekbar2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

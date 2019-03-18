@@ -63,7 +63,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <com.immomo.videosdk.widget.videorangebar.VideoRangeBar
+        <com.mm.sdkdemo.widget.videorangebar.VideoRangeBar
             android:id="@+id/videoRangeBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

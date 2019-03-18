@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.immomo.videosdk.widget.RoundCornerFrameLayout
+    <com.mm.sdkdemo.widget.RoundCornerFrameLayout
         android:id="@+id/recycler_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,14 +13,14 @@
         app:bottomLeftRadius="10dp"
         app:bottomRightRadius="10dp">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="450dp">
 
-        </androidx.recyclerview.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
-    </com.immomo.videosdk.widget.RoundCornerFrameLayout>
+    </com.mm.sdkdemo.widget.RoundCornerFrameLayout>
 
 
 </FrameLayout>

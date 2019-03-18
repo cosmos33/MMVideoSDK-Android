@@ -19,10 +19,12 @@ package com.google.android.material.tabs;
 import android.content.Context;
 import android.content.res.TypedArray;
 
+import com.mm.sdkdemo.R;
+
 class ThemeUtils {
 
     private static final int[] APPCOMPAT_CHECK_ATTRS = {
-            androidx.appcompat.R.attr.colorPrimary
+            R.attr.colorPrimary
     };
 
     static void checkAppCompatTheme(Context context) {
