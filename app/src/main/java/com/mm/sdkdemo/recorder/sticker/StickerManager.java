@@ -4,7 +4,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.mm.mediasdk.dynamicresources.DownloadUtil;
+import com.mm.mediasdk.utils.DownloadUtil;
 import com.immomo.mmutil.FileUtil;
 import com.immomo.mmutil.StringUtils;
 import com.immomo.mmutil.log.Log4Android;

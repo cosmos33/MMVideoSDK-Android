@@ -22,6 +22,7 @@ import com.immomo.moment.config.MRecorderActions;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.DemoApplication;
 import com.mm.sdkdemo.config.Configs;
+import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.model.MusicContent;
 import com.mm.sdkdemo.recorder.view.IMomoRecordView;
 import com.mm.sdkdemo.recorder.view.IRecordView;
@@ -69,12 +70,12 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     public void surfaceCreated(SurfaceHolder holder) {
         mHolder = holder;
         isFirstCreateSurface = true;
-        MDLog.d(com.mm.mediasdk.LogTag.RECORD, "surfaceCreated %s", holder);
+        MDLog.d(LogTag.RECORDER.RECORD, "surfaceCreated %s", holder);
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        MDLog.d(com.mm.mediasdk.LogTag.RECORD, "surfaceChanged: %d, %d, isFirstCreateSurface: %b", width, height, isFirstCreateSurface);
+        MDLog.d(LogTag.RECORDER.RECORD, "surfaceChanged: %d, %d, isFirstCreateSurface: %b", width, height, isFirstCreateSurface);
         mHolder = holder;
         if (isFirstCreateSurface) {
             isSurfaceCreated = true;
@@ -93,7 +94,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        MDLog.d(com.mm.mediasdk.LogTag.RECORD, "surfaceDestroyed %s", holder);
+        MDLog.d(LogTag.RECORDER.RECORD, "surfaceDestroyed %s", holder);
         mHolder = null;
         //        stopPreview();
         isSurfaceCreated = false;

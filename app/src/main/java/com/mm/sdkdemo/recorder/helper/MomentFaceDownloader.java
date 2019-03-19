@@ -1,7 +1,7 @@
 package com.mm.sdkdemo.recorder.helper;
 
 import com.immomo.mdlog.MDLog;
-import com.mm.mediasdk.dynamicresources.DownloadUtil;
+import com.mm.mediasdk.utils.DownloadUtil;
 import com.immomo.mmutil.FileUtil;
 import com.immomo.mmutil.MD5Utils;
 import com.immomo.mmutil.task.MomoMainThreadExecutor;

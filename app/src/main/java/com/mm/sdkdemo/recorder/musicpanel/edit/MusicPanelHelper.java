@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 
-import com.mm.mediasdk.music.MusicPlayer;
+import com.mm.mediasdk.utils.MusicPlayer;
 import com.immomo.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;

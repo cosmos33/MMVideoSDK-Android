@@ -12,10 +12,9 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.immomo.mdlog.MDLog;
+import com.mm.mediasdk.utils.FilterUtils;
 import com.mm.mediasdk.IVideoProcessor;
-import com.mm.mediasdk.LogTag;
 import com.mm.mediasdk.MoMediaManager;
-import com.mm.mediasdk.filters.FilterUtils;
 import com.mm.mediasdk.utils.ImageUtil;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mediasdk.videoprocess.MoVideo;
@@ -28,6 +27,7 @@ import com.immomo.moment.mediautils.cmds.VideoEffects;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.bean.MomentExtraInfo;
 import com.mm.sdkdemo.config.Configs;
+import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.model.MusicContent;
 import com.mm.sdkdemo.recorder.model.Video;
 import com.mm.sdkdemo.recorder.sticker.StickerEntity;
@@ -638,12 +638,12 @@ public class VideoEditPresenter implements IProcessPresenter {
     @Override
     public void setPlayMusic(MusicContent musicContent) {
         if (null != musicContent) {
-            MDLog.i(LogTag.EDITOR, "setPlayMusic %s start:%d  end:%d", musicContent.path, musicContent.startMillTime, musicContent.endMillTime);
+            MDLog.i(LogTag.PROCESSOR.PROCESS, "setPlayMusic %s start:%d  end:%d", musicContent.path, musicContent.startMillTime, musicContent.endMillTime);
             moVideo.musicPath = musicContent.path;
             moVideo.musicStartMillTime = musicContent.startMillTime;
             moVideo.musicEndMillTime = musicContent.endMillTime;
         } else {
-            MDLog.i(LogTag.EDITOR, "setPlayMusic null");
+            MDLog.i(LogTag.PROCESSOR.PROCESS, "setPlayMusic null");
             moVideo.musicPath = null;
         }
     }

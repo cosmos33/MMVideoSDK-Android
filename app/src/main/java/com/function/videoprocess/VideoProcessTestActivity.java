@@ -8,9 +8,9 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.immomo.mdlog.MDLog;
+import com.mm.mediasdk.utils.FilterUtils;
 import com.mm.mediasdk.IVideoProcessor;
 import com.mm.mediasdk.MoMediaManager;
-import com.mm.mediasdk.filters.FilterUtils;
 import com.mm.mediasdk.videoprocess.MoVideo;
 import com.immomo.mmutil.app.AppContext;
 import com.immomo.mmutil.toast.Toaster;

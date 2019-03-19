@@ -11,11 +11,11 @@ import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
 import com.immomo.mdlog.MDLog;
 import com.mm.mediasdk.IMultiRecorder;
-import com.mm.mediasdk.LogTag;
 import com.mm.mediasdk.MoMediaManager;
 import com.immomo.moment.config.MRecorderActions;
 import com.mm.sdkdemo.DemoApplication;
 import com.mm.sdkdemo.R;
+import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
 
 import java.io.File;
@@ -92,7 +92,7 @@ public class TakePhotoTestActivity extends BaseFullScreenActivity {
                     @Override
                     public void onTakePhotoComplete(int status, Exception e) {
                         //0表示完成， -1表示失败
-                        MDLog.e(LogTag.RECORD, "onTakePhotoComplete %d", status);
+                        MDLog.e(LogTag.RECORDER.RECORD, "onTakePhotoComplete %d", status);
                     }
                 });
                 break;

@@ -1250,6 +1250,12 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
             case R.id.music_name:
                 hideSpeedView();
+                if (isFilterPanelShow()) {
+                    hideFilterPanel();
+                }
+                if (isFacePanelShowing()) {
+                    hideFacePanel();
+                }
                 chooseLocalMusic();
                 break;
 
