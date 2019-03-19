@@ -14,7 +14,7 @@ import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.executor.GlideExecutor;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestOptions;
-import com.immomo.mdlog.MDLog;
+import com.mm.mdlog.MDLog;
 import com.mm.sdkdemo.log.LogTag;
 
 /**

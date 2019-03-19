@@ -17,10 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.immomo.mdlog.MDLog;
-import com.immomo.mmutil.log.Log4Android;
-import com.immomo.mmutil.task.MomoTaskExecutor;
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mdlog.MDLog;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.task.MomoTaskExecutor;
+import com.mm.mmutil.toast.Toaster;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
 import com.immomo.moment.mediautils.cmds.AudioEffects;

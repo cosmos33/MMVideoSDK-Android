@@ -2,7 +2,7 @@ package com.mm.sdkdemo.utils.filter;
 
 import android.text.TextUtils;
 
-import com.immomo.mmutil.app.AppContext;
+import com.mm.mmutil.app.AppContext;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.filtermanager.MMPresetFilterStore;
 

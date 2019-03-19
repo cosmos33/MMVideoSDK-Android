@@ -1,6 +1,6 @@
 package com.mm.sdkdemo.utils.filter;
 
-import com.immomo.mmutil.app.AppContext;
+import com.mm.mmutil.app.AppContext;
 
 import java.io.File;
 

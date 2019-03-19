@@ -7,7 +7,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.sdkdemo.utils.CanvasUtils;
 
 import java.security.InvalidParameterException;

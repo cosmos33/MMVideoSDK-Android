@@ -1,6 +1,6 @@
 package com.mm.sdkdemo.recorder.sticker;
 
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

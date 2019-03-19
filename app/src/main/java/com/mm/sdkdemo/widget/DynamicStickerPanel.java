@@ -15,8 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.immomo.mmutil.log.Log4Android;
-import com.immomo.mmutil.task.MomoTaskExecutor;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.api.MoApi;

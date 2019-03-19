@@ -9,9 +9,9 @@ import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.immomo.mdlog.MDLog;
-import com.immomo.mmutil.task.MomoTaskExecutor;
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mdlog.MDLog;
+import com.mm.mmutil.task.MomoTaskExecutor;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseFragment;

@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.mm.mediasdk.utils.ImageUtil;
-import com.immomo.mmutil.app.AppContext;
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.app.AppContext;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 

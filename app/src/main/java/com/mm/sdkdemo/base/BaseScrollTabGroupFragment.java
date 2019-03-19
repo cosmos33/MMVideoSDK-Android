@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.tabs.MMTabLayout;
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.tabinfo.DefaultSlidingIndicator;
 import com.mm.sdkdemo.base.tabinfo.FragmentTabInfo;

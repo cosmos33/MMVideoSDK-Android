@@ -12,7 +12,7 @@ public interface LogTag {
 
         String VIDEO_CUT = "VideoCut";
 
-        String RECORD = "VideoRecord";
+        String RECORD = "Record";
     }
 
     String IMAGE = "Image";

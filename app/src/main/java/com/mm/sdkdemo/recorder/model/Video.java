@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import com.immomo.mmutil.StringUtils;
+import com.mm.mmutil.StringUtils;
 
 /**
  * Created by wangduanqing on 16/1/7.

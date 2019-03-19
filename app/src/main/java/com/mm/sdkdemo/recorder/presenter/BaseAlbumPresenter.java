@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.base.BaseTabOptionFragment;
 import com.mm.sdkdemo.base.cement.CementAdapter;

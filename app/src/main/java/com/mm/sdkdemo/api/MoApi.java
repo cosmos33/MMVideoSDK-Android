@@ -1,8 +1,8 @@
 package com.mm.sdkdemo.api;
 
-import com.immomo.mmutil.FileUtil;
-import com.immomo.mmutil.IOUtils;
-import com.immomo.mmutil.app.AppContext;
+import com.mm.mmutil.FileUtil;
+import com.mm.mmutil.IOUtils;
+import com.mm.mmutil.app.AppContext;
 import com.mm.sdkdemo.bean.MomentFace;
 import com.mm.sdkdemo.bean.MomentSticker;
 import com.mm.sdkdemo.config.Configs;

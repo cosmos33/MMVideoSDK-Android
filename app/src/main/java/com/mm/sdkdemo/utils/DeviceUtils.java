@@ -13,8 +13,8 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Window;
 
-import com.immomo.mdlog.MDLog;
-import com.immomo.mmutil.BaseDeviceUtils;
+import com.mm.mdlog.MDLog;
+import com.mm.mmutil.BaseDeviceUtils;
 import com.mm.sdkdemo.log.LogTag;
 
 import java.io.File;

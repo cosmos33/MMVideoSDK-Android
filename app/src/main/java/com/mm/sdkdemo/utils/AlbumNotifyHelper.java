@@ -9,10 +9,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
-import com.immomo.mdlog.MDLog;
-import com.immomo.mmutil.FileUtil;
-import com.immomo.mmutil.app.AppContext;
-import com.immomo.mmutil.task.MomoTaskExecutor;
+import com.mm.mdlog.MDLog;
+import com.mm.mmutil.FileUtil;
+import com.mm.mmutil.app.AppContext;
+import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.model.Photo;
 

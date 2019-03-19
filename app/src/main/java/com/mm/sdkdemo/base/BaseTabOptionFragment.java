@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.sdkdemo.base.tabinfo.FragmentTabInfo;
 
 /**

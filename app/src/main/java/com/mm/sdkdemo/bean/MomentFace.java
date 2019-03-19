@@ -3,7 +3,7 @@ package com.mm.sdkdemo.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.immomo.mdlog.MDLog;
+import com.mm.mdlog.MDLog;
 import com.mm.sdkdemo.log.LogTag;
 
 import org.json.JSONException;

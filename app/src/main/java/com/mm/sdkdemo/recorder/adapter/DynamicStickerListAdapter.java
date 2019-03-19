@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.immomo.mmutil.app.AppContext;
+import com.mm.mmutil.app.AppContext;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.glide.ImageLoaderX;
 import com.mm.sdkdemo.recorder.sticker.DynamicSticker;

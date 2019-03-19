@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.bean.VideoInfoTransBean;
 import com.mm.sdkdemo.recorder.model.Video;

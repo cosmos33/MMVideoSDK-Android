@@ -30,9 +30,9 @@ import android.support.v4.util.LongSparseArray;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
-import com.immomo.mmutil.MD5Utils;
-import com.immomo.mmutil.StringUtils;
-import com.immomo.mmutil.task.MomoTaskExecutor;
+import com.mm.mmutil.MD5Utils;
+import com.mm.mmutil.StringUtils;
+import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.sdkdemo.bean.VideoInfoTransBean;
 import com.mm.sdkdemo.recorder.model.AlbumDirectory;
 import com.mm.sdkdemo.recorder.model.LatLonPhoto;

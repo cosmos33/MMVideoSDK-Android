@@ -20,7 +20,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.utils.CanvasUtils;
 

@@ -5,7 +5,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.immomo.mmutil.app.AppContext;
+import com.mm.mmutil.app.AppContext;
 
 /**
  * 适配挖孔屏幕，全面屏工具类

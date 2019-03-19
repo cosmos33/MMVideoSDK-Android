@@ -18,7 +18,7 @@ import android.view.Window;
 import android.widget.PopupWindow;
 import android.widget.Space;
 
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseActivity;

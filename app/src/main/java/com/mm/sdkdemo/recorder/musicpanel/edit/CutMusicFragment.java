@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.recorder.model.MusicContent;

@@ -1,6 +1,6 @@
 package com.mm.sdkdemo.recorder.helper;
 
-import com.immomo.mdlog.MDLog;
+import com.mm.mdlog.MDLog;
 import com.mm.sdkdemo.bean.MomentFace;
 import com.mm.sdkdemo.log.LogTag;
 

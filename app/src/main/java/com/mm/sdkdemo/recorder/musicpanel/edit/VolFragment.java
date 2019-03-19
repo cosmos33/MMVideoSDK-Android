@@ -10,9 +10,9 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import com.immomo.mdlog.MDLog;
-import com.immomo.mmutil.task.MomoTaskExecutor;
-import com.immomo.mmutil.task.ThreadUtils;
+import com.mm.mdlog.MDLog;
+import com.mm.mmutil.task.MomoTaskExecutor;
+import com.mm.mmutil.task.ThreadUtils;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.api.MoApi;

@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.bean.element.Element;
 import com.mm.sdkdemo.recorder.helper.DownloadFaceCallbackAdapter;
 import com.mm.sdkdemo.recorder.helper.MomentFaceDownloadPublisher;

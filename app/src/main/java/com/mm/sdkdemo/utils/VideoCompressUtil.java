@@ -1,8 +1,8 @@
 package com.mm.sdkdemo.utils;
 
-import com.immomo.mmutil.app.AppContext;
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
-import com.immomo.mmutil.task.ThreadUtils;
+import com.mm.mmutil.app.AppContext;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.ThreadUtils;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.cmds.TimeRangeScale;
 import com.immomo.moment.mediautils.cmds.VideoEffects;

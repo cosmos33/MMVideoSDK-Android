@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.function.FunctionListActivity;
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.bean.VideoInfoTransBean;
 import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
 import com.mm.sdkdemo.recorder.activity.VideoRecordAndEditActivity;

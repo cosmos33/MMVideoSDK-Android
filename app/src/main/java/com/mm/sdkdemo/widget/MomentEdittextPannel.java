@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.mm.mediasdk.utils.ImageUtil;
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.recorder.helper.AndroidBug5497Workaround;

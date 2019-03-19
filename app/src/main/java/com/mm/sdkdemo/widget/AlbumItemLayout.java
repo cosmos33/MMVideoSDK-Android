@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
-import com.immomo.mmutil.StringUtils;
-import com.immomo.mmutil.app.AppContext;
+import com.mm.mmutil.StringUtils;
+import com.mm.mmutil.app.AppContext;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.glide.ImageLoaderX;
 import com.mm.sdkdemo.utils.album.ItemConstant;

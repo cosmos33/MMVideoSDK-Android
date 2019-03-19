@@ -16,7 +16,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseActivity;

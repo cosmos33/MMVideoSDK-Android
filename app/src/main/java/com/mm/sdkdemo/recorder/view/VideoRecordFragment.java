@@ -44,9 +44,9 @@ import android.widget.TextView;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
-import com.immomo.mdlog.MDLog;
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mdlog.MDLog;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.toast.Toaster;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.model.VideoFragment;
 import com.mm.sdkdemo.R;

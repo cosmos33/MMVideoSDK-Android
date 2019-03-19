@@ -14,7 +14,7 @@ import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.immomo.moment.model.VideoFragment;
 import com.mm.sdkdemo.R;
 

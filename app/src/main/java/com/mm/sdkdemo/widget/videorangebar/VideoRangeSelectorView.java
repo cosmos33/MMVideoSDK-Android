@@ -15,7 +15,7 @@ import android.view.MotionEvent;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.sdkdemo.R;
 
 import java.security.InvalidParameterException;

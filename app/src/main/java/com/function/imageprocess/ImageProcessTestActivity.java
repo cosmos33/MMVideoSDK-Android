@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.immomo.mdlog.MDLog;
+import com.mm.mdlog.MDLog;
 import com.mm.mediasdk.IImageProcess;
 import com.mm.mediasdk.MoMediaManager;
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.config.Configs;

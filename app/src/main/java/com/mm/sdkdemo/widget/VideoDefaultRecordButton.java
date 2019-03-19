@@ -20,7 +20,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.utils.RecordButtonTouchEventHelper;

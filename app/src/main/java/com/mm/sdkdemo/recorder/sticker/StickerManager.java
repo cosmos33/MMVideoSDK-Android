@@ -5,10 +5,10 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.mm.mediasdk.utils.DownloadUtil;
-import com.immomo.mmutil.FileUtil;
-import com.immomo.mmutil.StringUtils;
-import com.immomo.mmutil.log.Log4Android;
-import com.immomo.mmutil.task.MomoTaskExecutor;
+import com.mm.mmutil.FileUtil;
+import com.mm.mmutil.StringUtils;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.sdkdemo.config.Configs;
 
 import java.io.File;
@@ -178,7 +178,7 @@ public class StickerManager {
     }
 
     public static void cleanStickerHomeDir() {
-        com.immomo.mmutil.FileUtil.deleteDir(getDynamicStickerHomeDir());
+        com.mm.mmutil.FileUtil.deleteDir(getDynamicStickerHomeDir());
     }
 
     /**

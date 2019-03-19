@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.immomo.mmutil.app.AppContext;
+import com.mm.mmutil.app.AppContext;
 import com.mm.mediasdk.utils.UIUtils;
 
 /**

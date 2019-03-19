@@ -3,7 +3,7 @@ package com.mm.sdkdemo;
 import android.app.Application;
 import android.os.Environment;
 
-import com.immomo.mmutil.FileUtil;
+import com.mm.mmutil.FileUtil;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.sdkdemo.config.Configs;
 import com.mm.sdkdemo.utils.filter.FilterFileUtil;
@@ -17,7 +17,7 @@ public class DemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MoMediaManager.register(this, "53c2b08cd6aa13e678c37240c9e6d1f9", new MoMediaManager.RegisterCallback() {
+        MoMediaManager.register(this, "c078bff4c2754152b1adc8325a09aa6c", new MoMediaManager.RegisterCallback() {
             @Override
             public void onRegisterSuccess(String token) {
                 mToken = token;

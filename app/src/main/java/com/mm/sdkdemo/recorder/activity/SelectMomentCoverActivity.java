@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import com.mm.mediasdk.dynamicresources.DynamicResourceConstants;
 import com.mm.mediasdk.dynamicresources.DynamicResourceManager;
-import com.immomo.mmutil.MD5Utils;
-import com.immomo.mmutil.log.Log4Android;
-import com.immomo.mmutil.task.ThreadUtils;
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.MD5Utils;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.task.ThreadUtils;
+import com.mm.mmutil.toast.Toaster;
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;

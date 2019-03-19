@@ -1,7 +1,7 @@
 package com.mm.sdkdemo.widget;
 
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
-import com.immomo.mmutil.task.ThreadUtils;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.ThreadUtils;
 import com.mm.sdkdemo.bean.MomentFaceDataProcessor;
 import com.mm.sdkdemo.bean.MomentFaceDataProvider;
 

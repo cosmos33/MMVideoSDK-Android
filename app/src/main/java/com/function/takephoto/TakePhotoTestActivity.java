@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
-import com.immomo.mdlog.MDLog;
+import com.mm.mdlog.MDLog;
 import com.mm.mediasdk.IMultiRecorder;
 import com.mm.mediasdk.MoMediaManager;
 import com.immomo.moment.config.MRecorderActions;
@@ -92,7 +92,7 @@ public class TakePhotoTestActivity extends BaseFullScreenActivity {
                     @Override
                     public void onTakePhotoComplete(int status, Exception e) {
                         //0表示完成， -1表示失败
-                        MDLog.e(LogTag.RECORDER.RECORD, "onTakePhotoComplete %d", status);
+                        MDLog.i(LogTag.RECORDER.RECORD, "onTakePhotoComplete %d", status);
                     }
                 });
                 break;

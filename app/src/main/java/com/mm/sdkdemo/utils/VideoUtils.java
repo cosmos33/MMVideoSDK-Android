@@ -4,8 +4,8 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.immomo.mmutil.StringUtils;
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.StringUtils;
+import com.mm.mmutil.log.Log4Android;
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
 import com.mm.sdkdemo.recorder.model.Video;
 

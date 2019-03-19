@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.immomo.mmutil.log.Log4Android;
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.sdkdemo.utils.toolbar.ToolbarHelper;
 
 import java.lang.ref.WeakReference;

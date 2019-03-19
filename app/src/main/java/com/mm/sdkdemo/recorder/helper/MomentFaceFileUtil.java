@@ -1,7 +1,7 @@
 package com.mm.sdkdemo.recorder.helper;
 
-import com.immomo.mmutil.FileUtil;
-import com.immomo.mmutil.StringUtils;
+import com.mm.mmutil.FileUtil;
+import com.mm.mmutil.StringUtils;
 import com.mm.sdkdemo.bean.MomentFace;
 import com.mm.sdkdemo.config.Configs;
 

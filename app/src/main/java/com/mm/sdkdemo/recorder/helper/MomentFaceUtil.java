@@ -2,12 +2,12 @@ package com.mm.sdkdemo.recorder.helper;
 
 import android.text.TextUtils;
 
-import com.immomo.mdlog.MDLog;
+import com.mm.mdlog.MDLog;
 import com.mm.mediasdk.utils.VideoFaceUtils;
-import com.immomo.mmutil.FileUtil;
-import com.immomo.mmutil.app.AppContext;
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
-import com.immomo.mmutil.task.ThreadUtils;
+import com.mm.mmutil.FileUtil;
+import com.mm.mmutil.app.AppContext;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.ThreadUtils;
 import com.mm.sdkdemo.bean.MaskLoadCallback;
 import com.mm.sdkdemo.bean.MomentFace;
 import com.mm.sdkdemo.log.LogTag;

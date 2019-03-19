@@ -2,7 +2,7 @@ package com.mm.sdkdemo.config;
 
 import android.os.Environment;
 
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 
 import java.io.File;
 import java.io.IOException;

@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.immomo.mmutil.app.AppContext;
+import com.mm.mmutil.app.AppContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

@@ -3,8 +3,8 @@ package com.mm.sdkdemo.utils;
 import android.os.Environment;
 import android.os.StatFs;
 
-import com.immomo.mmutil.log.Log4Android;
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.toast.Toaster;
 
 import java.io.File;
 

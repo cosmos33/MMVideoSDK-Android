@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 
 import com.mm.mediasdk.utils.MusicPlayer;
-import com.immomo.mmutil.toast.Toaster;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.recorder.model.MusicContent;

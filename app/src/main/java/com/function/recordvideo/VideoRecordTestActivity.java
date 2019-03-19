@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
-import com.immomo.mdlog.MDLog;
+import com.mm.mdlog.MDLog;
 import com.mm.mediasdk.IMultiRecorder;
 import com.mm.mediasdk.MoMediaManager;
 import com.immomo.moment.config.MRecorderActions;

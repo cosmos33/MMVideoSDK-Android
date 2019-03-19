@@ -15,7 +15,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
-import com.immomo.mmutil.log.Log4Android;
+import com.mm.mmutil.log.Log4Android;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.recorder.sticker.StickerEntity;
 

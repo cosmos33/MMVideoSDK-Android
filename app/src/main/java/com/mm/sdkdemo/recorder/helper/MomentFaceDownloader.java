@@ -1,11 +1,11 @@
 package com.mm.sdkdemo.recorder.helper;
 
-import com.immomo.mdlog.MDLog;
+import com.mm.mdlog.MDLog;
 import com.mm.mediasdk.utils.DownloadUtil;
-import com.immomo.mmutil.FileUtil;
-import com.immomo.mmutil.MD5Utils;
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
-import com.immomo.mmutil.task.ThreadUtils;
+import com.mm.mmutil.FileUtil;
+import com.mm.mmutil.MD5Utils;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.ThreadUtils;
 import com.mm.sdkdemo.bean.MomentFace;
 import com.mm.sdkdemo.log.LogTag;
 

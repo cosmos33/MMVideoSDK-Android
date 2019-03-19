@@ -14,7 +14,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 
-import com.immomo.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mediasdk.utils.UIUtils;
 
 import java.lang.reflect.Method;
