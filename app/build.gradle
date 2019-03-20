@@ -53,8 +53,8 @@ dependencies {
 //    implementation 'com.mm.baseutil:cpp_shared:r17c'
 //    implementation 'com.mm.baseutil:mdlog:1.0.1'
 //    implementation 'com.mm.baseutil:mmutil:1.0.0'
-//    api 'com.mm.baseutil:mmcore:1.0.5'
-    api 'com.immomo.momosdk:mmcore:1.0.0'
+    api 'com.mm.baseutil:mmcore:1.1.0'
+//    api 'com.immomo.momosdk:mmcore:1.0.0'
 
     implementation(name: 'cosmosmedia-release', ext: 'aar')
     implementation(name:'recordsdk-release',ext:'aar')
