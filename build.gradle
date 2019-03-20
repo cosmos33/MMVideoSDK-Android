@@ -17,6 +17,18 @@ allprojects {
     repositories {
         google()
         jcenter()
+
+        maven {
+            url 'http://maven.wemomo.com:18081/nexus/content/repositories/android/'
+            credentials {
+                username NEXUS_USERNAME
+                password NEXUS_PASSWORD
+            }
+        }
+
+        maven {
+            url 'https://dl.bintray.com/wangduanqing/cosmos/'
+        }
     }
 }
 

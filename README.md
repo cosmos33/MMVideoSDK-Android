@@ -32,8 +32,15 @@
 
 - 添加工程依赖
 
-    
-    implementation 'com.mm.momosdk.media:record:1.0.0'
+
+    //添加如下依赖
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation 'com.squareup.okhttp3:okhttp:3.0.1'
+    //SDK基础库    
+    implementation 'com.immomo.momosdk:mmcore:1.0.0'
+    //导入AAR
+    cosmosmedia-release.aar
+    recordsdk-release.aar
 
 
 - so架构
