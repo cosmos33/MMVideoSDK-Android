@@ -36,7 +36,7 @@ public class ImageProcessTestActivity extends BaseFullScreenActivity {
         setContentView(R.layout.activity_image_process_test);
         processingView = findViewById(R.id.media_cover_image);
 
-        imageProcess = MoMediaManager.createImageProcessor(null);
+        imageProcess = MoMediaManager.createImageProcessor();
         imageProcess.initFilters(FiltersManager.getAllFilters());
     }
 

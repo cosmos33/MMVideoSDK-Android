@@ -37,7 +37,7 @@ public class VideoProcessTestActivity extends BaseFullScreenActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_process_test);
-        videoProcessor = MoMediaManager.createVideoProcessor(null);
+        videoProcessor = MoMediaManager.createVideoProcessor();
         videoProcessor.setLoopBack(true);
         videoProcessor.setOutVideoInfo(720, 1280, 30, 4<<20);
         videoProcessor.setOnProcessErrorListener(new MRecorderActions.OnProcessErrorListener() {

@@ -82,7 +82,7 @@ public class VideoEditPresenter implements IProcessPresenter {
     public VideoEditPresenter(@NonNull IProcessPlayerView view, @NonNull Video video) {
         this.view = view;
         this.video = video;
-        videoProcessor = MoMediaManager.createVideoProcessor(null);
+        videoProcessor = MoMediaManager.createVideoProcessor();
         //        editFilterGroupWapper.addFilter(FiltersManager.getInstance().getFilterGroupByIndex(0, AppContext.getContext()));
 
         momentExtraInfo = new MomentExtraInfo(video);

@@ -52,32 +52,43 @@ SDK目前只提供了armeabi-v7a架构，请在app/build.gradle文件中配置�
         abiFilters "armeabi-v7a"
     }
 
+- 混淆配置
+
+    
+    -keepclasseswithmembernames class * {
+        native <methods>;
+    }
+    
+    -keep class com.core.glcore.util.** {*;}
+    -keep class com.momocv.** {*;}
+    -keep class com.imomo.momo.mediaencoder.** {*;}
+    -keep class com.imomo.momo.mediamuxer.** {*;}
 
 ## 功能接入
 
 #### 授权
-授权流程是所有流程中基础流程，需要先进行授权，才可以使用其他功能，否则可能会出现一些异常状态。
+授权流程是所有流程中基础流程，需要先进行初始化，才可以使用其他功能，否则可能会出现一些异常状态。
 
-注册    
+初始化    
     
-    com.mm.mediasdk.MoMediaManager#register(Application application, String appid, RegisterCallback callback);
+    com.mm.mediasdk.MoMediaManager#init(Application application, String appid);
     
 获取录制器
     
-    IMultiRecorder com.mm.mediasdk.MoMediaManager#createRecorder(String token);
+    IMultiRecorder com.mm.mediasdk.MoMediaManager#createRecorder();
 
 获取视频处理器
     
-    IVideoProcessor com.mm.mediasdk.MoMediaManager#createVideoProcessor(String token);
+    IVideoProcessor com.mm.mediasdk.MoMediaManager#createVideoProcessor();
     
 获取图片处理器
     
-    ImageProcess com.mm.mediasdk.MoMediaManager#createImageProcessor(String token);
+    ImageProcess com.mm.mediasdk.MoMediaManager#createImageProcessor();
     
 #### 拍照
 一、构造IMultiRecorder
     
-    IMultiRecorder recorder = MoMediaManager.createRecorder(mToken);
+    IMultiRecorder recorder = MoMediaManager.createRecorder();
     
 二、初始化
     
@@ -123,7 +134,7 @@ SDK目前只提供了armeabi-v7a架构，请在app/build.gradle文件中配置�
 #### 录制
 一、构造IMultiRecorder
     
-    IMultiRecorder recorder = MoMediaManager.createRecorder(mToken);
+    IMultiRecorder recorder = MoMediaManager.createRecorder();
     
 二、初始化
     
@@ -189,7 +200,7 @@ SDK目前只提供了armeabi-v7a架构，请在app/build.gradle文件中配置�
 
 一、构造IVideoProcessor
 
-    IVideoProcessor videoProcessor = MoMediaManager.createVideoProcessor(null);
+    IVideoProcessor videoProcessor = MoMediaManager.createVideoProcessor();
     
 二、基本设置
     

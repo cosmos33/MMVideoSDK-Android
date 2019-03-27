@@ -63,7 +63,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     private MusicContent playMusic = null;
 
     public RecordPresenter() {
-        multiRecorder = MoMediaManager.createRecorder(DemoApplication.mToken);
+        multiRecorder = MoMediaManager.createRecorder();
     }
 
     @Override

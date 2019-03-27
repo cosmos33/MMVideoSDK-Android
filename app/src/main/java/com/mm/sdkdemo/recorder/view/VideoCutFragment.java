@@ -77,9 +77,8 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
     private boolean isAllowedCut = false;//是否允许裁剪
     private boolean isCutting = false;//是否正在裁剪
 
-    private static final int RANGE_MIN_DURATION = 10 * MediaConstants.ONE_SECOND;//最小截取2秒
     private long cutMaxDuration = MediaConstants.MIN_CUT_VIDEO_DURATION; //1分钟
-    private int initMinDuration = 20 * MediaConstants.ONE_SECOND;//rangbar初始长度为6s
+    private int initMinDuration = 20000;//rangbar初始长度为20s
     private static final int THUMBNAIL_HEIGHT = UIUtils.getPixels(30);//缩略图高度
 
     private long rangeStartTime = 0;//截取开始时间，毫秒
@@ -93,7 +92,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
      * 播放相关变量
      */
     boolean notAddHolder = true;
-    private IVideoProcessor process = MoMediaManager.createVideoProcessor(null);
+    private IVideoProcessor process = MoMediaManager.createVideoProcessor();
     private boolean processPrepred = false;
 
     /**
@@ -173,7 +172,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
             max = videoLengthTime;
         }
         if (initMinDuration < 0) {
-            initMinDuration = 20 * MediaConstants.ONE_SECOND;
+            initMinDuration = 20000;
         }
         cutMaxDuration = Math.min(MediaConstants.MIN_CUT_VIDEO_DURATION, max);
 
@@ -189,7 +188,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         if (process == null) {
             if (currentVideo != null) {
                 notAddHolder = true;
-                process = MoMediaManager.createVideoProcessor(null);
+                process = MoMediaManager.createVideoProcessor();
                 initProcess();
                 initSurfaceView();
             }
@@ -402,12 +401,12 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
     }
 
     private int getStep() {
-        if (currentVideo.length <= 20 * MediaConstants.ONE_SECOND) {
-            return 2 * MediaConstants.ONE_SECOND;
+        if (currentVideo.length <= 20000) {
+            return 2000;
         } else if (currentVideo.length <= 2 * 60000) {
-            return 5 * MediaConstants.ONE_SECOND;
+            return 5000;
         }
-        return 10 * MediaConstants.ONE_SECOND;
+        return 10000;
     }
 
     private void onPlayingScroll(long curPos) {
@@ -502,7 +501,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         if (process != null)
             process.release();
         process = null;
-        final IVideoProcessor cutProcess = MoMediaManager.createVideoProcessor(null);
+        final IVideoProcessor cutProcess = MoMediaManager.createVideoProcessor();
 //                final MomoProcess cutProcess = new MomoProcess();
         //截取视频输出路径
         String outVideoPath;
@@ -714,7 +713,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
                             if (fragment.initMinDuration >= 60000) {
                                 time = fragment.initMinDuration / 60000 + "分钟";
                             } else {
-                                time = fragment.initMinDuration / MediaConstants.ONE_SECOND + "秒";
+                                time = fragment.initMinDuration / 1000 + "秒";
                             }
                             fragment.startTimeTv.setText(fragment.getString(R.string.video_has_cut_title, time));
 

@@ -387,7 +387,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
     private List<MMPresetFilter> filters;
 
     private boolean loadData() {
-        imageProcess = MoMediaManager.createImageProcessor(null);
+        imageProcess = MoMediaManager.createImageProcessor();
         filters = FiltersManager.getAllFilters();
         imageProcess.initFilters(filters);
         boolean isSuccess;

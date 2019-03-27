@@ -133,7 +133,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private ViewStub stubDeleteTip;
     private TextView tvDeleteTip;
     private boolean isFirstFrameShow = true;
-    private Animation filterTipAnim;
 
     @IntDef({STATE_CHOOSE_MEDIA, STATE_DEFAULT_RECORD, STATE_ADVANCED_RECORD})
     @Retention(RetentionPolicy.SOURCE)
@@ -1116,19 +1115,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         }
         filterNameTip.setText(filterName);
 
-        MomoMainThreadExecutor.post(getTaskTag(), new Runnable() {
-            @Override
-            public void run() {
-                cancelFilterTipAnim();
-                filterTipAnim = AnimationUtil.playFilterTipAnim(filterNameTip);
-            }
-        });
-    }
-
-    private void cancelFilterTipAnim() {
-        if (filterTipAnim != null) {
-            filterTipAnim.cancel();
-        }
     }
 
     private void onClickScreen(float x, float y) {
@@ -1599,7 +1585,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         if (mPresenter != null && state == STATE_DEFAULT_RECORD) {
             mPresenter.clearTempFiles();
         }
-        cancelFilterTipAnim();
         ScreenOrientationManager.release();
 
         MomoMainThreadExecutor.cancelAllRunnables(getTaskTag());
@@ -2417,9 +2402,9 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private long getMaxDuration() {
         switch (state) {
             case STATE_ADVANCED_RECORD:
-                return MediaConstants.MAX_VIDEO_DURATION;
+                return MediaConstants.MAX_VIDEO_DURATION + MediaConstants.MOMENT_DURATION_EXPAND;
             case STATE_DEFAULT_RECORD:
-                return MediaConstants.DEFUALT_RECORD_DURATION;
+                return MediaConstants.DEFUALT_RECORD_DURATION + MediaConstants.MOMENT_DURATION_EXPAND;
         }
         return 0;
     }

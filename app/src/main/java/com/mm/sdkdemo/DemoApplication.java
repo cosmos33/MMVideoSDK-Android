@@ -12,22 +12,10 @@ import com.tencent.bugly.crashreport.CrashReport;
 import java.io.File;
 
 public class DemoApplication extends Application {
-    public static volatile String mToken;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        MoMediaManager.register(this, "53c2b08cd6aa13e678c37240c9e6d1f9", new MoMediaManager.RegisterCallback() {
-            @Override
-            public void onRegisterSuccess(String token) {
-                mToken = token;
-            }
-
-            @Override
-            public void onRegisterFailed(int reason) {
-
-            }
-        });
+        MoMediaManager.init(this, "53c2b08cd6aa13e678c37240c9e6d1f9");
         if (Configs.DEBUG) {
             MoMediaManager.openLog(new File(Environment.getExternalStorageDirectory(), "mmvideo_sdk_log").getAbsolutePath());
         }

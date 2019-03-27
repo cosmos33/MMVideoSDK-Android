@@ -27,7 +27,7 @@ public class VideoRecordTestActivity extends BaseFullScreenActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_record_test);
-        recorder = MoMediaManager.createRecorder(DemoApplication.mToken);
+        recorder = MoMediaManager.createRecorder();
         recorder.prepare(this, getConfig());
         File file = new File(Environment.getExternalStorageDirectory(), "video_test.mp4");
         recorder.setMediaOutPath(file.getAbsolutePath());

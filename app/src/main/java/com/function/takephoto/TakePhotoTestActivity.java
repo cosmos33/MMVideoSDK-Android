@@ -28,7 +28,7 @@ public class TakePhotoTestActivity extends BaseFullScreenActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_photo_test);
-        recorder = MoMediaManager.createRecorder(DemoApplication.mToken);
+        recorder = MoMediaManager.createRecorder();
         recorder.prepare(this, getConfig());
         SurfaceView surfaceView = findViewById(R.id.surface_view);
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
@@ -92,7 +92,7 @@ public class TakePhotoTestActivity extends BaseFullScreenActivity {
                     @Override
                     public void onTakePhotoComplete(int status, Exception e) {
                         //0表示完成， -1表示失败
-                        MDLog.i(LogTag.RECORDER.RECORD, "onTakePhotoComplete %d", status);
+                        MDLog.e(LogTag.RECORDER.RECORD, "onTakePhotoComplete %d", status);
                     }
                 });
                 break;

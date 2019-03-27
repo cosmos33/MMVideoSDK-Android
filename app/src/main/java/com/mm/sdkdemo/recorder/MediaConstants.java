@@ -12,7 +12,6 @@ public class MediaConstants {
 
     public final static int MOMENT_DURATION_EXPAND = 999;       //放宽999ms限制
 
-    public final static int ONE_SECOND = 1000;
     public final static long MIN_VIDEO_DURATION = 2000;//最短2s
 
     public final static long MAX_PUBLISH_VIDEO_DURATION = 60000 + MOMENT_DURATION_EXPAND;    //发布时刻最大时长60S 视频库处理不精准，放宽限制
@@ -21,16 +20,16 @@ public class MediaConstants {
     /**
      * 高级拍摄最长时长，可通过服务器配置
      */
-    public static long MAX_VIDEO_DURATION = 60000;//最长30s
+    public static long MAX_VIDEO_DURATION = 60000;//最长60s
     /**
      * 普通拍摄最长时长，可通过服务器配置
      */
-    public static long DEFUALT_RECORD_DURATION = 20 * ONE_SECOND;
-
+    public static long DEFUALT_RECORD_DURATION = 20000;
+    //最大裁切时长
     public static long MAX_LONG_VIDEO_DURATION = 60000;
 
     //新模式
-    public final static long UPPER_VIDEO_COMPRESS_DURATION = 60 * 1000;       // 视频码率 <= 5M && 视频时长 <= 60s 不需要压缩
+    public final static long UPPER_VIDEO_COMPRESS_DURATION = 60000;       // 视频码率 <= 5M && 视频时长 <= 60s 不需要压缩
     public final static long UPPER_VIDEO_COMPRESS_BITRATE = 5<<20;     // 视频码率 <= 5M && 视频时长 <= 60s 不需要压缩
 
     public static final int MAX_STICKER_COUNT = 20;//最多添加20个
@@ -49,9 +48,7 @@ public class MediaConstants {
 
     public static final String MEDIA_TYPE_VIDEO = "VIDEO";
     public static final String MEDIA_TYPE_IMAGES = "IMAGE";
-    public static final String EXTRA_KEY_MEDIA_TYPE = "EXTRA_KEY_MEDIA_TYPE";
     public static final String EXTRA_KEY_VIDEO_DATA = "EXTRA_KEY_VIDEO_DATA";
-    public static final String EXTRA_KEY_LOG_KEY = "EXTRA_KEY_LOG_KEY";
     public static final String EXTRA_KEY_IMAGE_DATA = "EXTRA_KEY_IMAGE_DATA";
     public static final String EXTRA_KEY_VIDEO_TRANS_INFO = "EXTRA_KEY_VIDEO_TRANS_INFO";
     public static final String EXTRA_KEY_VIDEO_STATE = "EXTRA_KEY_VIDEO_STATE";

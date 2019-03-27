@@ -51,7 +51,7 @@ public class VideoCompressUtil {
         if (compressProcess != null) {
             compressProcess.release();
         }
-        compressProcess = MoMediaManager.createVideoProcessor(null);
+        compressProcess = MoMediaManager.createVideoProcessor();
         //压成全I帧
         compressProcess.setIFrameOnly(false);
 

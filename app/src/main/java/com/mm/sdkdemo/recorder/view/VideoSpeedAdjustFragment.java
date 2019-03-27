@@ -541,7 +541,7 @@ public class VideoSpeedAdjustFragment extends BaseFragment implements View.OnCli
         surfaceView.getHolder().addCallback(buildSurfaceCallback());
 
         if (process == null) {
-            process = MoMediaManager.createVideoProcessor(null);
+            process = MoMediaManager.createVideoProcessor();
             // 2/23/17 需要监听播放暂停事件
             process.setPlayingStatusListener(new MRecorderActions.OnPlayingStatusListener() {
 

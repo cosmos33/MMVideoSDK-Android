@@ -28,26 +28,26 @@ Momo短视频模块SDK，支持短视频录制、视频编辑与后期特效处�
 
 ## 授权模块
 #### 配置设置
-- 注册
+- 初始化
 
 
-      void register(String appId, final RegisterCallback callback);
+      void init(Application context, String appId);
 
 #### 获取模块接口
 - 获取录制器
     
 
-      public static IMultiRecorder createRecorder(String token);
+      public static IMultiRecorder createRecorder();
 
 - 获取视频处理器
 
 
-      public static IVideoProcessor createVideoProcessor(String token);
+      public static IVideoProcessor createVideoProcessor();
       
 - 获取图片处理器
 
 
-      public static IImageProcess createImageProcessor(String token);
+      public static IImageProcess createImageProcessor();
 
 ## 录制模块
 
