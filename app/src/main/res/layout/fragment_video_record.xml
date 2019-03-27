@@ -30,6 +30,7 @@
         app:smvp_scroll_more_listener="直播来设置这个listener类名" />
 
     <TextView
+        android:textStyle="bold"
         android:id="@+id/filter_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
         android:shadowColor="#4f000000"
         android:shadowRadius="10"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="32sp"
         android:visibility="invisible"
         tools:text="美白滤镜"
         tools:visibility="visible" />

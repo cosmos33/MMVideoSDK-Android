@@ -1108,13 +1108,23 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         return filters != null ? filters.size() : 0;
     }
 
+    private final String showFilterTag = "showFilterTag";
     private void showFilterName() {
         final String filterName = filters.get(mCurFilterPos).getName();
         if (TextUtils.isEmpty(filterName)) {
             return;
         }
         filterNameTip.setText(filterName);
-
+        filterNameTip.setVisibility(View.VISIBLE);
+        MomoMainThreadExecutor.cancelAllRunnables(showFilterTag);
+        MomoMainThreadExecutor.postDelayed(showFilterTag, new Runnable() {
+            @Override
+            public void run() {
+                if (filterNameTip != null) {
+                    filterNameTip.setVisibility(View.INVISIBLE);
+                }
+            }
+        }, 1000);
     }
 
     private void onClickScreen(float x, float y) {
@@ -1497,7 +1507,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             if (mPresenter.prepare()) {
                 mPresenter.changeToFilter(mCurFilterPos, false, 0);
                 initFlashAndSwitchButton();
-//                mPresenter.startPreview();
+                //                mPresenter.startPreview();
                 mPresenter.initFilter(filters);
                 onBeautyTabSelect(Configs.DEFAULT_BEAUTY, MomentFilterPanelLayout.TYPE_BEAUTY);
                 onBeautyTabSelect(Configs.DEFAULT_BIG_EYE, MomentFilterPanelLayout.TYPE_EYE_AND_THIN);
