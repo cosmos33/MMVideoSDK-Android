@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def keyStorePropertiesFile = rootProject.file("app/keystore.properties")
+def keyStoreProperties = new Properties()
+keyStoreProperties.load(new FileInputStream(keyStorePropertiesFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -7,7 +11,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         /**
          * 应用只支持中文
@@ -21,10 +25,30 @@ android {
             abiFilters "armeabi-v7a"
         }
     }
+    signingConfigs{
+        release{
+            storeFile file(keyStoreProperties["storeFile"])
+            storePassword keyStoreProperties["storePassword"]
+            keyAlias keyStoreProperties["keyAlias"]
+            keyPassword keyStoreProperties["keyPassword"]
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            applicationVariants.all{
+                variant ->
+                    if(variant.buildType.name == 'release'){
+                        variant.outputs.all{
+                            outputFileName = "VideoSdkDemo_v${defaultConfig.versionName}.apk"
+                        }
+                    }
+            }
         }
     }
     android {
