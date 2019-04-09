@@ -33,14 +33,9 @@
 - 添加工程依赖
 
 
-    //添加如下依赖
-    implementation 'com.google.code.gson:gson:2.2.4'
-    implementation 'com.squareup.okhttp3:okhttp:3.0.1'
-    //SDK基础库    
-    implementation 'com.mm.baseutil:mmcore:1.1.0'
-    //导入AAR
-    cosmosmedia-release.aar
-    recordsdk-release.aar
+    //SDK依赖库  
+    implementation 'com.cosmos.mediax:recorder:1.0.2'
+    
 
 
 - so架构
