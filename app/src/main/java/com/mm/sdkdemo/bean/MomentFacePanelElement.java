@@ -219,11 +219,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
         if (mScheduledFaceItem != null) {
             // 如果外部已经设置了需要选中的变脸项，还设置个P默认项
             return false;
-        } else if (mViewProxy.isInflate() && mIsFaceDataFetched && mViewProxy.getStubView().hasSelectItem()) {
-            // UI已经加载，并且数据列表已经获取，并且，有选中的项目，还设置个P默认项
-            return false;
-        }
-        return true;
+        } else return !mViewProxy.isInflate() || !mIsFaceDataFetched || !mViewProxy.getStubView().hasSelectItem();
     }
 
     /**

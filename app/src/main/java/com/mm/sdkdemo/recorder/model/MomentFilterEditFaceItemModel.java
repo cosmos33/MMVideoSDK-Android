@@ -77,7 +77,7 @@ public class MomentFilterEditFaceItemModel extends CementModel<MomentFilterEditF
 
         public ViewHolder(View itemView) {
             super(itemView);
-            editFaceText = (TextView) itemView.findViewById(R.id.filter_edit_face_text);
+            editFaceText = itemView.findViewById(R.id.filter_edit_face_text);
         }
     }
 }

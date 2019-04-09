@@ -275,10 +275,7 @@ public class StickerContainerView extends RelativeLayout {
             return false;
         }
 
-        if (view.viewRect.contains((int) x, (int) y)) {
-            return true;
-        }
-        return false;
+        return view.viewRect.contains((int) x, (int) y);
     }
 
     public PointF getCenterPoint(StickerView view) {
@@ -389,11 +386,7 @@ public class StickerContainerView extends RelativeLayout {
                 }
                 break;
         }
-        if (isOnView) {
-            return true;
-        } else {
-            return false;
-        }
+        return isOnView;
     }
 
     private float lastScale;
@@ -659,10 +652,7 @@ public class StickerContainerView extends RelativeLayout {
     }
 
     public boolean hasStickers() {
-        if (null != mViews && mViews.size() > 0) {
-            return true;
-        }
-        return false;
+        return null != mViews && mViews.size() > 0;
     }
 
     /**

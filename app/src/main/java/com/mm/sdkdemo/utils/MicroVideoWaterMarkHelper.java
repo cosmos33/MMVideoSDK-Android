@@ -73,7 +73,7 @@ public class MicroVideoWaterMarkHelper {
 
     public static final Bitmap getWaterMarkBitmap(String momoid) {
         View view = LayoutInflater.from(AppContext.getContext()).inflate(LAYOUT_WATER_MARK, null);
-        TextView tv = (TextView) view.findViewById(R.id.water_text);
+        TextView tv = view.findViewById(R.id.water_text);
         tv.setText(momoid);
         view.measure(MeasureSpec.makeMeasureSpec(UIUtils.getScreenWidth(), AT_MOST),
                      MeasureSpec.makeMeasureSpec(UIUtils.getScreenHeight(), AT_MOST));

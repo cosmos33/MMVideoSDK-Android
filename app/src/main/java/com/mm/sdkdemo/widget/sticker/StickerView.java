@@ -379,7 +379,7 @@ public class StickerView extends ImageView {
         invalidate();
     }
 
-    public static interface onUpdateViewListener {
-        public void onUpdateView(PointF centerPoint, long stickerId, float scale, float angle);
+    public interface onUpdateViewListener {
+        void onUpdateView(PointF centerPoint, long stickerId, float scale, float angle);
     }
 }

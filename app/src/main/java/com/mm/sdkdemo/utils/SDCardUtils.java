@@ -54,10 +54,8 @@ public class SDCardUtils {
         long blockSize = stat.getBlockSize();
         long availableBlocks = stat.getAvailableBlocks();
         float freeStorage = (availableBlocks * blockSize)/(1024 * 1024);
-        if (freeStorage >= 1) { // 剩余空间大于1M
-               return true;
-        }
-        return false;
+        // 剩余空间大于1M
+        return freeStorage >= 1;
     }
 
 	/**

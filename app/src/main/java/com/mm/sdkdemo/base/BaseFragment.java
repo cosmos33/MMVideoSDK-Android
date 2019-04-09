@@ -40,6 +40,7 @@ public abstract class BaseFragment extends Fragment {
     private boolean callOnResult = false;
     private Toolbar toolbar;
     protected ToolbarHelper toolbarHelper;
+    protected boolean isForeGround;
 
     @Override
     public void onAttach(Activity activity) {
@@ -114,12 +115,14 @@ public abstract class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         BaseFragmentLifecycleEventDispatcher.dispatchFragmentResume(this);
+        isForeGround = true;
     }
 
     @Override
     public void onPause() {
         super.onPause();
         BaseFragmentLifecycleEventDispatcher.dispatchFragmentPause(this);
+        isForeGround = false;
     }
 
     @Override

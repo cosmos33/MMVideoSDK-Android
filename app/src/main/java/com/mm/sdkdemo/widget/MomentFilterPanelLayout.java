@@ -56,7 +56,7 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
     }
 
     private void initFilterPanel() {
-        panelFilterRecView = (RecyclerView) this.findViewById(R.id.filter_drawer_main_panel);
+        panelFilterRecView = this.findViewById(R.id.filter_drawer_main_panel);
         panelFilterRecView.setLayoutManager(new LinearLayoutManagerWithSmoothScroller
                                                     (this.context, LinearLayoutManager.HORIZONTAL, false));
         panelFilterRecView.setHasFixedSize(true);
@@ -154,7 +154,7 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
     private List<CementModel<?>> transFilter2Models(List list) {
         List<CementModel<?>> models = new ArrayList<>();
         for (Object object : list) {
-            if (MMPresetFilter.class.isInstance(object)) {
+            if (object instanceof MMPresetFilter) {
                 models.add(new MomentFilterItemModel((MMPresetFilter) object));
             }
         }

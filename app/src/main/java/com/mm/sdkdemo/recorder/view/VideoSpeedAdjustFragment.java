@@ -969,7 +969,7 @@ public class VideoSpeedAdjustFragment extends BaseFragment implements View.OnCli
         }
 
         @Override
-        protected Boolean executeTask(Void... params) throws Exception {
+        protected Boolean executeTask(Void... params) {
             startThumbnailTaskTime = System.currentTimeMillis();
             try {
                 if (videoDataRetrieve != null) {

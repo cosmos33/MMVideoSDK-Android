@@ -100,7 +100,7 @@ public class VideoRecordControllerLayout extends RelativeLayout {
 
     private void ensureRecordLayout() {
         if (mRecordLayout == null || mRecordFaceIcon == null) {
-            ViewStub stub = (ViewStub) findViewById(R.id.recording_face_stub);
+            ViewStub stub = findViewById(R.id.recording_face_stub);
             mRecordLayout = stub.inflate();
             mRecordLayout.setScaleX(BIG_SCALE);
             mRecordLayout.setScaleY(BIG_SCALE);

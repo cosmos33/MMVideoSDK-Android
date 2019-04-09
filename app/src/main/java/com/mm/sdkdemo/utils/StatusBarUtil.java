@@ -269,7 +269,7 @@ public class StatusBarUtil {
      * @param statusBarAlpha 透明值
      */
     private static void addTranslucentView(Activity activity, int statusBarAlpha, int color) {
-        ViewGroup contentView = (ViewGroup) activity.findViewById(android.R.id.content);
+        ViewGroup contentView = activity.findViewById(android.R.id.content);
         // 移除半透明矩形,以免叠加
         if (contentView.getChildCount() > 1) {
             contentView.removeViewAt(1);

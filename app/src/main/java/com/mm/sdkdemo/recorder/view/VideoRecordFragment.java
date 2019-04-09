@@ -380,7 +380,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         cancelDelayBtn = findViewById(R.id.video_advanced_cancel_delay_btn);
         filterNameTip = findViewById(R.id.filter_name_tv);
         tvFilterName = findViewById(R.id.tv_filter_name);
-        stubDeleteTip = (ViewStub) findViewById(R.id.stub_delete_tip);
+        stubDeleteTip = findViewById(R.id.stub_delete_tip);
 
         focusView = findViewById(R.id.record_focus_view);
         videoRecordControllerLayout = findViewById(R.id.video_record_btn_layout);
@@ -1507,7 +1507,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             if (mPresenter.prepare()) {
                 mPresenter.changeToFilter(mCurFilterPos, false, 0);
                 initFlashAndSwitchButton();
-                //                mPresenter.startPreview();
+//                mPresenter.startPreview();
                 mPresenter.initFilter(filters);
                 onBeautyTabSelect(Configs.DEFAULT_BEAUTY, MomentFilterPanelLayout.TYPE_BEAUTY);
                 onBeautyTabSelect(Configs.DEFAULT_BIG_EYE, MomentFilterPanelLayout.TYPE_EYE_AND_THIN);

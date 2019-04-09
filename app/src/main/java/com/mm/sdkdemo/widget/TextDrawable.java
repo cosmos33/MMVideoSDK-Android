@@ -191,8 +191,6 @@ public class TextDrawable extends Drawable {
     private boolean isTextSame(String t1, String t2) {
         if (t1 == null && t2 == null)
             return true;
-        if (t1 != null && t1.equals(t2))
-            return true;
-        return false;
+        return t1 != null && t1.equals(t2);
     }
 }

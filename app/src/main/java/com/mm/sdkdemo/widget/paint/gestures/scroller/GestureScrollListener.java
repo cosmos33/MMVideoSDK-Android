@@ -35,7 +35,7 @@ public final class GestureScrollListener implements GestureDetector.OnGestureLis
     return false;
   }
 
-  static interface OnGestureScrollListener {
+  interface OnGestureScrollListener {
     boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY);
   }
 }

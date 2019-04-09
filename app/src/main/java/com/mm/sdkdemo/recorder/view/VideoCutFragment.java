@@ -142,12 +142,12 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected void initViews(View contentView) {
-        ivBack = (ImageView) findViewById(R.id.video_cut_back);
-        ivOK = (ImageView) findViewById(R.id.video_cut_ok);
-        parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
+        ivBack = findViewById(R.id.video_cut_back);
+        ivOK = findViewById(R.id.video_cut_ok);
+        parentLayout = findViewById(R.id.parentLayout);
         parentLayout.setOnClickListener(this);
-        videoLayout = (LinearLayout) findViewById(R.id.videoLayout);
-        videoRangeBar = (VideoRangeBar) findViewById(R.id.videoRangeBar);
+        videoLayout = findViewById(R.id.videoLayout);
+        videoRangeBar = findViewById(R.id.videoRangeBar);
         View indicatorLine = findViewById(R.id.video_range_bar_line);
         ViewGroup.LayoutParams lp = indicatorLine.getLayoutParams();
         if (lp != null) {
@@ -158,11 +158,11 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         // videoRangeBar.setCancelSelectOnTouchOutside(false);
         videoRangeBar.setEmptyHeaderFooterWidth(UIUtils.getScreenWidth() / 2);
 
-        cut_btn_play = (ImageView) findViewById(R.id.cut_btn_play);
+        cut_btn_play = findViewById(R.id.cut_btn_play);
         cut_btn_play.setOnClickListener(this);
 
-        startTimeTv = (TextView) findViewById(R.id.startTime);
-        videoCutTime = (TextView) this.findViewById(R.id.moment_video_cut_time);
+        startTimeTv = findViewById(R.id.startTime);
+        videoCutTime = this.findViewById(R.id.moment_video_cut_time);
         ivBack.setOnClickListener(this);
         ivOK.setOnClickListener(this);
 
@@ -752,7 +752,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         }
 
         @Override
-        protected Boolean executeTask(Void... params) throws Exception {
+        protected Boolean executeTask(Void... params) {
             try {
                 if (videoDataRetrieve != null) {
                     List<VideoDataRetrieverBySoft.Node> nodes = new ArrayList<>();

@@ -642,7 +642,7 @@ public class VideoEditFragment extends BaseFragment
      * 删除文字贴纸
      */
     private void unRecordTextSticker(StickerView view) {
-        if (textStickerView != null && textStickerView.contains(view))
+        if (textStickerView != null)
             textStickerView.remove(view);
     }
 
@@ -901,6 +901,9 @@ public class VideoEditFragment extends BaseFragment
             return;
         }
         if (compressVideoIfNeed()) {
+            return;
+        }
+        if (!isForeGround) {
             return;
         }
         hideToolsLayout(true);
@@ -1180,7 +1183,7 @@ public class VideoEditFragment extends BaseFragment
     private void showPaintPanel() {
         hideToolsLayout(false);
         if (paintPanel == null) {
-            ViewStub viewStub = (ViewStub) findViewById(R.id.moment_edit_paint_layout_stub);
+            ViewStub viewStub = findViewById(R.id.moment_edit_paint_layout_stub);
             paintPanel = (PaintPanelView) viewStub.inflate();
             paintPanel.init();
 
@@ -1810,11 +1813,8 @@ public class VideoEditFragment extends BaseFragment
             return false;
         }
         // 视频大小, 时长限制 时长 <= 60s 码率小于5Mb 不用压缩
-        if (transBean.upperVideoCompressBitRate > 0 && video.avgBitrate <= transBean.upperVideoCompressBitRate
-                && transBean.upperVideoCompressDuration > 0 && video.length <= transBean.upperVideoCompressDuration) {
-            return false;
-        }
-        return true;
+        return transBean.upperVideoCompressBitRate <= 0 || video.avgBitrate > transBean.upperVideoCompressBitRate
+                || transBean.upperVideoCompressDuration <= 0 || video.length > transBean.upperVideoCompressDuration;
     }
 
     private void prepareEncoding(boolean isSend, boolean saveToGallery, boolean secondCompress) {
@@ -1933,7 +1933,7 @@ public class VideoEditFragment extends BaseFragment
         }
 
         @Override
-        protected List<Bitmap> executeTask(Object... objects) throws Exception {
+        protected List<Bitmap> executeTask(Object... objects) {
             videoDataRetrieve.init(video.path);
             videoDataRetrieve.getImageByList(videoNodes);
             List<Bitmap> result = new ArrayList<>();

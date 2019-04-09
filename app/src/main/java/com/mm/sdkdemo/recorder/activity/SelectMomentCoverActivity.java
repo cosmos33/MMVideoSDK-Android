@@ -124,13 +124,13 @@ public class SelectMomentCoverActivity extends BaseFullScreenActivity implements
 
     private void initViews() {
         progressLayout = findViewById(R.id.select_cover_progress_layout);
-        ivProgress = (ImageView) findViewById(R.id.select_cover_progress_icon);
+        ivProgress = findViewById(R.id.select_cover_progress_icon);
 
-        ivBgCover = (ImageView) findViewById(R.id.select_cover_big);
+        ivBgCover = findViewById(R.id.select_cover_big);
         previewLayout = findViewById(R.id.select_cover_preview_layout);
-        ivPreview = (ImageView) findViewById(R.id.select_cover_preview_image);
+        ivPreview = findViewById(R.id.select_cover_preview_image);
 
-        recyclerView = (RecyclerView) findViewById(R.id.select_cover_recyclerview);
+        recyclerView = findViewById(R.id.select_cover_recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(SelectMomentCoverActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
@@ -510,8 +510,7 @@ public class SelectMomentCoverActivity extends BaseFullScreenActivity implements
     private boolean checkLocalThumb() {
         if (coverCacheDir != null && coverCacheDir.isDirectory()) {
             File[] list = coverCacheDir.listFiles();
-            if (list.length == frameCount)
-                return true;
+            return list.length == frameCount;
         }
         return false;
     }

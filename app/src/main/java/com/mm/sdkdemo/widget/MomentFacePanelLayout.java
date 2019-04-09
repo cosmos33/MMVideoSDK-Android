@@ -93,7 +93,7 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
     }
 
     private void initViews() {
-        facePanelRecView = (RecyclerView) findViewById(R.id.face_panel);
+        facePanelRecView = findViewById(R.id.face_panel);
         initFacepanelView();
         progressDrawable = new IndeterminateDrawable(Color.WHITE, UIUtils.getPixels(3));
         progressView = new View(context);

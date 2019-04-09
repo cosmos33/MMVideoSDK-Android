@@ -79,10 +79,7 @@ public class MusicContent implements Parcelable, Serializable {
         if (m1 == null || m2 == null) {
             return false;
         }
-        if ((!TextUtils.isEmpty(m1.path) && !TextUtils.isEmpty(m2.path) && TextUtils.equals(m1.path, m2.path))) {
-            return true;
-        }
-        return false;
+        return (!TextUtils.isEmpty(m1.path) && !TextUtils.isEmpty(m2.path) && TextUtils.equals(m1.path, m2.path));
     }
 
     public void reset() {

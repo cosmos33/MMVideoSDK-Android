@@ -122,10 +122,7 @@ public class MomentUtils {
      * @return
      */
     public static boolean isChuiZiNt() {
-        if (Build.VERSION.SDK_INT == 19 && "SM705".equals(Build.MODEL)) {
-            return true;
-        }
-        return false;
+        return Build.VERSION.SDK_INT == 19 && "SM705".equals(Build.MODEL);
     }
 
     public static boolean isOnlyAlbum(VideoInfoTransBean info) {

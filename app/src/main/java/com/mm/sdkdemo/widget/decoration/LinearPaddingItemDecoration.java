@@ -51,7 +51,7 @@ public class LinearPaddingItemDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
 
-        if (linearLayoutManager == null && LinearLayoutManager.class.isInstance(parent.getLayoutManager())) {
+        if (linearLayoutManager == null && parent.getLayoutManager() instanceof LinearLayoutManager) {
             linearLayoutManager = (LinearLayoutManager) parent.getLayoutManager();
             orientation = linearLayoutManager.getOrientation();
         }
@@ -78,7 +78,7 @@ public class LinearPaddingItemDecoration extends RecyclerView.ItemDecoration {
 
                 /** only hide itemPadding */
                 Object paddingInfoObj = view.getTag(R.id.padding_info);
-                if (Integer.class.isInstance(paddingInfoObj)) {
+                if (paddingInfoObj instanceof Integer) {
                     int paddingInfo = (int) paddingInfoObj;
                     outRect.set(
                             outRect.left,
@@ -106,7 +106,7 @@ public class LinearPaddingItemDecoration extends RecyclerView.ItemDecoration {
 
                 /** only hide itemPadding */
                 Object paddingInfoObj = view.getTag(R.id.padding_info);
-                if (Integer.class.isInstance(paddingInfoObj)) {
+                if (paddingInfoObj instanceof Integer) {
                     int paddingInfo = (int) paddingInfoObj;
                     outRect.set(
                             (hasMark(paddingInfo, NO_LEFT) && itemPosition > 0) ?

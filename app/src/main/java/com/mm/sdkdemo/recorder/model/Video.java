@@ -167,9 +167,7 @@ public class Video implements Parcelable {
     public boolean equals(Object o) {
         if (o instanceof Video) {
             Video video = (Video) o;
-            if (StringUtils.notEmpty(this.path) && this.path.equals(video.path)) {
-                return true;
-            }
+            return StringUtils.notEmpty(this.path) && this.path.equals(video.path);
         }
         return false;
     }

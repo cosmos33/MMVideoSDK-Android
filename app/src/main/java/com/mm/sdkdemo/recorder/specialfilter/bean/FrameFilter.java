@@ -101,20 +101,14 @@ public class FrameFilter {
     }
 
     public boolean isValid() {
-        if (startTime >= endTime) {
-            return false;
-        }
-        return true;
+        return startTime < endTime;
     }
 
     public boolean canUse(long time) {
         if (!isValid()) {
             return false;
         }
-        if (time >= startTime && time <= endTime) {
-            return true;
-        }
-        return false;
+        return time >= startTime && time <= endTime;
     }
 
     public static FrameFilter clone(FrameFilter frameFilter) {

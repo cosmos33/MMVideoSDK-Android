@@ -82,10 +82,7 @@ public class ScreenUtil {
      * @return
      */
     public static boolean isHighAspectRatio() {
-        if (getAspectRatio() > 2.0) {
-            return true;
-        }
-        return false;
+        return getAspectRatio() > 2.0;
     }
 
     public static float getAspectRatio() {

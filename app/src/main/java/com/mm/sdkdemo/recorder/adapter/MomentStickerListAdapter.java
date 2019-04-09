@@ -65,7 +65,7 @@ public class MomentStickerListAdapter extends RecyclerView.Adapter<MomentSticker
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            this.stickerImageView = (ImageView) itemView.findViewById(R.id.sticker_iv);
+            this.stickerImageView = itemView.findViewById(R.id.sticker_iv);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -121,7 +121,7 @@ public class StickerManager {
         }
 
         @Override
-        protected String executeTask(Object... params) throws Exception {
+        protected String executeTask(Object... params) {
             String zipPath = task;
             File zipFile = new File(zipPath);
             Log4Android.getInstance().d("tang----开始解压资源 " + sticker.getId() + "   " + zipFile.getAbsolutePath());

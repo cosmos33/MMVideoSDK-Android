@@ -256,20 +256,20 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
             fastImage.getHolder().setFixedSize(image.width, image.height);
         }
         allStickerContainer = findViewById(R.id.media_edit_all_sticker_container);
-        stickerContainer = (StickerContainerView) findViewById(R.id.media_edit_sticker_container);
-        addDrawBgImage = (ImageView) findViewById(R.id.media_edit_draw_bg);
-        closeBtn = (ImageView) findViewById(R.id.media_edit_btn_close);
-        sendBtn = (TextView) findViewById(R.id.media_edit_btn_send);
-        toolsLayout = (LinearLayout) findViewById(R.id.media_edit_tools_layout);
-        deleteStickerIV = (ImageView) findViewById(R.id.media_edit_delete_sticker);
+        stickerContainer = findViewById(R.id.media_edit_sticker_container);
+        addDrawBgImage = findViewById(R.id.media_edit_draw_bg);
+        closeBtn = findViewById(R.id.media_edit_btn_close);
+        sendBtn = findViewById(R.id.media_edit_btn_send);
+        toolsLayout = findViewById(R.id.media_edit_tools_layout);
+        deleteStickerIV = findViewById(R.id.media_edit_delete_sticker);
         editProgressLayout = findViewById(R.id.media_edit_progress_layout);
-        editingProgressbar = (ProgressBar) findViewById(R.id.media_edit_progresssbar);
+        editingProgressbar = findViewById(R.id.media_edit_progresssbar);
         editTextTv = findViewById(R.id.media_edit_text_tv);
         editFilterTv = findViewById(R.id.media_edit_filter_tv);
         editStickerTv = findViewById(R.id.media_edit_sticker_tv);
         editPaintTv = findViewById(R.id.media_edit_paint_tv);
         editSlimmingTv = findViewById(R.id.media_edit_slimming_tv);
-        filterTv = (TextView) findViewById(R.id.filter_name_tv);
+        filterTv = findViewById(R.id.filter_name_tv);
 
         stickerContainer.deleteBtn = deleteStickerIV;
 
@@ -629,7 +629,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
         }
         switchEditMode(1, true);
         if (stickerPanel == null) {
-            ViewStub stickerPanelStub = (ViewStub) findViewById(R.id.media_edit_sticker_panel_stub);
+            ViewStub stickerPanelStub = findViewById(R.id.media_edit_sticker_panel_stub);
             stickerPanel = (MomentStickerPanel) stickerPanelStub.inflate();
             stickerPanel.setOnStickerPanelListener(new MomentStickerPanel.OnStickerPanelListener() {
                 @Override
@@ -686,7 +686,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
 
     private void showEditPanel(String text, int index) {
         if (editTextPanel == null) {
-            ViewStub mediaEditTextLayoutStub = (ViewStub) findViewById(R.id.media_edit_text_layout_stub);
+            ViewStub mediaEditTextLayoutStub = findViewById(R.id.media_edit_text_layout_stub);
             editTextPanel = (MomentEdittextPannel) mediaEditTextLayoutStub.inflate();
 
             editTextPanel.setChangeTextListener(new MomentEdittextPannel.ChangeTextListener() {
@@ -725,7 +725,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
     private void showPaintPanel() {
         switchEditMode(1, true);
         if (paintPanel == null) {
-            ViewStub paintViewStub = (ViewStub) findViewById(R.id.media_edit_paint_layout_stub);
+            ViewStub paintViewStub = findViewById(R.id.media_edit_paint_layout_stub);
             paintPanel = (PaintPanelView) paintViewStub.inflate();
             paintPanel.setHasMosaic(false);
             paintPanel.init();
@@ -850,7 +850,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
      * 回退一次文字贴纸
      */
     private void removeTextSticker(StickerView view) {
-        if (textStickerList != null && textStickerList.contains(view)) {
+        if (textStickerList != null) {
             textStickerList.remove(view);
         }
     }
@@ -869,7 +869,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
             return;
         }
 
-        if (stickerViewMap != null && stickerViewMap.containsKey(view)) {
+        if (stickerViewMap != null) {
             stickerViewMap.remove(view);
         }
     }

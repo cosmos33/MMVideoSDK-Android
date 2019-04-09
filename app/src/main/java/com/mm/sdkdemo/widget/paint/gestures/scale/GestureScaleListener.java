@@ -21,7 +21,7 @@ public final class GestureScaleListener implements ScaleGestureDetector.OnScaleG
   @Override public void onScaleEnd(ScaleGestureDetector detector) {
   }
 
-  static interface OnScaleListener {
+  interface OnScaleListener {
     boolean onScale(float scaleFactor);
   }
 }

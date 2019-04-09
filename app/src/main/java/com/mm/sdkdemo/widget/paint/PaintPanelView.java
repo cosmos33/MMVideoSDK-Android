@@ -75,7 +75,7 @@ public class PaintPanelView extends RelativeLayout {
         undoView = findViewById(R.id.moment_paint_panel_undo);
         okView = findViewById(R.id.moment_paint_panel_ok);
         closeView = findViewById(R.id.moment_paint_panel_btn_close);
-        acgView = (AnimCheckableGroupView) findViewById(R.id.moment_paint_panel_acgview);
+        acgView = findViewById(R.id.moment_paint_panel_acgview);
 
         acgView.addColors(paintColors);
         if (hasMosaic) {
@@ -104,8 +104,8 @@ public class PaintPanelView extends RelativeLayout {
             }
         });
 
-        drawableView = (DrawableView) findViewById(R.id.moment_paint_panel_drawableview);
-        maskView = (ImageView) findViewById(R.id.moment_paint_panel_maskview);
+        drawableView = findViewById(R.id.moment_paint_panel_drawableview);
+        maskView = findViewById(R.id.moment_paint_panel_maskview);
 
         undoView.setOnClickListener(new OnClickListener() {
             @Override

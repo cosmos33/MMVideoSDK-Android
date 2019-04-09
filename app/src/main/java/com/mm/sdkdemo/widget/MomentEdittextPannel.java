@@ -65,9 +65,9 @@ public class MomentEdittextPannel extends FrameLayout implements View.OnClickLis
     protected void onFinishInflate() {
         super.onFinishInflate();
         btnOk = findViewById(R.id.moment_edittext_panel_ok);
-        editText = (ColorEditText) findViewById(R.id.moment_edittext_text);
-        textView = (ColorTextView) findViewById(R.id.moment_edittext_textview);
-        acgv = (AnimCheckableGroupView) findViewById(R.id.moment_edittext_panel_acgview);
+        editText = findViewById(R.id.moment_edittext_text);
+        textView = findViewById(R.id.moment_edittext_textview);
+        acgv = findViewById(R.id.moment_edittext_panel_acgview);
 
         editText.setOnClickListener(this);
         btnOk.setOnClickListener(this);

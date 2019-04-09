@@ -88,9 +88,9 @@ public class MomentFilterItemModel extends CementModel<MomentFilterItemModel.Vie
 
         public ViewHolder(View itemView) {
             super(itemView);
-            filterItemImg = (ImageView) itemView.findViewById(R.id.moment_filter_item_img);
-            filteeItemText = (TextView) itemView.findViewById(R.id.moment_filter_item_text);
-            filterTag = (TextView) itemView.findViewById(R.id.moment_filter_tag);
+            filterItemImg = itemView.findViewById(R.id.moment_filter_item_img);
+            filteeItemText = itemView.findViewById(R.id.moment_filter_item_text);
+            filterTag = itemView.findViewById(R.id.moment_filter_tag);
             filterBg = itemView.findViewById(R.id.moment_filter_item_bg);
         }
     }

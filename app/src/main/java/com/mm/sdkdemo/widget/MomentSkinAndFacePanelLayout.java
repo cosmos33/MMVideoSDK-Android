@@ -211,7 +211,7 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     }
 
     private void initFilterEditFacePanel() {
-        panelSkinAndFaceRecView = (RecyclerView) this.findViewById(R.id.filter_drawer_edit_face_panel);
+        panelSkinAndFaceRecView = this.findViewById(R.id.filter_drawer_edit_face_panel);
         panelSkinAndFaceRecView.setLayoutManager(new GridLayoutManagerWithSmoothScroller(context, COLUMNS));
         panelSkinAndFaceRecView.setHasFixedSize(true);
         panelSkinAndFaceAdapter = new SimpleCementAdapter();
@@ -362,7 +362,7 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     private List<CementModel<?>> transInteger2Models(List list) {
         List<CementModel<?>> models = new ArrayList<>();
         for (Object object : list) {
-            if (Integer.class.isInstance(object)) {
+            if (object instanceof Integer) {
                 models.add(new MomentFilterEditFaceItemModel((Integer) object));
             }
         }
