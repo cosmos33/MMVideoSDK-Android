@@ -10,6 +10,7 @@ import android.view.View;
 import com.function.FunctionListActivity;
 import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.bean.VideoInfoTransBean;
+import com.mm.sdkdemo.player.PlayListActivity;
 import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
 import com.mm.sdkdemo.recorder.activity.VideoRecordAndEditActivity;
 import com.mm.sdkdemo.recorder.view.AlbumHomeFragment;
@@ -53,7 +54,7 @@ public class MainActivity extends BaseFullScreenActivity {
             }
             break;
             case R.id.layout_player: {
-                Toaster.show("敬请期待...");
+                startActivity(new Intent(this, PlayListActivity.class));
             }
             break;
             case R.id.layout_funcation_test: {

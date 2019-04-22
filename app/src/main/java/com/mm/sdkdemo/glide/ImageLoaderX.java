@@ -138,7 +138,11 @@ public class ImageLoaderX {
     public void into(@NonNull ImageView targetView) {
         try {
             //            GlideApp.with(AppContext.getContext()).load(imageId).centerCrop().placeholder(R.drawable.ic_launcher).into(targetView);
-            Glide.with(AppContext.getContext()).load(imageId).into(targetView);
+            if (defaultImageResId > 0) {
+                GlideApp.with(AppContext.getContext()).load(imageId).centerCrop().placeholder(defaultImageResId).into(targetView);
+            } else {
+                Glide.with(AppContext.getContext()).load(imageId).into(targetView);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
