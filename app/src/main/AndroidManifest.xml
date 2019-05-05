@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mm.sdkdemo">
 
-    <uses-sdk
-        tools:overrideLibrary="com.mm.recordsdk, com.momo, com.immomo.moment, com.example.baseutil,com.core.glcore,project.android.imageprocessing,com.example.ffmpeg,com.imomo.momo.mediamuxer,com.imomo.momo.mediaencoder,com.momo.xeengine,com.immomo.mmopenssl"
-        />
+    <uses-sdk tools:overrideLibrary="com.mm.recordsdk, com.momo, com.immomo.moment, com.example.baseutil,com.core.glcore,project.android.imageprocessing,com.example.ffmpeg,com.imomo.momo.mediamuxer,com.imomo.momo.mediaencoder,com.momo.xeengine,com.immomo.mmopenssl" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -50,7 +48,9 @@
         <activity android:name="com.function.imageprocess.ImageProcessTestActivity" />
 
         <!-- 播放器相关 -->
+        <activity android:name=".player.PrePlayActivity" />
         <activity android:name=".player.PlayListActivity" />
+        <activity android:name=".player.PlayerActivity" />
     </application>
 
 </manifest>

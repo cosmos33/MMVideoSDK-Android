@@ -2,10 +2,10 @@ package com.mm.sdkdemo.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mm.base.BaseApi;
 import com.mm.mmutil.FileUtil;
 import com.mm.mmutil.IOUtils;
 import com.mm.mmutil.app.AppContext;
-import com.mm.player.utils.PlayerApi;
 import com.mm.sdkdemo.bean.MomentFace;
 import com.mm.sdkdemo.bean.MomentSticker;
 import com.mm.sdkdemo.config.Configs;
@@ -159,7 +159,8 @@ public class MoApi {
     };
 
     public static List<PlayVideo> getRandomPlayVideoList() throws Exception {
-        String jsonString = PlayerApi.getTestVideoPlay();
-        return new Gson().fromJson(jsonString, new TypeToken<List<PlayVideo>>() {}.getType());
+        String jsonString = new BaseApi().getTestVideoPlay();
+        return new Gson().fromJson(jsonString, new TypeToken<List<PlayVideo>>() {
+        }.getType());
     }
 }

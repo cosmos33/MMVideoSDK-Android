@@ -1,14 +1,13 @@
 package com.mm.sdkdemo.utils;
 
-import com.mm.mmutil.app.AppContext;
-import com.mm.mmutil.task.MomoMainThreadExecutor;
-import com.mm.mmutil.task.ThreadUtils;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.cmds.TimeRangeScale;
 import com.immomo.moment.mediautils.cmds.VideoEffects;
 import com.mm.mediasdk.IVideoProcessor;
 import com.mm.mediasdk.MoMediaManager;
-import com.mm.mediasdk.videoprocess.MoVideo;
+import com.mm.mmutil.app.AppContext;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.ThreadUtils;
 import com.mm.sdkdemo.recorder.MediaConstants;
 import com.mm.sdkdemo.recorder.model.Video;
 
@@ -70,12 +69,8 @@ public class VideoCompressUtil {
         tempVideo.avgBitrate = video.avgBitrate;
         tempVideo.length = VideoUtils.getVideoDuration(video.path);
 
-        MoVideo moVideo = new MoVideo();
-        moVideo.path = video.path;
-
         VideoEffects effects = new VideoEffects();
         effects.setTimeRangeScales(new TimeRangeScale(0, tempVideo.length, 1));
-        moVideo.videoEffects = effects;
         //设置process压缩回调
         compressProcess.setOnStatusListener(new MRecorderActions.OnProcessProgressListener() {
             @Override
@@ -111,11 +106,12 @@ public class VideoCompressUtil {
             }
         });
 
-        if (!compressProcess.prepareVideo(moVideo)) {
+        if (!compressProcess.prepareVideo(video.path, null, 0, 0, 100, 0)) {
             if (compressVideoListener != null)
                 compressVideoListener.onErrorCompress(tempVideo);
             return;
         }
+        compressProcess.setVideoEffect(effects);
 
         //开始压缩
         compressProcess.makeVideo(finalVideoPath);

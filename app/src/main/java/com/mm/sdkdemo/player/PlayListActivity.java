@@ -12,20 +12,23 @@ import com.mm.player.scale.ScalableType;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.api.MoApi;
 import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
+import com.mm.sdkdemo.utils.WakeManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayListActivity extends BaseFullScreenActivity {
     private VideoViewPagerAdapter<VideoPlayItemFragment> mAdapter;
-    public static int scaleType = ScalableType.CENTER_CROP;
-    public static boolean mediaCodec = true;
     private List<PlayVideo> datas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setFullscreen();
         super.onCreate(savedInstanceState);
+        try {
+            WakeManager.getInstance().keepScreenOn(this);
+        } catch (Exception ex) {
+            MDLog.printErrStackTrace("VideoRecordAndEditActivity", ex);
+        }
         setContentView(R.layout.activity_player_list);
         VerticalViewPager viewPager = findViewById(R.id.vp_video_play);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -105,32 +108,6 @@ public class PlayListActivity extends BaseFullScreenActivity {
                 loadingMore = false;
             }
         });
-    }
-
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.playlist_CENTER_CROP:
-                scaleType = ScalableType.CENTER_CROP;
-                Toaster.show("下个视频才生效哦");
-                break;
-            case R.id.playlist_FIT_CENTER:
-                scaleType = ScalableType.FIT_CENTER;
-                Toaster.show("下个视频才生效哦");
-                break;
-            case R.id.playlist_FIT_XY:
-                scaleType = ScalableType.FIT_XY;
-                Toaster.show("下个视频才生效哦");
-                break;
-
-            case R.id.playlist_codec:
-                mediaCodec = !mediaCodec;
-                if (mediaCodec) {
-                    Toaster.show("已经切换到硬解码");
-                } else {
-                    Toaster.show("已经切换到软解码");
-                }
-                break;
-        }
     }
 
     @Override

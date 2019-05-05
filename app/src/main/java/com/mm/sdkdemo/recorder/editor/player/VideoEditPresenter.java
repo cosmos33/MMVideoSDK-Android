@@ -55,8 +55,6 @@ public class VideoEditPresenter implements IProcessPresenter {
     @NonNull
     private Video video;
 
-    private MoVideo moVideo;
-
     private IVideoProcessor videoProcessor;
 
     private boolean needAutoPlay = true;
@@ -95,7 +93,7 @@ public class VideoEditPresenter implements IProcessPresenter {
 
     @Override
     public void updateVideo(Video video) {
-        moVideo.path = video.path;
+        videoProcessor.updateVideo(video.path);
     }
 
     @Override
@@ -135,16 +133,11 @@ public class VideoEditPresenter implements IProcessPresenter {
         if (surfaceTexture != null) {
             videoProcessor.addSurfaceTexture(surfaceTexture);
         }
-        moVideo = new MoVideo();
-        moVideo.path = video.path;
         if (null != video.playingMusic) {
-            moVideo.musicPath = video.playingMusic.path;
-            moVideo.musicStartMillTime = video.playingMusic.startMillTime;
-            moVideo.musicEndMillTime = video.playingMusic.endMillTime;
+            videoProcessor.prepareVideo(video.path, video.playingMusic.path, video.playingMusic.startMillTime, video.playingMusic.endMillTime, video.osPercent, video.psPercent);
+        } else {
+            videoProcessor.prepareVideo(video.path, null, 0, 0, video.osPercent, video.psPercent);
         }
-        moVideo.osPercent = video.osPercent;
-        moVideo.psPercent = video.psPercent;
-        prepareVideo(moVideo);
         initProcessAndPlay();
     }
 
@@ -295,10 +288,6 @@ public class VideoEditPresenter implements IProcessPresenter {
 
     }
 
-    private void prepareVideo(MoVideo video) {
-        videoProcessor.prepareVideo(video);
-    }
-
     @Override
     public boolean isPlaying() {
         return videoProcessor.isPlaying();
@@ -306,7 +295,7 @@ public class VideoEditPresenter implements IProcessPresenter {
 
     @Override
     public void updateEffectModelAndPlay(@Nullable List<TimeRangeScale> timeRangeScales, long seekTime) {
-        videoProcessor.updateEffect(timeRangeScales, seekTime,true);
+        videoProcessor.updateEffect(timeRangeScales, seekTime, true);
     }
 
     @Override
@@ -639,12 +628,10 @@ public class VideoEditPresenter implements IProcessPresenter {
     public void setPlayMusic(MusicContent musicContent) {
         if (null != musicContent) {
             MDLog.i(LogTag.PROCESSOR.PROCESS, "setPlayMusic %s start:%d  end:%d", musicContent.path, musicContent.startMillTime, musicContent.endMillTime);
-            moVideo.musicPath = musicContent.path;
-            moVideo.musicStartMillTime = musicContent.startMillTime;
-            moVideo.musicEndMillTime = musicContent.endMillTime;
+            videoProcessor.setMusic(musicContent.path, musicContent.startMillTime, musicContent.endMillTime);
         } else {
             MDLog.i(LogTag.PROCESSOR.PROCESS, "setPlayMusic null");
-            moVideo.musicPath = null;
+            videoProcessor.setMusic(null, 0, 0);
         }
     }
 }

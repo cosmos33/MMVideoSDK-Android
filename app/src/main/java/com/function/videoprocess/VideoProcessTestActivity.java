@@ -130,10 +130,6 @@ public class VideoProcessTestActivity extends BaseFullScreenActivity {
     }
 
     private void prepare(String videoPath) {
-        MoVideo moVideo = new MoVideo();
-        moVideo.path = videoPath;
-        moVideo.osPercent = 100;
-        moVideo.psPercent = 0;
-        videoProcessor.prepareVideo(moVideo);
+        videoProcessor.prepareVideo(videoPath, null, 0, 0, 100, 0);
     }
 }

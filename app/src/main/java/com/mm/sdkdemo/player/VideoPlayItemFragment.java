@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.mm.mediasdk.utils.UIUtils;
-import com.mm.player.CosmosPlayer;
+import com.mm.player.ICosPlayer;
 import com.mm.player.PlayerManager;
 import com.mm.player.VideoView;
 import com.mm.player.log.LogTag;
@@ -36,6 +36,7 @@ public class VideoPlayItemFragment extends Fragment {
     private VideoView videoView;
     private ImageView pauseImageView;
     private ProgressBar progressBar;
+    private long currentPos = -1;
 
     public static VideoPlayItemFragment newInstance(int position, PlayVideo video) {
         VideoPlayItemFragment fragment = new VideoPlayItemFragment();
@@ -59,9 +60,12 @@ public class VideoPlayItemFragment extends Fragment {
         }
     }
 
+    private boolean isForeground;
+
     @Override
     public void onResume() {
         super.onResume();
+        isForeground = true;
         if (!alreadyPlay && currentVisibleToUser) {
             playVideo(videoUrl);
         }
@@ -70,6 +74,7 @@ public class VideoPlayItemFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        isForeground = false;
         pauseVideo();
     }
 
@@ -96,15 +101,16 @@ public class VideoPlayItemFragment extends Fragment {
             return;
         }
         pauseImageView.setVisibility(View.GONE);
-        videoView.setScaleType(PlayListActivity.scaleType);
+        videoView.setScaleType(PrePlayActivity.scaleType);
         //停止当前的预加载
-        PlayerManager.getMediaPreLoader().clearTask(Uri.parse(videoUrl).getPath());
+        PlayerManager.getMediaPreLoader().clearTaskByUrl(videoUrl);
         Log.e(LogTag.Player, "VideoPlayItemFragment playVideo " + position);
-        videoView.playVideo(videoUrl, PlayListActivity.mediaCodec);
+        videoView.playVideo(videoUrl, PrePlayActivity.mediaCodec);
         alreadyPlay = true;
     }
 
     private void pauseVideo() {
+        currentPos = videoView.getCurrentPosition();
         videoView.releaseVideo();
         alreadyPlay = false;
     }
@@ -115,7 +121,7 @@ public class VideoPlayItemFragment extends Fragment {
         FrameLayout frameLayout = new FrameLayout(getContext());
         frameLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         videoView = new VideoView(getContext());
-        videoView.setScaleType(PlayListActivity.scaleType);
+        videoView.setScaleType(PrePlayActivity.scaleType);
         videoView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         ImageLoaderX.load(cover).showDefault(R.drawable.ic_moment_theme_bg).into(videoView.getCoverView());
         videoView.setOnClickListener(new View.OnClickListener() {
@@ -130,13 +136,17 @@ public class VideoPlayItemFragment extends Fragment {
                 }
             }
         });
-        videoView.setOnStateChangedListener(new CosmosPlayer.OnStateChangedListener() {
+        videoView.setOnStateChangedListener(new ICosPlayer.OnStateChangedListener() {
             @Override
             public void onStateChanged(final int state) {
-                if (state == CosmosPlayer.STATE_BUFFERING) {
+                if (state == ICosPlayer.STATE_BUFFERING) {
                     progressBar.setVisibility(View.VISIBLE);
-                } else if (state == CosmosPlayer.STATE_READY) {
+                } else if (state == ICosPlayer.STATE_READY) {
                     progressBar.setVisibility(View.GONE);
+                    if (currentPos > 0 && isForeground) {
+                        videoView.seekTo(currentPos);
+                        currentPos = -1;
+                    }
                 }
             }
         });

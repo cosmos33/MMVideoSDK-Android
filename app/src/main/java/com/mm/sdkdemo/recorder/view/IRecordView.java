@@ -39,4 +39,8 @@ public interface IRecordView {
     boolean isVideoDurationValid();
 
     void onMaskModelSet(MaskModel model);
+
+    void onRecordStarted();
+
+    void onRecordPaused();
 }

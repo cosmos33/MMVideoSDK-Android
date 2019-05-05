@@ -19,9 +19,6 @@ import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.mm.mmutil.log.Log4Android;
-import com.mm.mmutil.task.MomoTaskExecutor;
-import com.mm.mmutil.toast.Toaster;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
 import com.immomo.moment.mediautils.cmds.EffectModel;
@@ -31,7 +28,9 @@ import com.immomo.moment.mediautils.cmds.VideoEffects;
 import com.mm.mediasdk.IVideoProcessor;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.utils.UIUtils;
-import com.mm.mediasdk.videoprocess.MoVideo;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.task.MomoTaskExecutor;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseFragment;
 import com.mm.sdkdemo.recorder.MediaConstants;
@@ -422,17 +421,14 @@ public class VideoSpeedAdjustFragment extends BaseFragment implements View.OnCli
         removeSurfaceView();
     }
 
-    private MoVideo processVideo = new MoVideo();
     private void startPlay(long start, long end, float speed, boolean isResume) {
         Log4Android.getInstance().i("tang----startPlay start:" + start + " end:" + end + "  speed:" + speed);
-        processVideo.path = videoPath;
 
         VideoEffects videoEffects = new VideoEffects();
         videoEffects.setVideoCuts(new VideoCut(videoPath, start, end));
         if (speed != 1.0f) {
             videoEffects.setTimeRangeScales(new TimeRangeScale(0, end - start, speed));
         }
-        processVideo.videoEffects = videoEffects;
         //先暂停
         //        pausePlay();
         rangeBar.scrollToTimestamp(start, true);
@@ -444,7 +440,8 @@ public class VideoSpeedAdjustFragment extends BaseFragment implements View.OnCli
         if (isResume) {
             boolean prepare = true;
             if (isFirstResume || isNeedPrepare) {
-                prepare = process.prepareVideo(processVideo);
+                prepare = process.prepareVideo(videoPath, null, 0, 0, 100, 0);
+                process.setVideoEffect(videoEffects);
                 isNeedPrepare = false;
             } else {
                 process.resume();
@@ -456,6 +453,7 @@ public class VideoSpeedAdjustFragment extends BaseFragment implements View.OnCli
                 refreshViewVisible(btnPlay, false, false);
             }
         } else {
+            process.setVideoEffect(videoEffects);
             process.updateEffect(0, true);
             refreshViewVisible(slideBar, false, false);
 

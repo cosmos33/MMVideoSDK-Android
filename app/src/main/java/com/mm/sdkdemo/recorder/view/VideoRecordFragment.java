@@ -1053,7 +1053,13 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             final int finalEndIndex = endIndex;
             final int finalSetIndex = setIndex;
             if (smooth) {
-                int endValue = up ? 1 : 0;
+                int endValue;
+                if (cancel) {
+                    //cancel时目标值反过来
+                    endValue = up ? 0 : 1;
+                } else {
+                    endValue = up ? 1 : 0;
+                }
                 if (filterAnim != null && filterAnim.isRunning()) {
                     filterAnim.cancel();
                 }
@@ -2518,6 +2524,20 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             }
             refreshView(true);
         }
+    }
+
+    private boolean isRecording;
+
+    @Override
+    public void onRecordStarted() {
+        MDLog.e("duanqingTest", "onRecordStarted");
+        isRecording = true;
+    }
+
+    @Override
+    public void onRecordPaused() {
+        MDLog.e("duanqingTest", "onRecordPaused");
+        isRecording = false;
     }
 
     private void stopRecording(boolean advanced) {

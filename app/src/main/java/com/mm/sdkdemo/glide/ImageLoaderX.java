@@ -36,7 +36,6 @@ public class ImageLoaderX {
 
     private boolean showCross = false; //是否显示渐显动画
     private int durationCross = 300;
-    private boolean needCoo = true;
 
     private RequestOptions requestOptions;
 
@@ -104,11 +103,6 @@ public class ImageLoaderX {
     public ImageLoaderX shoeCrossFade(int duration) {
         this.showCross = true;
         durationCross = duration;
-        return this;
-    }
-
-    public ImageLoaderX needCoo(boolean needCoo) {
-        this.needCoo = needCoo;
         return this;
     }
 

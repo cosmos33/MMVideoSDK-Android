@@ -184,6 +184,17 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     @Override
     public void stopRecording() {
         multiRecorder.pauseRecording();
+//        multiRecorder.pauseRecording(new MRecorderActions.OnRecordStoppedListener() {
+//            @Override
+//            public void onRecordStopped() {
+//                MomoMainThreadExecutor.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mView.onRecordPaused();
+//                    }
+//                });
+//            }
+//        });
     }
 
     @Override
@@ -477,6 +488,19 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     @Override
     public void startRecording() {
         multiRecorder.startRecording();
+//        multiRecorder.startRecording(new MRecorderActions.OnRecordStartListener() {
+//            @Override
+//            public void onRecordStarted(final boolean isSuccessed) {
+//                if (isSuccessed) {
+//                    MomoMainThreadExecutor.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mView.onRecordStarted();
+//                        }
+//                    });
+//                }
+//            }
+//        });
     }
 
     @Override

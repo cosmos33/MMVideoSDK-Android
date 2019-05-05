@@ -72,7 +72,6 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
      * 视频相关变量
      **/
     private Video currentVideo;
-    private MoVideo processVideo;
     private String curVideoPath;
     private boolean isAllowedCut = false;//是否允许裁剪
     private boolean isCutting = false;//是否正在裁剪
@@ -337,9 +336,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         videoSurfaceView = new SurfaceView(getActivity());
         videoLayout.addView(videoSurfaceView);
         videoSurfaceView.getHolder().addCallback(mSHCallback);
-        processVideo = new MoVideo();
-        processVideo.path = currentVideo.path;
-        processPrepred = process.prepareVideo(processVideo);
+        processPrepred = process.prepareVideo(currentVideo.path, null, 0, 0, 100, 0);
         cut_btn_play.setVisibility(View.GONE);
         isPlaying = true;
         setSurfaceViewLp();
@@ -502,7 +499,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
             process.release();
         process = null;
         final IVideoProcessor cutProcess = MoMediaManager.createVideoProcessor();
-//                final MomoProcess cutProcess = new MomoProcess();
+        //                final MomoProcess cutProcess = new MomoProcess();
         //截取视频输出路径
         String outVideoPath;
         File tempDir = Configs.getDir("cutVideo");
@@ -518,9 +515,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         if (video.avgBitrate <= 0)
             video.avgBitrate = MediaConstants.BIT_RATE_FOR_CUT_VIDEO;
         cutProcess.setOutVideoInfo(video.getWidth(), video.height, (int) video.frameRate, video.avgBitrate);
-//        cutProcess.setOutMediaVideoInfo(video.getWidth(), video.height, (int) video.frameRate, video.avgBitrate, true);
-        MoVideo moVideo = new MoVideo();
-        moVideo.path = video.path;
+        //        cutProcess.setOutMediaVideoInfo(video.getWidth(), video.height, (int) video.frameRate, video.avgBitrate, true);
         VideoEffects videoEffects = new VideoEffects();
         VideoCut videoCut = new VideoCut();
         videoCut.setMedia(video.path);
@@ -536,8 +531,6 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         List<VideoCut> videoCuts = new ArrayList<>();
         videoCuts.add(videoCut);
         videoEffects.setVideoCuts(videoCuts);
-
-        moVideo.videoEffects = videoEffects;
 
         EffectModel effectModel = new EffectModel();
         effectModel.setMediaPath(video.path);
@@ -585,8 +578,9 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
             }
         });
 
-        cutProcess.prepareVideo(moVideo);
-//        cutProcess.prepare(json);
+        cutProcess.prepareVideo(video.path, null, 0, 0, 100, 0);
+        cutProcess.setVideoEffect(videoEffects);
+        //        cutProcess.prepare(json);
         cutProcess.makeVideo(outVideoPath);
         video.path = outVideoPath;
     }
@@ -645,18 +639,15 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void startPlay(long startTime, long endTime) {
-        VideoEffects videoEffects = new VideoEffects();
         VideoCut videoCut = new VideoCut();
         videoCut.setMedia(currentVideo.path);
         videoCut.setStart((int) startTime);
         videoCut.setEnd((int) endTime);
         List<VideoCut> videoCuts = new ArrayList<>();
         videoCuts.add(videoCut);
-        videoEffects.setVideoCuts(videoCuts);
-        processVideo.videoEffects = videoEffects;
         videoRangeBar.scrollToTimestamp(startTime, true);
         if (process != null) {
-            process.updateEffect(startTime, true);
+            process.updateEffect(videoCuts, null, startTime, true);
         }
     }
 
