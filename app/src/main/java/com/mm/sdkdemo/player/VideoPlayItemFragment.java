@@ -1,6 +1,5 @@
 package com.mm.sdkdemo.player;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -56,7 +55,7 @@ public class VideoPlayItemFragment extends Fragment {
             cover = getArguments().getString(ARG_FEED_COVER);
             videoUrl = getArguments().getString(ARG_FEED_VIDEO);
             //开始预加载
-            PlayerManager.getMediaPreLoader().addTask(videoUrl, Uri.parse(videoUrl).getPath());
+            PlayerManager.getMediaPreLoader().addTask(videoUrl);
         }
     }
 

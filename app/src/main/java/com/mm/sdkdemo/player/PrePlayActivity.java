@@ -54,7 +54,7 @@ public class PrePlayActivity extends BaseFullScreenActivity {
                     return;
                 }
                 if ("http".equalsIgnoreCase(currentUri.getScheme()) || "https".equalsIgnoreCase(currentUri.getScheme())) {
-                    PlayerManager.getMediaPreLoader().addTask(url, currentUri.getPath());
+                    PlayerManager.getMediaPreLoader().addTask(url);
                 } else {
                     Toaster.show("该协议视频不支持预加载");
                 }
