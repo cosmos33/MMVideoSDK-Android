@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoApi {
+public class MoApi extends BaseApi {
     public static String getDynamicStickerList(ArrayList<DynamicSticker> list) throws Exception {
         String content = IOUtils.toString(AppContext.getContext().getAssets().open("tiezhi.txt"));
         JSONObject dataJson = new JSONObject(content).getJSONObject("data");
@@ -158,8 +158,8 @@ public class MoApi {
             "http://video.momocdn.com/feedvideo/7B/FC/7BFCB03F-7561-6CF6-518A-E41F59BCDCD020190331_h265.mp4",
     };
 
-    public static List<PlayVideo> getRandomPlayVideoList() throws Exception {
-        String jsonString = new BaseApi().getTestVideoPlay();
+    public List<PlayVideo> getRandomPlayVideoList() throws Exception {
+        String jsonString = new JSONObject(request("play", null)).optString(DATA);
         return new Gson().fromJson(jsonString, new TypeToken<List<PlayVideo>>() {
         }.getType());
     }

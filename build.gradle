@@ -18,7 +18,6 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://cosmos1602.bintray.com/mediax/' }//陌陌对外仓库
-        maven { url 'https://cosmos1602.bintray.com/cosmos/' }//陌陌对外仓库
     }
 }
 

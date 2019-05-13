@@ -6,8 +6,8 @@ android {
         applicationId "com.mm.sdkdemo"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 22
-        versionName "2.0.3_player"
+        versionCode 4001
+        versionName "2.0.1"
         multiDexEnabled true
 
         /**

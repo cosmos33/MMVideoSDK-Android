@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.mm.mediasdk.dynamicresources.DynamicResourceConstants;
-import com.mm.mediasdk.dynamicresources.DynamicResourceManager;
+import com.mm.mediasdk.dynamicresources.ModelResourceManager;
 import com.mm.mmutil.MD5Utils;
 import com.mm.mmutil.log.Log4Android;
 import com.mm.mmutil.task.ThreadUtils;
@@ -473,8 +473,8 @@ public class SelectMomentCoverActivity extends BaseFullScreenActivity implements
         }
         videoDataRetrieve.setImageFrameFilterListener(imageFrameFilterListener);
 
-        File faFilePath = DynamicResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_FA_MODEL);
-        File fdFilePath = DynamicResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_MACE_FD_MODEL);
+        File faFilePath = ModelResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_FA_MODEL);
+        File fdFilePath = ModelResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_MACE_FD_MODEL);
         List<String> modlePath = new ArrayList<>();
         if (fdFilePath != null && fdFilePath.exists() && faFilePath != null && faFilePath.exists()) {
             modlePath.add(0, fdFilePath.getAbsolutePath());

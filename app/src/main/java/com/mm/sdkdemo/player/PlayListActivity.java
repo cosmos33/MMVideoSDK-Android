@@ -64,7 +64,7 @@ public class PlayListActivity extends BaseFullScreenActivity {
         MomoTaskExecutor.executeUserTask(hashCode(), new MomoTaskExecutor.Task<Object, Object, List<PlayVideo>>() {
             @Override
             protected List<PlayVideo> executeTask(Object... objects) throws Exception {
-                return MoApi.getRandomPlayVideoList();
+                return new MoApi().getRandomPlayVideoList();
             }
 
             @Override
@@ -89,7 +89,7 @@ public class PlayListActivity extends BaseFullScreenActivity {
         MomoTaskExecutor.executeUserTask(hashCode(), new MomoTaskExecutor.Task<Object, Object, List<PlayVideo>>() {
             @Override
             protected List<PlayVideo> executeTask(Object... objects) throws Exception {
-                return MoApi.getRandomPlayVideoList();
+                return new MoApi().getRandomPlayVideoList();
             }
 
             @Override
