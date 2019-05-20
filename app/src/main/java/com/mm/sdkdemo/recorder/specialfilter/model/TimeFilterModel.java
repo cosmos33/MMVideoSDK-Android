@@ -36,7 +36,7 @@ public class TimeFilterModel extends CementModel<TimeFilterModel.ViewHolder> {
             @NonNull
             @Override
             public ViewHolder create(@NonNull View view) {
-                return new TimeFilterModel.ViewHolder(view);
+                return new ViewHolder(view);
             }
         };
     }

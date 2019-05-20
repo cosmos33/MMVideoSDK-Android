@@ -22,11 +22,11 @@ public class TakePhotoModel extends CementModel<TakePhotoModel.ViewHolder> {
     @NonNull
     @Override
     public CementAdapter.IViewHolderCreator<ViewHolder> getViewHolderCreator() {
-        return new CementAdapter.IViewHolderCreator<TakePhotoModel.ViewHolder>() {
+        return new CementAdapter.IViewHolderCreator<ViewHolder>() {
             @NonNull
             @Override
-            public TakePhotoModel.ViewHolder create(@NonNull View view) {
-                return new TakePhotoModel.ViewHolder(view);
+            public ViewHolder create(@NonNull View view) {
+                return new ViewHolder(view);
             }
         };
     }

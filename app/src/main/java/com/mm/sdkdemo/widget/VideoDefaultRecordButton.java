@@ -68,7 +68,7 @@ public class VideoDefaultRecordButton extends View implements ValueAnimator.Anim
 
     private Callback callback;
     private RecordButtonTouchEventHelper touchEventHelper;
-    private android.animation.ValueAnimator mScaleAnim;
+    private ValueAnimator mScaleAnim;
 
     public VideoDefaultRecordButton(Context context) {
         this(context, null);
@@ -286,11 +286,11 @@ public class VideoDefaultRecordButton extends View implements ValueAnimator.Anim
         final int startRGB = backColor & 0xFFFFFF;
         final int deltaA = Color.alpha(endColor) - startA;
 
-        mScaleAnim = android.animation.ValueAnimator.ofFloat(0f, 1f);
+        mScaleAnim = ValueAnimator.ofFloat(0f, 1f);
         mScaleAnim.setDuration(150);
-        mScaleAnim.addUpdateListener(new android.animation.ValueAnimator.AnimatorUpdateListener() {
+        mScaleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(android.animation.ValueAnimator animation) {
+            public void onAnimationUpdate(ValueAnimator animation) {
                 final float value = (float) animation.getAnimatedValue();
 
                 backColor = (int) (startA + deltaA * value) << 24 | startRGB;

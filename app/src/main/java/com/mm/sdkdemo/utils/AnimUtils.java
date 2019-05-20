@@ -122,7 +122,7 @@ public class AnimUtils {
             }
             float from = show ? 0f : 1f;
             float to = 1 - from;
-            Animation alpha = AnimUtils.Animations.newFadeAnimation(from, to, duration);
+            Animation alpha = Animations.newFadeAnimation(from, to, duration);
             view.clearAnimation();
             view.startAnimation(alpha);
             view.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -134,7 +134,7 @@ public class AnimUtils {
         }
 
         public static void hideToBottom(final View view, final boolean goneOrDisable, long duration) {
-            Animation anim = AnimUtils.Animations.newToBottonAnimation(duration);
+            Animation anim = Animations.newToBottonAnimation(duration);
             anim.setAnimationListener(new OnAnimationEndListener() {
                 @Override
                 public void onAnimationEnd(Animation animation) {
@@ -150,14 +150,14 @@ public class AnimUtils {
         }
 
         public static Animation showFromBottom(View v, long duration) {
-            Animation anim = AnimUtils.Animations.newFromBottonAnimation(duration);
+            Animation anim = Animations.newFromBottonAnimation(duration);
             v.setVisibility(View.VISIBLE);
             v.startAnimation(anim);
             return anim;
         }
 
         public static void hideToTop(final View view, final boolean goneOrDisable, long duration) {
-            Animation anim = AnimUtils.Animations.newToTopAnimation(duration);
+            Animation anim = Animations.newToTopAnimation(duration);
             anim.setAnimationListener(new OnAnimationEndListener() {
                 @Override
                 public void onAnimationEnd(Animation animation) {
@@ -173,7 +173,7 @@ public class AnimUtils {
         }
 
         public static void showFromTop(View v, long duration) {
-            Animation anim = AnimUtils.Animations.newFromTopAnimation(duration);
+            Animation anim = Animations.newFromTopAnimation(duration);
             v.setVisibility(View.VISIBLE);
             v.startAnimation(anim);
             v.setEnabled(true);

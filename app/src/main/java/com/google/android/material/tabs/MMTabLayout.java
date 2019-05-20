@@ -518,7 +518,7 @@ public class MMTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Add a {@link MMTabLayout.OnTabSelectedListener} that will be invoked when tab selection
+     * Add a {@link OnTabSelectedListener} that will be invoked when tab selection
      * changes.
      * <p>
      * <p>Components that add a listener should take care to remove it when finished via
@@ -533,7 +533,7 @@ public class MMTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Remove the given {@link MMTabLayout.OnTabSelectedListener} that was previously added via
+     * Remove the given {@link OnTabSelectedListener} that was previously added via
      * {@link #addOnTabSelectedListener(OnTabSelectedListener)}.
      *
      * @param listener listener to remove
@@ -543,7 +543,7 @@ public class MMTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Remove all previously added {@link MMTabLayout.OnTabSelectedListener}s.
+     * Remove all previously added {@link OnTabSelectedListener}s.
      */
     public void clearOnTabSelectedListeners() {
         mSelectedListeners.clear();
@@ -1988,10 +1988,10 @@ public class MMTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * A {@link MMTabLayout.OnTabSelectedListener} class which contains the necessary calls back
+     * A {@link OnTabSelectedListener} class which contains the necessary calls back
      * to the provided {@link ViewPager} so that the tab position is kept in sync.
      */
-    public static class ViewPagerOnTabSelectedListener implements MMTabLayout.OnTabSelectedListener {
+    public static class ViewPagerOnTabSelectedListener implements OnTabSelectedListener {
         private final ViewPager mViewPager;
 
         public ViewPagerOnTabSelectedListener(ViewPager viewPager) {
@@ -1999,17 +1999,17 @@ public class MMTabLayout extends HorizontalScrollView {
         }
 
         @Override
-        public void onTabSelected(MMTabLayout.Tab tab) {
+        public void onTabSelected(Tab tab) {
             mViewPager.setCurrentItem(tab.getPosition());
         }
 
         @Override
-        public void onTabUnselected(MMTabLayout.Tab tab) {
+        public void onTabUnselected(Tab tab) {
             // No-op
         }
 
         @Override
-        public void onTabReselected(MMTabLayout.Tab tab) {
+        public void onTabReselected(Tab tab) {
             // No-op
         }
     }

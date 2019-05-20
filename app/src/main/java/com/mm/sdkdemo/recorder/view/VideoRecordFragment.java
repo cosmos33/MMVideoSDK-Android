@@ -44,11 +44,12 @@ import android.widget.TextView;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
-import com.mm.mdlog.MDLog;
-import com.mm.mmutil.task.MomoMainThreadExecutor;
-import com.mm.mmutil.toast.Toaster;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.model.VideoFragment;
+import com.mm.mdlog.MDLog;
+import com.mm.mediasdk.utils.UIUtils;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseFragment;
 import com.mm.sdkdemo.bean.MomentFace;
@@ -77,13 +78,11 @@ import com.mm.sdkdemo.recorder.musicpanel.edit.MusicPanelHelper;
 import com.mm.sdkdemo.recorder.presenter.IRecorder;
 import com.mm.sdkdemo.recorder.presenter.RecordPresenter;
 import com.mm.sdkdemo.utils.AnimUtils;
-import com.mm.sdkdemo.utils.AnimationUtil;
 import com.mm.sdkdemo.utils.DeviceUtils;
 import com.mm.sdkdemo.utils.MomentUtils;
 import com.mm.sdkdemo.utils.NewAnimUtils;
 import com.mm.sdkdemo.utils.RecordButtonTouchEventHelper;
 import com.mm.sdkdemo.utils.ScreenOrientationManager;
-import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.utils.VideoUtils;
 import com.mm.sdkdemo.utils.XEngineEventHelper;
 import com.mm.sdkdemo.utils.album.AlbumConstant;
@@ -1513,7 +1512,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             if (mPresenter.prepare()) {
                 mPresenter.changeToFilter(mCurFilterPos, false, 0);
                 initFlashAndSwitchButton();
-//                mPresenter.startPreview();
+                mPresenter.startPreview();
                 mPresenter.initFilter(filters);
                 onBeautyTabSelect(Configs.DEFAULT_BEAUTY, MomentFilterPanelLayout.TYPE_BEAUTY);
                 onBeautyTabSelect(Configs.DEFAULT_BIG_EYE, MomentFilterPanelLayout.TYPE_EYE_AND_THIN);

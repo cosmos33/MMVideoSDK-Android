@@ -58,15 +58,15 @@ public class CoverListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_IMAGE:
-                CoverListAdapter.CoverImageView iv = new CoverListAdapter.CoverImageView(parent.getContext());
+                CoverImageView iv = new CoverImageView(parent.getContext());
                 iv.setLayoutParams(new RecyclerView.LayoutParams(itemWidth, itemHeight));
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                return new CoverListAdapter.CoverViewHolder(iv);
+                return new CoverViewHolder(iv);
             default:
                 View v = new View(parent.getContext());
                 v.setLayoutParams(new RecyclerView.LayoutParams(emptyHeaderFooterWidth, itemHeight));
 //                v.setBackgroundColor(Color.WHITE);
-                return new CoverListAdapter.EmptyViewHolder(v);
+                return new EmptyViewHolder(v);
         }
     }
 

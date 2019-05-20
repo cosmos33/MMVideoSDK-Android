@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.SurfaceHolder;
@@ -20,7 +21,6 @@ import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.log.Log4Android;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.toast.Toaster;
-import com.mm.sdkdemo.DemoApplication;
 import com.mm.sdkdemo.config.Configs;
 import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.model.MusicContent;
@@ -61,6 +61,8 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     private boolean startMusicOnce = false;
     private MusicContent playMusic = null;
+    private long lastSwitchCameraTime;
+    private static final long SWITCH_CAMERA_TIME = 1000;
 
     public RecordPresenter() {
         multiRecorder = MoMediaManager.createRecorder();
@@ -82,13 +84,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
             multiRecorder.setPreviewDisplay(holder);
             multiRecorder.setVisualSize(width, height);
             isFirstCreateSurface = false;
-            // TODO: 2019/3/9 临时解决锁屏回来黑屏问题，待媒体库修复
-            MomoMainThreadExecutor.post(new Runnable() {
-                @Override
-                public void run() {
-                    startPreview();
-                }
-            });
+            startPreview();
         }
     }
 
@@ -282,6 +278,11 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
                 }
 
             }
+
+            @Override
+            public void distortionStateChanged(boolean faceBeauty, float faceValue, float eyeValue, float skinValue, float skinWhitevalue) {
+
+            }
         });
         multiRecorder.setOnFirstFrameRenderedListener(new MRecorderActions.OnFirstFrameRenderedListener() {
             @Override
@@ -374,11 +375,11 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     private void setCameraAndCodecInfo(Size target) {
         if (target.getWidth() >= 1280) {
-            mrConfig.setVideoEncodeBitRate(8<<20);
+            mrConfig.setVideoEncodeBitRate(8 << 20);
         } else if (target.getWidth() >= 960) {
-            mrConfig.setVideoEncodeBitRate(7<<20);
+            mrConfig.setVideoEncodeBitRate(7 << 20);
         } else if (target.getWidth() >= 640) {
-            mrConfig.setVideoEncodeBitRate(6<<20);
+            mrConfig.setVideoEncodeBitRate(6 << 20);
         }
         //        mrConfig.setEncodeSize(new Size(720, 1280));
 
@@ -466,15 +467,18 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     @Override
     public void switchCamera() {
+        if (SystemClock.uptimeMillis() - lastSwitchCameraTime > SWITCH_CAMERA_TIME) {
 
-        multiRecorder.switchCamera();
-        MomoMainThreadExecutor.post(getTaskTag(), new Runnable() {
-            @Override
-            public void run() {
-                if (mView != null)
-                    mView.initFlashAndSwitchButton();
-            }
-        });
+            multiRecorder.switchCamera();
+            MomoMainThreadExecutor.post(getTaskTag(), new Runnable() {
+                @Override
+                public void run() {
+                    if (mView != null)
+                        mView.initFlashAndSwitchButton();
+                }
+            });
+            lastSwitchCameraTime = SystemClock.uptimeMillis();
+        }
     }
 
     @Override

@@ -32,18 +32,18 @@ public class DirectoryModel extends CementModel<DirectoryModel.ViewHolder> {
 
     @NonNull
     @Override
-    public CementAdapter.IViewHolderCreator<DirectoryModel.ViewHolder> getViewHolderCreator() {
-        return new CementAdapter.IViewHolderCreator<DirectoryModel.ViewHolder>() {
+    public CementAdapter.IViewHolderCreator<ViewHolder> getViewHolderCreator() {
+        return new CementAdapter.IViewHolderCreator<ViewHolder>() {
             @NonNull
             @Override
-            public DirectoryModel.ViewHolder create(@NonNull View view) {
-                return new DirectoryModel.ViewHolder(view);
+            public ViewHolder create(@NonNull View view) {
+                return new ViewHolder(view);
             }
         };
     }
 
     @Override
-    public void bindData(@NonNull DirectoryModel.ViewHolder holder) {
+    public void bindData(@NonNull ViewHolder holder) {
         super.bindData(holder);
         if (!TextUtils.isEmpty(directory)) {
             holder.view.setText(directory);

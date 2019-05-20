@@ -52,12 +52,12 @@ public class AlbumItemModel extends CementModel<AlbumItemModel.ViewHolder> {
 
     @NonNull
     @Override
-    public CementAdapter.IViewHolderCreator<AlbumItemModel.ViewHolder> getViewHolderCreator() {
-        return new CementAdapter.IViewHolderCreator<AlbumItemModel.ViewHolder>() {
+    public CementAdapter.IViewHolderCreator<ViewHolder> getViewHolderCreator() {
+        return new CementAdapter.IViewHolderCreator<ViewHolder>() {
             @NonNull
             @Override
-            public AlbumItemModel.ViewHolder create(@NonNull View view) {
-                return new AlbumItemModel.ViewHolder(view);
+            public ViewHolder create(@NonNull View view) {
+                return new ViewHolder(view);
             }
         };
     }

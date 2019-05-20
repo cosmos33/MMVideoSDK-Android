@@ -37,7 +37,7 @@ public class FrameFilterModel extends CementModel<FrameFilterModel.ViewHolder> {
             @NonNull
             @Override
             public ViewHolder create(@NonNull View view) {
-                return new FrameFilterModel.ViewHolder(view);
+                return new ViewHolder(view);
             }
         };
     }
