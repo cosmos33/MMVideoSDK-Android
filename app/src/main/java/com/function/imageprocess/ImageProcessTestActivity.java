@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.IImageProcess;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mmutil.log.Log4Android;
@@ -23,11 +23,11 @@ import com.mm.sdkdemo.utils.filter.FiltersManager;
 
 import java.io.File;
 
-import project.android.imageprocessing.FastImageProcessingView;
+import project.android.imageprocessing.FastImageGLTextureView;
 
 public class ImageProcessTestActivity extends BaseFullScreenActivity {
     private IImageProcess imageProcess;
-    private FastImageProcessingView processingView;
+    private FastImageGLTextureView processingView;
     private final String TAG = "ImageProcessTestActivity";
 
     @Override
@@ -119,7 +119,7 @@ public class ImageProcessTestActivity extends BaseFullScreenActivity {
         imageParams.setMargins(stickerMarginLeft, stickerMarginTop, 0, 0);
 
         processingView.setLayoutParams(new RelativeLayout.LayoutParams(imageParams));
-        processingView.getHolder().setFixedSize(imageWidth, imageHeight);
+//        processingView.get().setFixedSize(imageWidth, imageHeight);
     }
 
     /**

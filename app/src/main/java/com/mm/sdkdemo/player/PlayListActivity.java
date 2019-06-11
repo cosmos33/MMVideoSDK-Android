@@ -2,13 +2,10 @@ package com.mm.sdkdemo.player;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mmutil.task.MomoTaskExecutor;
-import com.mm.mmutil.toast.Toaster;
 import com.mm.player.log.LogTag;
-import com.mm.player.scale.ScalableType;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.api.MoApi;
 import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;

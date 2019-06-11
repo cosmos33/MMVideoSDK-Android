@@ -2,6 +2,7 @@ package com.mm.sdkdemo.utils;
 
 import android.view.MotionEvent;
 
+import com.core.glcore.config.MediaModuleGlobalConfig;
 import com.mm.mediasdk.utils.UIUtils;
 import com.momo.xeengine.XE3DEngine;
 import com.momo.xeengine.xnative.XEWindow;
@@ -15,6 +16,9 @@ import com.momo.xeengine.xnative.XEWindow;
 public class XEngineEventHelper {
 
     public static boolean touchHitTest(float x, float y) {
+        if (!MediaModuleGlobalConfig.hasXE()) {
+            return false;
+        }
         XEWindow window = XE3DEngine.getInstance().getWindow();
         if (window == null) {
             return false;
@@ -27,6 +31,9 @@ public class XEngineEventHelper {
     }
 
     public static void handEvent(MotionEvent event) {
+        if (!MediaModuleGlobalConfig.hasXE()) {
+            return;
+        }
         XEWindow window = XE3DEngine.getInstance().getWindow();
         if (window == null || event == null) {
             return;

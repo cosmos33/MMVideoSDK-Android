@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <include layout="@layout/toolbar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="码率(kbps)"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_bitrate_edit"
+                    style="@style/record_line_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:hint="默认为0，根据视频分辨率计算，建议设置小于15M"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:text="帧率"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_frame_rate_edit"
+                    style="@style/record_line_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:hint="[20,60],默认为20"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp"
+                    android:paddingLeft="15dp"
+                    android:text="最小时长"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_min_duration_edit"
+                    style="@style/record_line_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="最小时长大于0，默认2秒"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+
+                    android:paddingLeft="15dp"
+                    android:text="最大时长"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_max_duration_edit"
+                    style="@style/record_line_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="最大时长默认60秒"
+                    android:inputType="number" />
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="视频比列"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_video_ratio_9_16"
+                        style="@style/record_btn_style"
+                        android:text="9:16" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/bt_video_ratio_3_4"
+                            style="@style/record_btn_style"
+                            android:layout_gravity="center"
+                            android:text="3:4" />
+                    </FrameLayout>
+
+                    <Button
+                        android:id="@+id/bt_video_ratio_1_1"
+                        style="@style/record_btn_style"
+                        android:text="1:1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="分辨率"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_record_resolution_480p"
+                        style="@style/record_btn_style"
+                        android:text="480p" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/bt_record_resolution_540p"
+                            style="@style/record_btn_style"
+                            android:layout_gravity="center"
+                            android:text="540p" />
+                    </FrameLayout>
+
+                    <Button
+                        android:id="@+id/bt_record_resolution_720p"
+                        style="@style/record_btn_style"
+                        android:text="720p" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/bt_record_resolution_1080p"
+                    style="@style/record_btn_style"
+                    android:layout_marginTop="10dp"
+                    android:text="1080p" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="美颜版本"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_beauty_version1"
+                        style="@style/record_btn_style"
+                        android:text="V1" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:id="@+id/bt_beauty_version2"
+                            style="@style/record_btn_style"
+                            android:layout_gravity="center"
+                            android:text="V2" />
+                    </FrameLayout>
+
+                    <Button
+                        android:id="@+id/bt_beauty_version3"
+                        style="@style/record_btn_style"
+                        android:text="V3" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/bt_start_record"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#00ffff"
+            android:text="进入拍摄"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </android.support.design.widget.AppBarLayout>
+</LinearLayout>

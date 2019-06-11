@@ -178,7 +178,7 @@ public class StickerManager {
     }
 
     public static void cleanStickerHomeDir() {
-        FileUtil.deleteDir(getDynamicStickerHomeDir());
+        com.mm.mmutil.FileUtil.deleteDir(getDynamicStickerHomeDir());
     }
 
     /**

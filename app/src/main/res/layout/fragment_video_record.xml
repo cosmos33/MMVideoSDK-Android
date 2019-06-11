@@ -30,7 +30,6 @@
         app:smvp_scroll_more_listener="直播来设置这个listener类名" />
 
     <TextView
-        android:textStyle="bold"
         android:id="@+id/filter_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,6 +39,7 @@
         android:shadowRadius="10"
         android:textColor="@color/white"
         android:textSize="32sp"
+        android:textStyle="bold"
         android:visibility="invisible"
         tools:text="美白滤镜"
         tools:visibility="visible" />
@@ -169,43 +169,6 @@
             android:textSize="11sp" />
 
         <TextView
-            android:id="@+id/video_face_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="20dp"
-            android:drawableTop="@drawable/ic_moment_change_face"
-            android:gravity="center"
-            android:shadowColor="@color/translucent_color"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="2"
-            android:text="变脸"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/music_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:drawableTop="@drawable/moment_record_music_drawable"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:shadowColor="@color/translucent_color"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="2"
-            android:singleLine="true"
-            android:text="配乐"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
-
-        <TextView
             android:id="@+id/tv_filter_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -237,6 +200,26 @@
             android:textColor="@color/white"
             android:textSize="11sp" />
 
+        <TextView
+            android:id="@+id/music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@drawable/moment_record_music_drawable"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:shadowColor="@color/translucent_color"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="2"
+            android:singleLine="true"
+            android:text="配乐"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/speed"
@@ -296,6 +279,16 @@
             android:textSize="18sp"
             android:visibility="gone"
             tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/video_advanced_btn_delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="165dp"
+            android:src="@drawable/moment_record_delete_drawable"
+            android:visibility="gone"
+            tools:visibility="visible" />
         <!--高级拍摄按钮 tip-->
 
         <FrameLayout
@@ -306,15 +299,22 @@
             android:layout_marginBottom="53dp"
             android:clipChildren="false">
 
-            <ImageView
-                android:id="@+id/video_advanced_btn_delete"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+            <TextView
+                android:id="@+id/video_face_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|left"
                 android:layout_marginLeft="55dp"
-                android:src="@drawable/moment_record_delete_drawable"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:drawableTop="@drawable/ic_moment_change_face"
+                android:gravity="center"
+                android:shadowColor="@color/translucent_color"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="2"
+                android:text="特效"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+
 
             <com.mm.sdkdemo.widget.OrientationTextView
                 android:id="@+id/video_advanced_btn_goto_edit"
@@ -325,6 +325,7 @@
                 android:background="@drawable/ic_video_reocrd_right"
                 android:visibility="gone"
                 tools:visibility="visible" />
+
 
             <com.mm.sdkdemo.widget.VideoRecordControllerLayout
                 android:id="@+id/video_record_btn_layout"

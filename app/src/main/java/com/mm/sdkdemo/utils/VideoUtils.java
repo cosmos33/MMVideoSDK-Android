@@ -26,7 +26,7 @@ public class VideoUtils {
         final int maxPx = maxSize[0] * maxSize[1];
         final int min = Math.min(video.getWidth(), video.height);
         final long px = video.getWidth() * video.height;
-        return min > maxSize[0] && px > maxPx;
+        return min > maxSize[0] || px > maxPx;
     }
 
     public static final int[] getMaxVideoSize() {

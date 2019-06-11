@@ -1,5 +1,7 @@
 package com.mm.sdkdemo.recorder.musicpanel.edit;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,17 +12,19 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
+import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.mmutil.task.ThreadUtils;
-import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.api.MoApi;
 import com.mm.sdkdemo.base.cement.CementModel;
 import com.mm.sdkdemo.base.cement.SimpleCementAdapter;
 import com.mm.sdkdemo.base.cement.eventhook.OnClickEventHook;
+import com.mm.sdkdemo.local_music_picker.view.MusicPickerActivity;
 import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.model.MusicContent;
+import com.mm.sdkdemo.recorder.musicpanel.edit.model.ChoseLocalMusicModel;
 import com.mm.sdkdemo.recorder.musicpanel.edit.model.ClearMusicModel;
 import com.mm.sdkdemo.recorder.musicpanel.edit.model.EditMusicModel;
 import com.mm.sdkdemo.recorder.musicpanel.widget.VolumeSeekBar;
@@ -46,10 +50,26 @@ public class VolFragment extends BaseEditMusicFragment {
     private int valume;
     private ClearMusicModel clearMusicModel;
     private boolean canSeekVol;
+    private final int requestChoseLocalMusicCode = 222;
+    private ChoseLocalMusicModel mChoseLocalMusicModel;
+
 
     @Override
     protected int getLayout() {
         return R.layout.fragment_video_edit_music_vol;
+    }
+
+    @Override
+    protected void onActivityResultReceived(int requestCode, int resultCode, Intent data) {
+        super.onActivityResultReceived(requestCode, resultCode, data);
+        if (this.requestChoseLocalMusicCode == requestCode && resultCode == Activity.RESULT_OK && data != null) {
+            MusicContent choose = data.getParcelableExtra(MusicPickerActivity.KEY_MUSIC_EXTRA);
+            if (choose != null && !TextUtils.isEmpty(choose.path)) {
+                EditMusicModel editMusicModel = new EditMusicModel(choose);
+                cementAdapter.insertModelBefore(editMusicModel,mChoseLocalMusicModel);
+                handleSelectMusic(editMusicModel);
+            }
+        }
     }
 
     @Override
@@ -116,6 +136,18 @@ public class VolFragment extends BaseEditMusicFragment {
             @Nullable
             @Override
             public View onBind(@NonNull EditMusicModel.ViewHolder viewHolder) {
+                return viewHolder.itemView;
+            }
+        });
+        cementAdapter.addEventHook(new OnClickEventHook<ChoseLocalMusicModel.ViewHolder>(ChoseLocalMusicModel.ViewHolder.class) {
+            @Override
+            public void onClick(@NonNull View view, @NonNull ChoseLocalMusicModel.ViewHolder viewHolder, int position, @NonNull CementModel rawModel) {
+                MusicPickerActivity.startPickMusic(VolFragment.this, requestChoseLocalMusicCode);
+            }
+
+            @Nullable
+            @Override
+            public View onBind(@NonNull ChoseLocalMusicModel.ViewHolder viewHolder) {
                 return viewHolder.itemView;
             }
         });
@@ -261,6 +293,8 @@ public class VolFragment extends BaseEditMusicFragment {
                 models.add(editMusicModel);
             }
             cementAdapter.addModels(models);
+            mChoseLocalMusicModel = new ChoseLocalMusicModel();
+            cementAdapter.addFooter(mChoseLocalMusicModel);
             refreshMusicTitle();
         }
 

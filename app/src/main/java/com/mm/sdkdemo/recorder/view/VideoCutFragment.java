@@ -17,20 +17,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mm.mdlog.MDLog;
-import com.mm.mmutil.log.Log4Android;
-import com.mm.mmutil.task.MomoTaskExecutor;
-import com.mm.mmutil.toast.Toaster;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
-import com.immomo.moment.mediautils.cmds.AudioEffects;
-import com.immomo.moment.mediautils.cmds.EffectModel;
 import com.immomo.moment.mediautils.cmds.VideoCut;
 import com.immomo.moment.mediautils.cmds.VideoEffects;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.IVideoProcessor;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mediasdk.videoprocess.MoVideo;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.task.MomoTaskExecutor;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseFragment;
 import com.mm.sdkdemo.bean.VideoRecordDefs;
@@ -97,8 +95,9 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
     /**
      * 抽帧相关变量
      */
-    VideoDataRetrieverBySoft videoDataRetrieve = new VideoDataRetrieverBySoft();
-    List<VideoDataRetrieverBySoft.Node> videoNodes = new ArrayList<>();
+    private VideoDataRetrieverBySoft videoDataRetrieve = new VideoDataRetrieverBySoft();
+    private List<VideoDataRetrieverBySoft.Node> videoNodes = new ArrayList<>();
+    private List<Bitmap> mTempBitmap = new ArrayList<>();
 
     long curPosMs = 0l;
     long startPosMs = 0l;
@@ -212,6 +211,15 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         VideoUtils.deleteTempFile(curVideoPath);
         videoNodes = null;
         fragmentChangeListener = null;
+        if (videoDataRetrieve != null) {
+            videoDataRetrieve.release();
+        }
+        for (Bitmap tempBitmap : mTempBitmap) {
+            if (tempBitmap != null && !tempBitmap.isRecycled()) {
+                tempBitmap.recycle();
+            }
+        }
+        mTempBitmap.clear();
     }
 
     private void initProcess() {
@@ -390,7 +398,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         videoRangeBar.setTotalVideoDurationInMs(currentVideo.length, (int) frames, step);
 
         for (int i = 0; i < frames; i++) {
-            VideoDataRetrieverBySoft.Node node = new VideoDataRetrieverBySoft.Node(i * 1000 * step, 0);//注意此处的参数是微秒
+            VideoDataRetrieverBySoft.Node node = new VideoDataRetrieverBySoft.Node(i * 1000 * step, 0, (int) (currentVideo.getWidth() * 1.0 / currentVideo.getHeight() * THUMBNAIL_HEIGHT), THUMBNAIL_HEIGHT);//注意此处的参数是微秒
             videoNodes.add(node);
         }
         VideoThumbnailTask videoThumbnailTask = new VideoThumbnailTask();
@@ -408,7 +416,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
 
     private void onPlayingScroll(long curPos) {
         curPosMs = curPos;
-        Log4Android.getInstance().i("tang------onPlaying " + (curPos));
+//        Log4Android.getInstance().i("tang------onPlaying " + (curPos));
         if (Looper.getMainLooper() == Looper.myLooper()) {
             videoRangeBar.scrollToTimestamp(curPosMs, true);
         } else {
@@ -516,7 +524,6 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
             video.avgBitrate = MediaConstants.BIT_RATE_FOR_CUT_VIDEO;
         cutProcess.setOutVideoInfo(video.getWidth(), video.height, (int) video.frameRate, video.avgBitrate);
         //        cutProcess.setOutMediaVideoInfo(video.getWidth(), video.height, (int) video.frameRate, video.avgBitrate, true);
-        VideoEffects videoEffects = new VideoEffects();
         VideoCut videoCut = new VideoCut();
         videoCut.setMedia(video.path);
 
@@ -530,15 +537,7 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
         videoCut.setEnd((int) rangeEndTime);
         List<VideoCut> videoCuts = new ArrayList<>();
         videoCuts.add(videoCut);
-        videoEffects.setVideoCuts(videoCuts);
 
-        EffectModel effectModel = new EffectModel();
-        effectModel.setMediaPath(video.path);
-        effectModel.setVideoEffects(videoEffects);
-        effectModel.setAudioEffects(new AudioEffects());
-
-        String json = EffectModel.toEffectCmd(effectModel);
-        Log4Android.getInstance().i(" cut video json:" + json);
 
         //设置process压缩回调
         cutProcess.setOnStatusListener(new MRecorderActions.OnProcessProgressListener() {
@@ -577,10 +576,15 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
 
             }
         });
+        MoVideo moVideo = new MoVideo();
+        moVideo.path = video.path;
+        moVideo.osPercent = 100;
 
-        cutProcess.prepareVideo(video.path, null, 0, 0, 100, 0);
-        cutProcess.setVideoEffect(videoEffects);
-        //        cutProcess.prepare(json);
+        VideoEffects videoEffects1 = new VideoEffects();
+        videoEffects1.setVideoCuts(videoCuts);
+        moVideo.videoEffects = videoEffects1;
+        cutProcess.prepareVideo(moVideo);
+
         cutProcess.makeVideo(outVideoPath);
         video.path = outVideoPath;
     }
@@ -785,14 +789,18 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
             try {
 
                 for (VideoDataRetrieverBySoft.Node node : nodes) {
-                    float sampleSize = node.bmp.getHeight() / THUMBNAIL_HEIGHT;
-                    int newW = (int) (node.bmp.getWidth() / sampleSize);
-                    int newH = THUMBNAIL_HEIGHT;
-                    node.bmp = Bitmap.createScaledBitmap(node.bmp, newW, newH, true);
+//                    float sampleSize = node.bmp.getHeight() / THUMBNAIL_HEIGHT;
+//                    int newW = (int) (node.bmp.getWidth() / sampleSize);
+//                    int newH = THUMBNAIL_HEIGHT;
+//                    node.bmp = Bitmap.createScaledBitmap(node.bmp, newW, newH, true);
                     if (currentVideo.rotate != 0) {
                         Matrix matrix = new Matrix();
                         matrix.setRotate(currentVideo.rotate);
-                        node.bmp = Bitmap.createBitmap(node.bmp, 0, 0, newW, newH, matrix, true);
+                        Bitmap bmp = node.bmp;
+                        node.bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+                        if (!bmp.isRecycled()) {
+                            bmp.recycle();
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -801,7 +809,9 @@ public class VideoCutFragment extends BaseFragment implements View.OnClickListen
 
             Bitmap[] bitmaps = new Bitmap[nodes.size()];
             for (int i = 0, l = nodes.size(); i < l; i++) {
-                bitmaps[i] = nodes.get(i).bmp;
+                Bitmap bmp = nodes.get(i).bmp;
+                bitmaps[i] = bmp;
+                mTempBitmap.add(bmp);
             }
             Message msg = Message.obtain();
             msg.what = ACTION_UPDATE_RANGEBAR;

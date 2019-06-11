@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -28,20 +29,22 @@ import android.widget.TextView;
 import com.mm.mediasdk.IImageProcess;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.utils.ImageUtil;
+import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.StringUtils;
 import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.log.Log4Android;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.toast.Toaster;
-import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseFragment;
 import com.mm.sdkdemo.bean.MomentSticker;
 import com.mm.sdkdemo.config.Configs;
 import com.mm.sdkdemo.glide.ImageLoaderX;
+import com.mm.sdkdemo.imagecrop.ImageCropActivity;
 import com.mm.sdkdemo.recorder.MediaConstants;
 import com.mm.sdkdemo.recorder.helper.VideoPanelFaceAndSkinManager;
 import com.mm.sdkdemo.recorder.listener.FilterSelectListener;
+import com.mm.sdkdemo.recorder.listener.OnFilterDensityChangeListener;
 import com.mm.sdkdemo.recorder.model.Photo;
 import com.mm.sdkdemo.utils.AnimUtils;
 import com.mm.sdkdemo.utils.album.AlbumConstant;
@@ -61,7 +64,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import project.android.imageprocessing.FastImageProcessingView;
+import project.android.imageprocessing.FastImageGLTextureView;
 
 /**
  * Created by huang.liangjie on 2017/6/22.
@@ -93,7 +96,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
     private String originPath;
     private String finishText;
 
-    private FastImageProcessingView fastImage;
+    private FastImageGLTextureView fastImage;
     private StickerContainerView stickerContainer;
     private ImageView addDrawBgImage;
     private ImageView closeBtn;
@@ -129,6 +132,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
     private IImageProcess imageProcess;
     private float bodyWrapWidth = 0f;
     private float bodyWrapLegWidth = 0f;
+    private static final int sCropImageRequestCode = 991;
 
     private final Runnable hideFilterNameRunnable = new Runnable() {
         @Override
@@ -138,6 +142,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
             }
         }
     };
+    private TextView mTvCropImage;
 
     @Override
     protected int getLayout() {
@@ -147,6 +152,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
     @Override
     protected void initViews(View contentView) {
         initArguments();
+        loadMediaInfo();
         initImageParam();
         initView();
         initLayoutParam();
@@ -179,7 +185,6 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
      * 根据图片尺寸计算编辑边界
      */
     private void initImageParam() {
-        loadMediaInfo();
         int width = image.width;
         int height = image.height;
         int bgWidth = UIUtils.getScreenWidth();
@@ -251,10 +256,10 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
 
     private void initView() {
         fastImage = findViewById(R.id.media_cover_image);
-        if (image != null && image.width > 0 && image.height > 0
+        /*if (image != null && image.width > 0 && image.height > 0
                 && fastImage != null && fastImage.getHolder() != null) {
-            fastImage.getHolder().setFixedSize(image.width, image.height);
-        }
+            fastImage.getHolder().setFixedSize(stickerWidth, stickerHeight);
+        }*/
         allStickerContainer = findViewById(R.id.media_edit_all_sticker_container);
         stickerContainer = findViewById(R.id.media_edit_sticker_container);
         addDrawBgImage = findViewById(R.id.media_edit_draw_bg);
@@ -270,6 +275,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
         editPaintTv = findViewById(R.id.media_edit_paint_tv);
         editSlimmingTv = findViewById(R.id.media_edit_slimming_tv);
         filterTv = findViewById(R.id.filter_name_tv);
+        mTvCropImage = findViewById(R.id.tv_crop_image);
 
         stickerContainer.deleteBtn = deleteStickerIV;
 
@@ -297,6 +303,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
         editSlimmingTv.setOnClickListener(this);
         closeBtn.setOnClickListener(this);
         sendBtn.setOnClickListener(this);
+        mTvCropImage.setOnClickListener(this);
         stickerContainer.stickerEditListener = new StickerContainerView.StickerEditListener() {
             boolean isEditing = false;
             long touchTime = 0;
@@ -401,6 +408,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
     }
 
     private boolean isClicking = false;
+
     @Override
     public void onClick(View v) {
         if (isClicking) {
@@ -437,6 +445,12 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
             case R.id.media_edit_slimming_tv:  // 美颜
                 showFilterPanel(MomentFilterPanelTabLayout.ON_CLICK_FACE);
                 break;
+            case R.id.tv_crop_image: {
+                File targetFile = new File(Configs.getDir("ProcessImage"), System.currentTimeMillis() + ".jpg");
+                if (!TextUtils.isEmpty(originPath)) {
+                    ImageCropActivity.startImageCrop(this, originPath, targetFile.toString(), sCropImageRequestCode);
+                }
+            }
             default:
                 break;
         }
@@ -451,7 +465,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
     private void showFilterPanel(@MomentFilterPanelTabLayout.TabSelectedPosition final int tabPanelPosition) {
         initFilterPanel();
         filterPanel.switchTabPanel(tabPanelPosition, filters, mCurrentFilterSelectPosition, mCurrentBeautySelectPosition,
-                                   mCurrentBigEyeSelectPosition, mCurrentSlimmingSelectPosition, mCurrentLongLegsSelectPosition);
+                mCurrentBigEyeSelectPosition, mCurrentSlimmingSelectPosition, mCurrentLongLegsSelectPosition);
 
         if (filterPanel.getVisibility() != View.VISIBLE) {
             AnimUtils.Default.showFromBottom(filterPanel, 400);
@@ -466,6 +480,12 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
             filterPanel = (MomentFilterPanelLayout) filterStub.inflate();
+            filterPanel.setFilterDensityChangeListener(new OnFilterDensityChangeListener() {
+                @Override
+                public void onFilterDensityChange(int density) {
+                    imageProcess.setFilterIntensity(density / 100.0f);
+                }
+            });
             filterPanel.setFilterSelectListener(new FilterSelectListener() {
                 @Override
                 public void onFilterTabSelect(int selectPosition) {
@@ -563,6 +583,9 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
+        if (imageProcess != null) {
+            imageProcess.onResume();
+        }
     }
 
     @Override
@@ -704,9 +727,9 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                             fastImage.getGlobalVisibleRect(viewRect);
                             stickerContainer.showRect = viewRect;
                             StickerView textSticker = stickerContainer.addSticker(textBitmap, text,
-                                                                                  checkedIndex,
-                                                                                  getTextStickerXPos(textBitmap),
-                                                                                  TextPosY);
+                                    checkedIndex,
+                                    getTextStickerXPos(textBitmap),
+                                    TextPosY);
                             recordTextSticker(textSticker);
                         }
                     }
@@ -942,10 +965,10 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
         Bitmap blendBitmap = null;
         if (allStickerContainer != null && stickerContainer != null) {
             blendBitmap = ImageUtil.createBitmapByView(allStickerContainer,
-                                                       stickerWidth,
-                                                       stickerHeight,
-                                                       stickerMarginLeft,
-                                                       stickerMarginTop);
+                    stickerWidth,
+                    stickerHeight,
+                    stickerMarginLeft,
+                    stickerMarginTop);
         }
 
         imageProcess.startImageProcess(blendBitmap, masicBitmap, stickerWidth, stickerHeight);
@@ -1001,6 +1024,25 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                 }
             } catch (Exception ex) {
                 Log4Android.getInstance().e(ex);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResultReceived(int requestCode, int resultCode, Intent data) {
+        super.onActivityResultReceived(requestCode, resultCode, data);
+
+        if (requestCode == sCropImageRequestCode && resultCode == RESULT_OK && data != null) {
+            String cropImagePath = data.getStringExtra(ImageCropActivity.TargetImagePathKey);
+            if (!TextUtils.isEmpty(cropImagePath) && new File(cropImagePath).exists()) {
+                originPath = cropImagePath;
+                Bitmap previewBitmap = BitmapFactory.decodeFile(originPath);
+                image.width = previewBitmap.getWidth();
+                image.height = previewBitmap.getHeight();
+                initImageParam();
+//                initView();
+                initLayoutParam();
+                imageProcess.updateSourceImage(previewBitmap);
             }
         }
     }

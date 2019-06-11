@@ -275,7 +275,7 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
         changeTabSelected(index);
     }
 
-    private int lastTabPos;
+    protected int lastTabPos;
 
     private void changeTabSelected(int tabPosition) {
         tabLayout.setSelectTab(tabPosition);
@@ -290,7 +290,7 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     private int dayanPercent;
     private int shoulianPercent;
 
-    private void handleMoreClick() {
+    protected void handleMoreClick() {
         if (lastTabPos != MomentFilterPanelTabLayout.ON_CLICK_SKIN && lastTabPos != MomentFilterPanelTabLayout.ON_CLICK_FACE) {
             tabMoreContainer.setVisibility(View.GONE);
             return;

@@ -7,7 +7,7 @@
     android:background="@android:color/black"
     android:orientation="vertical">
 
-    <project.android.imageprocessing.FastImageProcessingView
+    <project.android.imageprocessing.FastImageGLTextureView
         android:id="@+id/media_cover_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -165,6 +165,13 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_moment_edit_paint"
             android:text="@string/moment_edit_paint" />
+        <TextView
+            android:id="@+id/tv_crop_image"
+            style="@style/media_function_text_new"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_moment_edit_crop"
+            android:text="@string/moment_edit_crop" />
     </LinearLayout>
 
     <ImageView

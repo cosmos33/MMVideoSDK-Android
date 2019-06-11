@@ -1,6 +1,7 @@
 package com.mm.sdkdemo.widget;
 
 import android.content.Context;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +13,13 @@ import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.cement.CementModel;
 import com.mm.sdkdemo.base.cement.CementViewHolder;
 import com.mm.sdkdemo.base.cement.SimpleCementAdapter;
+import com.mm.sdkdemo.recorder.listener.OnFilterDensityChangeListener;
 import com.mm.sdkdemo.recorder.model.MomentFilterItemModel;
 import com.mm.sdkdemo.widget.decoration.LinearPaddingItemDecoration;
 import com.mm.sdkdemo.widget.recyclerview.layoutmanager.LinearLayoutManagerWithSmoothScroller;
+import com.mm.sdkdemo.widget.seekbar.OnSeekChangeListener;
+import com.mm.sdkdemo.widget.seekbar.SeekParams;
+import com.mm.sdkdemo.widget.seekbar.TickSeekBar;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 
 import java.util.ArrayList;
@@ -36,6 +41,9 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
     private List mPresetModels = new ArrayList();
 
     private int filterSelectPos = 0;
+    private View mLlFilterDensity;
+    private TickSeekBar mFilterDensitySeekbar;
+    private OnFilterDensityChangeListener mFilterDensityChangeListener;
 
     public MomentFilterPanelLayout(Context context) {
         super(context);
@@ -58,7 +66,7 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
     private void initFilterPanel() {
         panelFilterRecView = this.findViewById(R.id.filter_drawer_main_panel);
         panelFilterRecView.setLayoutManager(new LinearLayoutManagerWithSmoothScroller
-                                                    (this.context, LinearLayoutManager.HORIZONTAL, false));
+                (this.context, LinearLayoutManager.HORIZONTAL, false));
         panelFilterRecView.setHasFixedSize(true);
         panelFilterAdapter = new SimpleCementAdapter();
         panelFilterRecView.setItemAnimator(null);
@@ -72,6 +80,33 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
 
         panelFilterRecView.addItemDecoration(new LinearPaddingItemDecoration(UIUtils.getPixels(0), UIUtils.getPixels(0), UIUtils.getPixels(15)));
         panelFilterRecView.setAdapter(panelFilterAdapter);
+
+        mLlFilterDensity = findViewById(R.id.ll_filter_density);
+        mFilterDensitySeekbar = mLlFilterDensity.findViewById(R.id.sb_filter_density_seekbar);
+        mFilterDensitySeekbar.setOnSeekChangeListener(new OnSeekChangeListener() {
+            @Override
+            public void onSeeking(SeekParams seekParams) {
+                if (mFilterDensityChangeListener != null) {
+                    mFilterDensityChangeListener.onFilterDensityChange((int) seekParams.progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(TickSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(TickSeekBar seekBar) {
+
+            }
+        });
+    }
+
+    public void changeFilterDensityProgress(@IntRange(from = 0, to = 100) int progress) {
+        if (mFilterDensitySeekbar != null) {
+            mFilterDensitySeekbar.setProgress(progress);
+        }
     }
 
     @Override
@@ -79,6 +114,26 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
         super.selectFilter();
         if (panelFilterRecView != null && panelFilterRecView.getVisibility() == GONE) {
             panelFilterRecView.setVisibility(VISIBLE);
+        }
+        if (mLlFilterDensity != null && mLlFilterDensity.getVisibility() != GONE) {
+            mLlFilterDensity.setVisibility(GONE);
+        }
+    }
+
+    @Override
+    protected void handleMoreClick() {
+        super.handleMoreClick();
+        if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_FILTER) {
+            if (panelFilterRecView.getVisibility() == VISIBLE) {
+                panelFilterRecView.setVisibility(GONE);
+                mLlFilterDensity.setVisibility(VISIBLE);
+
+            } else {
+                panelFilterRecView.setVisibility(VISIBLE);
+                mLlFilterDensity.setVisibility(GONE);
+            }
+        } else {
+            mLlFilterDensity.setVisibility(GONE);
         }
     }
 
@@ -88,10 +143,17 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
         if (panelFilterRecView != null && panelFilterRecView.getVisibility() == VISIBLE) {
             panelFilterRecView.setVisibility(GONE);
         }
+        if (mLlFilterDensity != null && mLlFilterDensity.getVisibility() == VISIBLE) {
+            mLlFilterDensity.setVisibility(GONE);
+        }
+
     }
 
     //外层最终实现滤镜效果
     protected void handleFilterSelect(int position) {
+        if (filterSelectPos != position) {
+            mFilterDensitySeekbar.setProgress(100);
+        }
         filterSelectPos = position;
         if (selectListener != null) {
             selectListener.onFilterTabSelect(position);
@@ -163,5 +225,13 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
 
     public int getFilterPos() {
         return filterSelectPos;
+    }
+
+    public OnFilterDensityChangeListener getFilterDensityChangeListener() {
+        return mFilterDensityChangeListener;
+    }
+
+    public void setFilterDensityChangeListener(OnFilterDensityChangeListener filterDensityChangeListener) {
+        this.mFilterDensityChangeListener = filterDensityChangeListener;
     }
 }

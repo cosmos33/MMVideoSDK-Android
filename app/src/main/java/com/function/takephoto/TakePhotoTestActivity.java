@@ -9,11 +9,10 @@ import android.view.View;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
+import com.immomo.moment.config.MRecorderActions;
 import com.mm.mediasdk.IMultiRecorder;
 import com.mm.mediasdk.MoMediaManager;
-import com.immomo.moment.config.MRecorderActions;
-import com.mm.sdkdemo.DemoApplication;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;

@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.player.ICosPlayer;

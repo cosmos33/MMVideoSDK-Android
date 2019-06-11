@@ -6,6 +6,7 @@
 
 
     <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
     <color name="bg_speed_select">#0093ff</color>
 
 
@@ -63,5 +64,7 @@
     <color name="filter_mirror_image">#F2FCEE7D</color>
     <color name="filter_rainwindow">#F2F26499</color>
 
+    <color name="background_normal">#ffffff</color>
+    <color name="background_normal_press">#e9e8eb</color>
 
 </resources>

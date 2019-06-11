@@ -7,6 +7,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 
+import com.mm.mediasdk.bean.MMRecorderParams;
 import com.mm.sdkdemo.recorder.MediaConstants;
 import com.mm.sdkdemo.recorder.model.MusicContent;
 import com.mm.sdkdemo.recorder.model.Video;
@@ -46,6 +47,14 @@ public class VideoInfoTransBean implements Parcelable {
     public static final int SHOW_TAB_DEFAULT_RECORD = 0x0002;   // 显示普通拍摄tab
     public static final int SHOW_TAB_ADVANCE_RECORD = 0x0004;   // 显示高级拍摄tab
     public static final int SHOW_TAB_MASK = SHOW_TAB_ALBUM | SHOW_TAB_DEFAULT_RECORD | SHOW_TAB_ADVANCE_RECORD;
+
+    public MMRecorderParams getRecorderParams() {
+        return recorderParams;
+    }
+
+    public void setRecorderParams(MMRecorderParams recorderParams) {
+        this.recorderParams = recorderParams;
+    }
 
     @IntDef({STATE_CHOOSE_MEDIA, STATE_DEFAULT_RECORD, STATE_ADVANCED_RECORD})
     @Retention(RetentionPolicy.SOURCE)
@@ -257,6 +266,7 @@ public class VideoInfoTransBean implements Parcelable {
 
     public String logKey;
 
+    private MMRecorderParams recorderParams;
 
     public boolean isShowCamera() {
         return !MomentUtils.isOnlyAlbum(this) && this.showCamera;
@@ -319,6 +329,7 @@ public class VideoInfoTransBean implements Parcelable {
         dest.writeInt(this.showAlbumTabs);
         dest.writeInt(this.initAlbumIndex);
         dest.writeString(this.logKey);
+        dest.writeParcelable(recorderParams, flags);
     }
 
     protected VideoInfoTransBean(Parcel in) {
@@ -365,6 +376,7 @@ public class VideoInfoTransBean implements Parcelable {
         this.showAlbumTabs = in.readInt();
         this.initAlbumIndex = in.readInt();
         this.logKey = in.readString();
+        this.recorderParams = in.readParcelable(MMRecorderParams.class.getClassLoader());
     }
 
     public static final Creator<VideoInfoTransBean> CREATOR = new Creator<VideoInfoTransBean>() {

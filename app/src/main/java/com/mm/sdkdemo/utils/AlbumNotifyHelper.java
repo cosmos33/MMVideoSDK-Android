@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mmutil.FileUtil;
 import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.task.MomoTaskExecutor;

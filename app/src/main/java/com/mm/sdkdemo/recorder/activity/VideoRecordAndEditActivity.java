@@ -9,7 +9,7 @@ import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;

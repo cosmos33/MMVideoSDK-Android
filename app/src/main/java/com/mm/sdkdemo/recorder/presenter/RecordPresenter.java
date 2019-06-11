@@ -5,17 +5,22 @@ import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.core.glcore.camera.ICamera;
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
 import com.immomo.moment.config.MRecorderActions;
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.IMultiRecorder;
 import com.mm.mediasdk.MoMediaManager;
+import com.mm.mediasdk.RecorderConstants;
+import com.mm.mediasdk.bean.MMRecorderParams;
+import com.mm.mediasdk.bean.MRSDKConfig;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.log.Log4Android;
@@ -24,12 +29,13 @@ import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.config.Configs;
 import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.model.MusicContent;
+import com.mm.sdkdemo.recorder.view.CameraZoomChecker;
 import com.mm.sdkdemo.recorder.view.IMomoRecordView;
 import com.mm.sdkdemo.recorder.view.IRecordView;
-import com.mm.sdkdemo.recorder.view.VideoRecordFragment;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.mask.MaskModel;
 import com.momo.mcamera.mask.StickerBlendFilter;
+import com.momo.mcamera.mask.VersionType;
 import com.momo.xeengine.XE3DEngine;
 
 import java.io.File;
@@ -41,6 +47,7 @@ import java.util.List;
  */
 public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomoRecorder {
 
+    private MMRecorderParams mRecorderParams;
     //    protected MultiRecorder mRecorder;
     protected IMultiRecorder multiRecorder;
     protected Activity activity;
@@ -64,8 +71,13 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     private long lastSwitchCameraTime;
     private static final long SWITCH_CAMERA_TIME = 1000;
 
-    public RecordPresenter() {
+    private final CameraZoomChecker mCameraZoomChecker;
+
+    public RecordPresenter(MMRecorderParams recorderParams) {
+        this.mRecorderParams = recorderParams;
+        mRecorderParams = (mRecorderParams == null) ? new MMRecorderParams.Builder().build() : mRecorderParams;
         multiRecorder = MoMediaManager.createRecorder();
+        mCameraZoomChecker = new CameraZoomChecker(this);
     }
 
     @Override
@@ -112,7 +124,22 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         getMRConfig();
         //        mRecorder.setFaceBeautiful(0);
         //        mRecorder.setUseCameraVersion2(true);
-        return multiRecorder.prepare(activity, mrConfig);
+        MRSDKConfig.Build build = new MRSDKConfig.Build(mrConfig);
+        switch (mRecorderParams.getBeautyFaceVersion()) {
+            case RecorderConstants.BeautyFaceVersion.V2: {
+                build.setBeautyFaceVersion(VersionType.CXSkinVersion.VersionType2);
+                break;
+            }
+            case RecorderConstants.BeautyFaceVersion.V3: {
+                build.setBeautyFaceVersion(VersionType.CXSkinVersion.VersionType3);
+                break;
+            }
+            default: {
+                build.setBeautyFaceVersion(VersionType.CXSkinVersion.VersionType1);
+                break;
+            }
+        }
+        return multiRecorder.prepare(activity, build.build());
         //        multiRecorder.setUseCameraVersion2(true);
     }
 
@@ -348,29 +375,69 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
             //支持前置摄像头，且上次使用的是前置摄像头，才使用前置  1前置，0后置
             mrConfig = MRConfig.obtain();
             // view预览分辨率
-            mrConfig.setVisualSize(new Size(mScreenWidth, mScreenHeight));
-            mrConfig.setDefaultCamera(VideoRecordFragment.cameraType);
+
+            mrConfig.setVisualSize(getVisualSize());
+            mrConfig.setDefaultCamera(mRecorderParams.getCameraType());
             mrConfig.setUseDefaultEncodeSize(true);
             mrConfig.setAudioChannels(1);
             mrConfig.setEncoderGopMode(1);
-            mrConfig.setVideoFPS(20);
-            setCameraAndCodecInfo(new Size(1280, 720));
-            //            switch (validResolution) {
-            //                case MRConfig.VideoResolution.RESOLUTION_1920:
-            //                    setCameraAndCodecInfo(new Size(1920, 1080));
-            //                    break;
-            //                case MRConfig.VideoResolution.RESOLUTION_1280:
-            //
-            //                    break;
-            //                case MRConfig.VideoResolution.RESOLUTION_960:
-            //                    setCameraAndCodecInfo(new Size(960, 540));
-            //                    break;
-            //                default:
-            //                    setCameraAndCodecInfo(new Size(640, 480));
-            //                    break;
-            //            }
+            mrConfig.setVideoFPS(mRecorderParams.getFrameRate());
+            mrConfig.setRatioType(mRecorderParams.getVideoRatio());
+            switch (mRecorderParams.getResolutionMode()) {
+                case MRConfig.VideoResolution.RESOLUTION_1920:
+                    mrConfig.setTargetVideoSize(new Size(1920, 1080));
+                    break;
+                case MRConfig.VideoResolution.RESOLUTION_1280:
+                    mrConfig.setTargetVideoSize(new Size(1280, 720));
+                    break;
+                case MRConfig.VideoResolution.RESOLUTION_960:
+                    mrConfig.setTargetVideoSize(new Size(960, 540));
+                    break;
+                default:
+                    mrConfig.setTargetVideoSize(new Size(640, 480));
+                    break;
+            }
+            if (mRecorderParams.getVideoBitrate() > 0) {
+                mrConfig.setVideoEncodeBitRate(mRecorderParams.getVideoBitrate());
+            } else {
+                setCameraAndCodecInfo(mrConfig.getTargetVideoSize());
+            }
+
         }
         return mrConfig;
+    }
+
+    @Override
+    public Size getVisualSize() {
+        int screenWidth = UIUtils.getScreenWidth();
+        int screenHeight = UIUtils.getScreenHeight();
+        switch (mRecorderParams.getVideoRatio()) {
+            case RecorderConstants.VideoRatio.RATIO_1X1: {
+                return new Size(screenWidth, screenWidth);
+            }
+            case RecorderConstants.VideoRatio.RATIO_3X4: {
+                return new Size(screenWidth, (int) Math.min(screenWidth / 3.0f * 4, screenHeight));
+            }
+            case RecorderConstants.VideoRatio.RATIO_9X16:
+            default: {
+                return new Size(screenWidth, screenHeight);
+            }
+        }
+    }
+
+    @Override
+    public int getMaxZoomLevel() {
+        return multiRecorder.getMaxZoomLevel();
+    }
+
+    @Override
+    public void setZoomLevel(int zoomLevel) {
+        multiRecorder.setZoomLevel(zoomLevel);
+    }
+
+    @Override
+    public int getCurrentZoomLevel() {
+        return multiRecorder.getCurrentZoomLevel();
     }
 
     private void setCameraAndCodecInfo(Size target) {
@@ -384,7 +451,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         //        mrConfig.setEncodeSize(new Size(720, 1280));
 
         // 设置camera 的采集分辨率
-        mrConfig.setTargetVideoSize(target);
+//        mrConfig.setTargetVideoSize(target);
     }
 
     @Override
@@ -530,6 +597,11 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         multiRecorder.changeToFilter(index, up, offset);
     }
 
+    @Override
+    public void setFilterIntensity(@FloatRange(from = 0, to = 1.0f) float intensity) {
+        multiRecorder.setFilterIntensity(intensity);
+    }
+
     /**
      * @param maskModel
      */
@@ -573,6 +645,11 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     @Override
     public void initFilter(List<MMPresetFilter> filters) {
         multiRecorder.initFilters(filters);
+    }
+
+    @Override
+    public void feedCameraZoomEvent(MotionEvent motionEvent) {
+        mCameraZoomChecker.feedEvent(motionEvent);
     }
 
     @Override

@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.mm.sdkdemo.widget.MomentFilterPanelTabLayout
-        app:lineLeftMargin="20dp"
-        app:lineRightMargin="20dp"
-        app:dlw_lineColor="@color/music_panel_text_color_gray"
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:dlw_lineColor="@color/music_panel_text_color_gray"
+        app:lineLeftMargin="20dp"
+        app:lineRightMargin="20dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/filter_drawer_main_panel"
@@ -31,6 +32,48 @@
         android:layout_marginRight="@dimen/feed_padding_5dp"
         android:background="@color/filter_bg"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_filter_density"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@id/tab_layout"
+        android:background="@color/filter_bg"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_filter_density_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dimen_dip_20"
+            android:text="浓度"
+            android:textColor="@color/white" />
+
+        <com.mm.sdkdemo.widget.seekbar.TickSeekBar
+            android:id="@+id/sb_filter_density_seekbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:paddingTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:tsb_max="100"
+            app:tsb_min="0"
+            app:tsb_progress="100"
+            app:tsb_show_thumb_text="above"
+            app:tsb_show_tick_texts="below"
+            app:tsb_thumb_color="@color/white"
+            app:tsb_thumb_size="18sp"
+            app:tsb_thumb_text_color="@color/white"
+            app:tsb_tick_texts_color="@color/white"
+            app:tsb_tick_texts_size="15sp"
+            app:tsb_track_background_color="@color/music_panel_text_color_gray"
+            app:tsb_track_progress_color="#00c0ff" />
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/tab_more_layout"

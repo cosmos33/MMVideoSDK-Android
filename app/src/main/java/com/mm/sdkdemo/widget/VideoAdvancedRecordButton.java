@@ -17,21 +17,20 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.mm.mmutil.log.Log4Android;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.utils.RecordButtonTouchEventHelper;
 
 /**
  * Created by XiongFangyu on 2017/6/6.
- *
+ * <p>
  * 高级录制按钮
  */
 public class VideoAdvancedRecordButton extends View implements ValueAnimator.AnimatorUpdateListener, RecordButtonTouchEventHelper.LongPressCallback {
 
     private ShaderCircleDrawable shaderCircleDrawable;
     private ValueAnimator progressAnim;
-//    private ValueAnimator switchAnim;
+    //    private ValueAnimator switchAnim;
     private ValueAnimator scaleAnim;
 
     private int maxSize;
@@ -77,6 +76,7 @@ public class VideoAdvancedRecordButton extends View implements ValueAnimator.Ani
         init(context, attrs, defStyleAttr, defStyleRes);
     }
 
+
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         setLayerType(LAYER_TYPE_SOFTWARE, null);
         shaderCircleDrawable = new ShaderCircleDrawable(context, attrs, defStyleAttr, defStyleRes);
@@ -91,7 +91,7 @@ public class VideoAdvancedRecordButton extends View implements ValueAnimator.Ani
 
         final Resources.Theme theme = context.getTheme();
         TypedArray a = theme.obtainStyledAttributes(attrs,
-                                                    R.styleable.VideoAdvancedRecordButton, defStyleAttr, defStyleRes);
+                R.styleable.VideoAdvancedRecordButton, defStyleAttr, defStyleRes);
         TypedArray appearance = null;
         int ap = a.getResourceId(
                 R.styleable.VideoAdvancedRecordButton_varb_style, -1);
@@ -282,7 +282,7 @@ public class VideoAdvancedRecordButton extends View implements ValueAnimator.Ani
             drawBackSize = (int) (ringStartSize + (minSize - ringStartSize) * fraction);
             final int alpha = Color.alpha(backColor);
             final int rgb = backColor & 0xFFFFFF;
-            backPaint.setColor((int)(alpha * fraction) << 24 | rgb);
+            backPaint.setColor((int) (alpha * fraction) << 24 | rgb);
         }
         invalidate();
     }
@@ -452,6 +452,10 @@ public class VideoAdvancedRecordButton extends View implements ValueAnimator.Ani
         if (maxSize == 0)
             return;
         shaderStartScale = ringStartSize / (float) maxSize;
+    }
+
+    public Callback getCallback() {
+        return callback;
     }
 
     public interface Callback extends RecordButtonTouchEventHelper.Callback {

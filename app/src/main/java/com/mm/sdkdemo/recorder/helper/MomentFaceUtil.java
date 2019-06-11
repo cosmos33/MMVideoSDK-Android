@@ -2,7 +2,7 @@ package com.mm.sdkdemo.recorder.helper;
 
 import android.text.TextUtils;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.utils.VideoFaceUtils;
 import com.mm.mmutil.FileUtil;
 import com.mm.mmutil.app.AppContext;
@@ -19,6 +19,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by chenwangwang on 2018/3/27.
@@ -28,7 +30,8 @@ public class MomentFaceUtil {
 
     /**
      * 下载变脸资源到磁盘
-     * @param face 变脸信息
+     *
+     * @param face     变脸信息
      * @param callback 下载回调
      */
     public static void downloadFace(MomentFace face, DownloadFaceCallback callback) {
@@ -40,7 +43,8 @@ public class MomentFaceUtil {
 
     /**
      * 加载变脸资源到内存，如果没有下载，会先进行下载操作（进行下载根据网络不一样下载时间会不同）
-     * @param face 变脸信息
+     *
+     * @param face     变脸信息
      * @param callback 资源加载回调接口
      */
     public static void loadFaceMask(MomentFace face, final MaskLoadCallback callback) {
@@ -49,8 +53,9 @@ public class MomentFaceUtil {
 
     /**
      * 加载变脸资源到内存，请注意 checkDownloadFirst 参数的使用
-     * @param face 变脸信息
-     * @param callback 资源加载回调接口
+     *
+     * @param face               变脸信息
+     * @param callback           资源加载回调接口
      * @param checkDownloadFirst 是否需要检测本地文件可用性，true 需要，false 不需要。 如果该值是true，本地资源文件不可用，将会进行下载。
      */
     public static void loadFaceMask(MomentFace face, final MaskLoadCallback callback, boolean checkDownloadFirst) {
@@ -79,7 +84,8 @@ public class MomentFaceUtil {
 
     /**
      * 异步读取变脸模型
-     * @param face 变脸信息
+     *
+     * @param face     变脸信息
      * @param callback 回调方法
      * @see #loadFaceMask(MomentFace, MaskLoadCallback)
      * @see #loadFaceMask(MomentFace, MaskLoadCallback, boolean)
@@ -102,6 +108,7 @@ public class MomentFaceUtil {
 
     /**
      * 工厂方法，根据类型创建对应的{@link MomentFaceDataManager}对象
+     *
      * @param faceType 变脸类型（不同业务对应不同类型），{@link MomentPanelType}
      * @return 变脸数据管理对象
      */
@@ -118,12 +125,17 @@ public class MomentFaceUtil {
 
     /**
      * 从变脸数据集合中查找出指定的变脸项
+     *
      * @param faceId 变脸元素id
      */
-    public static MomentFace findMomentFace(List<MomentFace> faceList, String faceId) {
-        for (MomentFace momentFace : faceList) {
-            if (TextUtils.equals(faceId, momentFace.getId())) {
-                return momentFace;
+    public static MomentFace findMomentFace(Map<String, List<MomentFace>> dataMap, String faceId) {
+        Set<String> keys = dataMap.keySet();
+        for (String key : keys) {
+            List<MomentFace> momentFaces = dataMap.get(key);
+            for (MomentFace momentFace : momentFaces) {
+                if (TextUtils.equals(faceId, momentFace.getId())) {
+                    return momentFace;
+                }
             }
         }
         return null;
@@ -131,6 +143,7 @@ public class MomentFaceUtil {
 
     /**
      * 是否正在下载队列中，可能在下载中，或者等待下载的状态，如果想知道是否在下载
+     *
      * @return true 在队列里
      */
     public static boolean isOnDownloadTask(MomentFace face) {
@@ -139,6 +152,7 @@ public class MomentFaceUtil {
 
     /**
      * 通过文件是否存在，判断变脸资源是否已经下载
+     *
      * @param face 变脸信息
      * @return true 已经下载，false 未下载
      */

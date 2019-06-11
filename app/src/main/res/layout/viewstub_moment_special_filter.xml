@@ -104,7 +104,6 @@
             android:clipChildren="false"
             android:orientation="vertical">
 
-
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,23 +112,54 @@
                 android:paddingTop="10dp"
                 android:paddingRight="28dp">
 
-                <TextView
-                    android:id="@+id/frames_special_btn"
+                <LinearLayout
+                    android:id="@+id/frames_special_btn_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="28dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="11dp"
-                    android:text="画面特效"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:orientation="vertical">
 
-                <View
-                    android:id="@+id/frames_special_line"
-                    android:layout_width="56dp"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/frames_special_btn"
-                    android:background="@color/white" />
+                    <TextView
+                        android:id="@+id/frames_special_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="11dp"
+                        android:text="画面特效"
+                        android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/frames_special_line"
+                        android:layout_width="8dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/edit_video_special_filter_tab_line_selector" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/frames_special_btn_container"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/time_special_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="11dp"
+                        android:text="时间特效"
+                        android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:id="@+id/time_special_line"
+                        android:layout_width="8dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/edit_video_special_filter_tab_line_selector" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/special_filter_back"

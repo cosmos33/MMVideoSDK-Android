@@ -4,7 +4,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 
-import project.android.imageprocessing.filter.BasicEffectFilter;
+import project.android.imageprocessing.inter.IEffectFilterDataController;
 
 public class FrameFilter {
     @DrawableRes
@@ -14,7 +14,7 @@ public class FrameFilter {
 
     private String name;
     @NonNull
-    private BasicEffectFilter basicFilter;
+    private IEffectFilterDataController dataController;
 
 
     private long startTime;
@@ -24,10 +24,10 @@ public class FrameFilter {
     private String tag;
 
 
-    public FrameFilter(@DrawableRes int normalRes, String name, @ColorRes int color, BasicEffectFilter basicFilter, @NonNull String tag) {
+    public FrameFilter(@DrawableRes int normalRes, String name, @ColorRes int color, IEffectFilterDataController dataController, @NonNull String tag) {
         this.normalRes = normalRes;
         this.name = name;
-        this.basicFilter = basicFilter;
+        this.dataController = dataController;
         this.color = color;
         this.tag = tag;
     }
@@ -48,12 +48,12 @@ public class FrameFilter {
         this.name = name;
     }
 
-    public BasicEffectFilter getBasicFilter() {
-        return basicFilter;
+    public IEffectFilterDataController getEffectFilterDataController() {
+        return dataController;
     }
 
-    public void setBasicFilter(BasicEffectFilter basicFilter) {
-        this.basicFilter = basicFilter;
+    public void setEffectFilterDataController(IEffectFilterDataController dataController) {
+        this.dataController = dataController;
     }
 
     public int getColor() {
@@ -94,7 +94,8 @@ public class FrameFilter {
 
     @Override
     public String toString() {
-        return "basicFilter=" + basicFilter +
+        return "name=" + name +
+                "dataController=" + dataController +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 '}';
@@ -112,7 +113,7 @@ public class FrameFilter {
     }
 
     public static FrameFilter clone(FrameFilter frameFilter) {
-        FrameFilter result = new FrameFilter(frameFilter.normalRes, frameFilter.name, frameFilter.getColor(), frameFilter.getBasicFilter(),frameFilter.getTag());
+        FrameFilter result = new FrameFilter(frameFilter.normalRes, frameFilter.name, frameFilter.getColor(), frameFilter.getEffectFilterDataController(), frameFilter.getTag());
         result.setStartTime(frameFilter.startTime);
         result.setEndTime(frameFilter.endTime);
         return result;

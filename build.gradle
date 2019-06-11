@@ -15,9 +15,11 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
         google()
         jcenter()
         maven { url 'https://cosmos1602.bintray.com/mediax/' }//陌陌对外仓库
+        maven { url "https://jitpack.io" }
     }
 }
 

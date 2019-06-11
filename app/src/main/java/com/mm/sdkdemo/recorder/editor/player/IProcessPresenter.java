@@ -2,11 +2,13 @@ package com.mm.sdkdemo.recorder.editor.player;
 
 import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.support.annotation.FloatRange;
 import android.support.annotation.Nullable;
 import android.view.TextureView;
 
 import com.immomo.moment.mediautils.cmds.EffectModel;
 import com.immomo.moment.mediautils.cmds.TimeRangeScale;
+import com.immomo.moment.mediautils.cmds.VideoCut;
 import com.mm.sdkdemo.bean.MomentExtraInfo;
 import com.mm.sdkdemo.recorder.model.MusicContent;
 import com.mm.sdkdemo.recorder.model.Video;
@@ -24,7 +26,8 @@ public interface IProcessPresenter extends TextureView.SurfaceTextureListener {
     void addSpecialFilter(List<BasicFilter> basicFilters);
 
     List<MMPresetFilter> getAllFilters();
-    void addFilter(int index);
+
+    void changeToFilter(int index);
 
     void setEffectModelForSpeedAdjust(EffectModel effectModel);
 
@@ -52,7 +55,9 @@ public interface IProcessPresenter extends TextureView.SurfaceTextureListener {
 
     boolean isPlaying();
 
-    void updateEffectModelAndPlay(@Nullable List<TimeRangeScale> timeRangeScales, long seekTime) ;
+    void updateEffectModelAndPlay(@Nullable List<TimeRangeScale> timeRangeScales, long seekTime);
+
+    void updateEffectModelAndPlay(@Nullable List<VideoCut> videoCut, @Nullable List<TimeRangeScale> timeRangeScales, long seekTime);
 
     void updateEffectModelWithoutPlay(@Nullable List<TimeRangeScale> timeRangeScales, long seekTime);
 
@@ -78,6 +83,7 @@ public interface IProcessPresenter extends TextureView.SurfaceTextureListener {
 
     /**
      * 强制合成
+     *
      * @param forceMake
      */
     void makeVideo(boolean forceMake);
@@ -93,4 +99,16 @@ public interface IProcessPresenter extends TextureView.SurfaceTextureListener {
     MomentExtraInfo getMomentExtraInfo();
 
     void setPlayMusic(MusicContent musicContent);
+
+    void restoreEffectModel();
+
+    /**
+     * 调节滤镜强度
+     *
+     * @param value 取值范围：(0,1]
+     */
+    void setFilterIntensity(@FloatRange(from = 0, to = 1.0f) float value);
+
+
+
 }

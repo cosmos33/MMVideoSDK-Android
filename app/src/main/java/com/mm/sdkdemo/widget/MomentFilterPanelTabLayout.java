@@ -173,7 +173,7 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
             lastView.setSelected(true);
             lastView.setDrawline(true);
         }
-        if (tabSelectPosition == MomentFilterPanelTabLayout.ON_CLICK_SKIN || tabSelectPosition == MomentFilterPanelTabLayout.ON_CLICK_FACE) {
+        if (tabSelectPosition == MomentFilterPanelTabLayout.ON_CLICK_SKIN || tabSelectPosition == MomentFilterPanelTabLayout.ON_CLICK_FACE || tabSelectPosition == MomentFilterPanelTabLayout.ON_CLICK_FILTER) {
             tabMore.setVisibility(View.VISIBLE);
         } else {
             tabMore.setVisibility(View.INVISIBLE);

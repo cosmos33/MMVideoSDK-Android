@@ -13,9 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewStub;
 
+import com.immomo.moment.mediautils.cmds.TimeRangeScale;
+import com.immomo.moment.mediautils.cmds.VideoCut;
+import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.toast.Toaster;
-import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseFragment;
 import com.mm.sdkdemo.base.cement.CementAdapter;
@@ -27,20 +29,25 @@ import com.mm.sdkdemo.recorder.model.Video;
 import com.mm.sdkdemo.recorder.specialfilter.ISpecialDataControl;
 import com.mm.sdkdemo.recorder.specialfilter.SpecialFilterAnimationUtils;
 import com.mm.sdkdemo.recorder.specialfilter.bean.FrameFilter;
+import com.mm.sdkdemo.recorder.specialfilter.bean.TimeFilter;
 import com.mm.sdkdemo.recorder.specialfilter.model.FrameFilterModel;
 import com.mm.sdkdemo.recorder.specialfilter.model.KeysModel;
+import com.mm.sdkdemo.recorder.specialfilter.model.TimeFilterModel;
 import com.mm.sdkdemo.recorder.specialfilter.widget.FilterImageView;
 import com.mm.sdkdemo.recorder.specialfilter.widget.FilterSeekView;
 import com.mm.sdkdemo.widget.decoration.LinearPaddingItemDecoration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class SpecialPanelViewHelper {
 
     private static final String TAG = "SpecialPanelViewHelper";
+    private static final long TIME_REPEAT = 200L;
 
     public static final int KEY_COUNT = 15;
 
@@ -68,9 +75,15 @@ public class SpecialPanelViewHelper {
     @NonNull
     private RecyclerView keyframes;
     @NonNull
+    private View framesSpecialBtn;
+    @NonNull
     private View framesSpecialLineView;
     @NonNull
     private FilterSeekView filterSeekView;
+    @NonNull
+    private View timeSpecialBtn;
+    @NonNull
+    private View timeSpecialLineView;
     @NonNull
     private RecyclerView specialFilter;
     @NonNull
@@ -79,6 +92,8 @@ public class SpecialPanelViewHelper {
     private final ISpecialDataControl specialDataControl;
     @NonNull
     private final List<CementModel<?>> framesModels;
+    @NonNull
+    private final List<CementModel<?>> timesModels;
 
     private boolean isInFilterMode = false;
 
@@ -90,11 +105,14 @@ public class SpecialPanelViewHelper {
     // 当前选中的滤镜
     @Nullable
     private FrameFilter currentSelectFrameFilter;
+    // 当前设置给播放器的时间特效
+    private TimeFilter currentVideoTimeFilter;
     @NonNull
     private final Video video;
 
     private long currentPlayingTime = 0L;
 
+    private boolean isTimeFilterSelected = false;
     @NonNull
     private List<Bitmap> frames;
 
@@ -116,6 +134,7 @@ public class SpecialPanelViewHelper {
         initEvent();
 
         framesModels = tranForFrames(specialDataControl.getFrameFilters());
+        timesModels = tranForTimes(specialDataControl.getTimeFilter());
 
         onFrameTabSelect();
         this.filterSeekView.initLength(video.length, this.specialDataControl.getUsedFrameFilters());
@@ -133,7 +152,10 @@ public class SpecialPanelViewHelper {
         this.specialAffirmBtn = specialPanelView.findViewById(R.id.special_affirm_btn);
 
         this.keyframes = specialPanelView.findViewById(R.id.keyframes);
+        this.framesSpecialBtn = specialPanelView.findViewById(R.id.frames_special_btn);
         this.framesSpecialLineView = specialPanelView.findViewById(R.id.frames_special_line);
+        this.timeSpecialBtn = specialPanelView.findViewById(R.id.time_special_btn);
+        this.timeSpecialLineView = specialPanelView.findViewById(R.id.time_special_line);
         this.specialFilter = specialPanelView.findViewById(R.id.special_filter);
         this.filterSeekView = specialPanelView.findViewById(R.id.filter_seekview);
         this.videoPlayLayout = specialPanelView.findViewById(R.id.video_play_layout);
@@ -188,6 +210,40 @@ public class SpecialPanelViewHelper {
                 return viewHolder.cover;
             }
         });
+        simpleAdapter.addEventHook(new EventHook<TimeFilterModel.ViewHolder>(TimeFilterModel.ViewHolder.class) {
+
+            @Override
+            public void onEvent(@NonNull View view, @NonNull final TimeFilterModel.ViewHolder viewHolder, @NonNull final CementAdapter adapter) {
+                viewHolder.cover.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = viewHolder.getAdapterPosition();
+                        CementModel rawModel = adapter.getModel(position);
+                        if (rawModel == null) {
+                            return;
+                        }
+                        for (CementModel model : timesModels) {
+                            ((TimeFilterModel) model).getTimeFilter().setSelect(false);
+                        }
+                        TimeFilterModel timeFilterModel = (TimeFilterModel) rawModel;
+                        timeFilterModel.getTimeFilter().setSelect(true);
+                        simpleAdapter.notifyDataSetChanged();
+                        TimeFilter timeFilter = timeFilterModel.getTimeFilter();
+                        if (currentVideoTimeFilter != null && currentVideoTimeFilter.isBackType() && !timeFilter.isBackType()) {
+                            specialDataControl.restoreUsedFilters(video.length);
+                        }
+                        handleTimeFilter(timeFilter.getStart() / (video.length * 1F), timeFilter, false);
+                    }
+                });
+            }
+
+            @Nullable
+            @Override
+            public View onBind(@NonNull TimeFilterModel.ViewHolder viewHolder) {
+                return viewHolder.itemView;
+            }
+        });
+
         keyframes.setLayoutManager(new LinearLayoutManager(rootView.getContext(), OrientationHelper.HORIZONTAL, false));
         keyframes.addItemDecoration(new LinearPaddingItemDecoration(0, 0, 0));
         SimpleCementAdapter keysAdapter = new SimpleCementAdapter();
@@ -201,6 +257,29 @@ public class SpecialPanelViewHelper {
     }
 
     private void initEvent() {
+        framesSpecialBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isTimeFilterSelected) {
+                    // 避免重复点击
+                    return;
+                }
+                pauseVideoAndShowPlayIcon();
+                onFrameTabSelect();
+            }
+        });
+
+        timeSpecialBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isTimeFilterSelected) {
+                    // 避免重复点击
+                    return;
+                }
+                pauseVideoAndShowPlayIcon();
+                onTimeTabSelect();
+            }
+        });
 
         this.specialCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,7 +296,7 @@ public class SpecialPanelViewHelper {
             @Override
             public void onClick(View view) {
                 if (specialPanelListener != null) {
-                    specialPanelListener.onHide();
+                    specialPanelListener.onHide(currentVideoTimeFilter != null);
                 }
             }
         });
@@ -248,6 +327,16 @@ public class SpecialPanelViewHelper {
                 //                }
             }
         });
+        filterSeekView.setTimeFilterSeekListener(new FilterSeekView.TimeFilterSeekListener() {
+            @Override
+            public void onSelect(float progress) {
+                currentSelectFrameFilter = null;
+                if (currentVideoTimeFilter == null) {
+                    return;
+                }
+                handleTimeFilter(progress, currentVideoTimeFilter, true);
+            }
+        });
 
         videoPlayLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -270,6 +359,192 @@ public class SpecialPanelViewHelper {
         });
     }
 
+    private void pauseVideoAndShowPlayIcon() {
+//        if (currentPlayingTime >= video.length) {
+//            videoPlayIcon.setVisibility(View.GONE);
+//            return;
+//        }
+        processPlayer.pause();
+    }
+
+    /**
+     * 清除时间特效
+     */
+    private void clearTimeFilter() {
+        if (currentVideoTimeFilter == null) {
+            return;
+        }
+        switch (currentVideoTimeFilter.getType()) {
+            case TimeFilter.TYPE__BACK:
+            case TimeFilter.TYPE_FAST:
+            case TimeFilter.TYPE_SLOW:
+            case TimeFilter.TYPE_REPEAT:
+                processPlayer.restoreEffectModel();
+            default:
+                break;
+        }
+        for (CementModel model : timesModels) {
+            TimeFilter timeFilter = ((TimeFilterModel) model).getTimeFilter();
+            if (timeFilter.getType() == TimeFilter.TYPE_NO) {
+                timeFilter.setSelect(true);
+            } else {
+                timeFilter.setSelect(false);
+            }
+            timeFilter.setStart(video.length / 2);
+        }
+        currentVideoTimeFilter.setSelect(false);
+        simpleAdapter.notifyDataSetChanged();
+        filterSeekView.setModel(FilterSeekView.MODE_NORMAL, currentVideoTimeFilter.getStart(), false);
+        currentVideoTimeFilter = null;
+
+    }
+
+    /**
+     * 处理时间特效
+     *
+     * @param progress
+     * @param timeFilter
+     */
+    private void handleTimeFilter(float progress, @NonNull TimeFilter timeFilter, boolean focus) {
+        if (currentVideoTimeFilter == timeFilter && !focus) {
+            return;
+        }
+        videoPlayIcon.setVisibility(View.GONE);
+        boolean clear = false;
+        switch (timeFilter.getType()) {
+            case TimeFilter.TYPE_NO:
+                clearTimeFilter();
+                clear = true;
+                break;
+            case TimeFilter.TYPE__BACK:
+                handleTimeback();
+                break;
+            case TimeFilter.TYPE_FAST:
+                hanleTimeSlowAndFastFilter(progress, timeFilter, TimeRangeScale.TIME_FAST, TimeRangeScale.TIME_SPACER_FAST);
+                break;
+            case TimeFilter.TYPE_SLOW:
+                hanleTimeSlowAndFastFilter(progress, timeFilter, TimeRangeScale.TIME_SLOW, TimeRangeScale.TIME_SPACER_SLOW);
+                break;
+            case TimeFilter.TYPE_REPEAT:
+                handleTimeRepeatFilter(progress, timeFilter);
+                break;
+            default:
+                break;
+        }
+        if (clear) {
+            currentVideoTimeFilter = null;
+        } else {
+            currentVideoTimeFilter = timeFilter;
+        }
+
+    }
+
+    /**
+     * 处理反复时间特效
+     */
+    private void handleTimeRepeatFilter(float progress, @NonNull TimeFilter timeFilter) {
+        List<VideoCut> videoCuts = new ArrayList<>();
+        long time = (long) (progress * video.length);
+        long start;
+        long end;
+        if (time <= TIME_REPEAT) {
+            start = 0;
+            end = TIME_REPEAT;
+        } else if (time >= video.length - TIME_REPEAT) {
+            start = video.length - TIME_REPEAT;
+            end = video.length;
+        } else {
+            start = time;
+            end = time + TIME_REPEAT;
+        }
+        videoCuts.add(new VideoCut(video.path, 0, end, false));
+        videoCuts.add(new VideoCut(video.path, start, end, false));
+        videoCuts.add(new VideoCut(video.path, start, video.length, false));
+        timeFilter.setStart(start);
+        timeFilter.setEnd(end);
+        long videoStart = start - 500L;
+        processPlayer.updateEffectModelAndPlay(videoCuts, null, videoStart > 0 ? videoStart : 0L);
+        filterSeekView.setModel(FilterSeekView.MODE_TIME, timeFilter.getStart(), false);
+    }
+
+    /**
+     * 处理加减速时间特效
+     */
+    private void hanleTimeSlowAndFastFilter(float progress, @NonNull TimeFilter timeFilter, float speed, long space) {
+        List<TimeRangeScale> timeRangeScales = new ArrayList<>();
+        long time = (long) (progress * video.length);
+        long start;
+        long end;
+        if (time <= space) {
+            start = 0;
+            end = space;
+        } else if (time >= video.length - space) {
+            start = video.length - space;
+            end = video.length;
+        } else {
+            start = time;
+            end = time + space;
+        }
+        timeFilter.setStart(start);
+        timeFilter.setEnd(end);
+        timeRangeScales.add(new TimeRangeScale(start, end, speed));
+        long videoStart = start - 500L;
+        processPlayer.updateEffectModelAndPlay(null, timeRangeScales, videoStart > 0 ? videoStart : 0L);
+        filterSeekView.setModel(FilterSeekView.MODE_TIME, timeFilter.getStart(), false);
+    }
+
+    /**
+     * 处理倒放特效
+     */
+    private void handleTimeback() {
+        processPlayer.updateEffectModelAndPlay(Arrays.asList(new VideoCut(video.path, 0, video.length, true)), null, 0L);
+        specialDataControl.reverseUsedFilters(video.length);
+        filterSeekView.setModel(FilterSeekView.MODE_NORMAL, 0L, true, true);
+        videoPlayIcon.setVisibility(View.GONE);
+    }
+
+    /**
+     * 时间特效tab 选中
+     */
+    private void onTimeTabSelect() {
+        rollbackBtn.setVisibility(View.GONE);
+        isTimeFilterSelected = true;
+        if (currentVideoTimeFilter != null) {
+            updateSeekbar(currentVideoTimeFilter);
+        } else {
+            filterSeekView.setModel(FilterSeekView.MODE_NORMAL, 0L, false);
+        }
+        simpleAdapter.clearData();
+        timeSpecialBtn.setSelected(true);
+        timeSpecialLineView.setSelected(true);
+        framesSpecialBtn.setSelected(false);
+        framesSpecialLineView.setSelected(false);
+        simpleAdapter.updateDataList(timesModels);
+    }
+
+    /**
+     * 切换tab时  只需要更新seek
+     *
+     * @param timeFilter
+     */
+    private void updateSeekbar(@NonNull TimeFilter timeFilter) {
+        switch (timeFilter.getType()) {
+            case TimeFilter.TYPE_NO:
+                filterSeekView.setModel(FilterSeekView.MODE_NORMAL, 0L, false);
+                break;
+            case TimeFilter.TYPE__BACK:
+                filterSeekView.setModel(FilterSeekView.MODE_NORMAL, 0L, true, true);
+                break;
+            case TimeFilter.TYPE_FAST:
+            case TimeFilter.TYPE_SLOW:
+            case TimeFilter.TYPE_REPEAT:
+                filterSeekView.setModel(FilterSeekView.MODE_TIME, timeFilter.getStart(), false);
+                break;
+            default:
+                break;
+        }
+    }
+
     /**
      * 滤镜特效tab 选中
      */
@@ -279,9 +554,13 @@ public class SpecialPanelViewHelper {
         } else {
             rollbackBtn.setVisibility(View.GONE);
         }
-        filterSeekView.setModel(FilterSeekView.MODE_NORMAL, 0L, false, false);
+        isTimeFilterSelected = false;
+        filterSeekView.setModel(FilterSeekView.MODE_NORMAL, 0L, currentVideoTimeFilter != null && currentVideoTimeFilter.isBackType(), false);
         simpleAdapter.clearData();
+        framesSpecialBtn.setSelected(true);
         framesSpecialLineView.setSelected(true);
+        timeSpecialBtn.setSelected(false);
+        timeSpecialLineView.setSelected(false);
         simpleAdapter.updateDataList(framesModels);
     }
 
@@ -310,6 +589,23 @@ public class SpecialPanelViewHelper {
         return models;
     }
 
+    private List<CementModel<?>> tranForTimes(List<TimeFilter> timeFilters) {
+        List<CementModel<?>> models = new ArrayList<>();
+
+        if (timeFilters.isEmpty()) {
+            return models;
+        }
+        for (TimeFilter timeFilter : timeFilters) {
+            TimeFilterModel model = new TimeFilterModel(timeFilter);
+            if (timeFilter.getType() == TimeFilter.TYPE_NO) {
+                timeFilter.setSelect(true);
+            }
+            timeFilter.setStart(video.length / 2);
+            models.add(model);
+        }
+        return models;
+    }
+
     /**
      * 开始特效滤镜
      *
@@ -328,7 +624,7 @@ public class SpecialPanelViewHelper {
         currentSelectFrameFilter.setEndTime(currentSelectFrameFilter.getStartTime() + 1);
         specialDataControl.insertFrameFilter(currentSelectFrameFilter);
         // 设置给播放器的滤镜 开始时间为当前起始时间  结束时间为视频时长  在结束时 重新设置时间片
-        specialDataControl.syncSingleFilter(currentSelectFrameFilter.getBasicFilter().mFilterId, currentPlayingTime, video.length);
+        specialDataControl.syncSingleFilter(currentSelectFrameFilter.getEffectFilterDataController(), currentPlayingTime, video.length);
         this.processPlayer.focusPlayVideo();
     }
 
@@ -496,6 +792,9 @@ public class SpecialPanelViewHelper {
      * @return
      */
     private float getRealprogress(float progress) {
+        if (currentVideoTimeFilter != null && currentVideoTimeFilter.isBackType()) {
+            return 1 - progress;
+        }
         return progress;
     }
 
@@ -505,16 +804,19 @@ public class SpecialPanelViewHelper {
      * @return
      */
     public boolean useSpecialFilter() {
-        return specialDataControl.getUsedFrameFilterSize() > 0;
+        return currentVideoTimeFilter != null || specialDataControl.getUsedFrameFilterSize() > 0;
     }
 
     public boolean onBackPressed() {
         if (useSpecialFilter()) {
             showVerifyDialog();
             return true;
+        } else {
+            cancel();
         }
         return false;
     }
+
 
     public String getUsedFilterInfo() {
         LinkedList<FrameFilter> frameFilters = specialDataControl.getUsedFrameFilters();
@@ -528,7 +830,11 @@ public class SpecialPanelViewHelper {
             tempFilters.add(frameFilter.getTag());
             sb.append(frameFilter.getTag()).append(",");
         }
-        sb.append("100");
+        if (currentVideoTimeFilter != null) {
+            sb.append(currentVideoTimeFilter.getTag());
+        } else {
+            sb.append("100");
+        }
         tempFilters.clear();
         return sb.toString();
     }
@@ -557,9 +863,11 @@ public class SpecialPanelViewHelper {
         // 取消操作
         // 清空滤镜时间片
         specialDataControl.clearUsedFrameFilter();
+        // 清楚时间特效
+        clearTimeFilter();
         specialTopView.setVisibility(View.GONE);
         if (specialPanelListener != null) {
-            specialPanelListener.onHide();
+            specialPanelListener.onHide(false);
         }
     }
 
@@ -568,7 +876,7 @@ public class SpecialPanelViewHelper {
     }
 
     public interface SpecialPanelListener {
-        void onHide();
+        void onHide(boolean isTimeFilterSelected);
     }
 
 }

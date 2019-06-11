@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.widget.FaceTipView;

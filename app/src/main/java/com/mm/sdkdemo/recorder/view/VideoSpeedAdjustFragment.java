@@ -550,7 +550,6 @@ public class VideoSpeedAdjustFragment extends BaseFragment implements View.OnCli
                     }
                     final long pts = ptsMs;
                     //播放进度回调
-                    Log4Android.getInstance().i("tang------onPlaying " + (startPlayPosMS + ptsMs));
                     if (Looper.getMainLooper() == Looper.myLooper()) {
                         VideoSpeedAdjustFragment.this.onPlaying(startPlayPosMS + ptsMs);
                     } else {
@@ -565,7 +564,7 @@ public class VideoSpeedAdjustFragment extends BaseFragment implements View.OnCli
 
                 @Override
                 public void onPlayingPaused() {
-                    Log4Android.getInstance().i("tang------onPlayingPaused 播放暂停");
+//                    Log4Android.getInstance().i("tang------onPlayingPaused 播放暂停");
                     isPlaying = false;
                     rangeBar.post(new Runnable() {
                         @Override

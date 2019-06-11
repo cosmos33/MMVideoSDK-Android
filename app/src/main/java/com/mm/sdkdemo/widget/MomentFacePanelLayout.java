@@ -6,8 +6,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -16,10 +18,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.cement.CementAdapter;
 import com.mm.sdkdemo.base.cement.CementModel;
@@ -34,6 +38,8 @@ import com.mm.sdkdemo.widget.recyclerview.layoutmanager.GridLayoutManagerWithSmo
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 变脸面板         <br/>
@@ -65,7 +71,13 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
     // 因为数据还没拉取下来，所以，需要先预约，等数据初始化完之后再帮你选~
     private MomentFace mScheduledMomentFace;
     // 当前选中的所有models
-    private List<MomentFaceItemModel> allModels = new ArrayList<>(5);
+    private ArrayMap<String, List<MomentFaceItemModel>> allModels = new ArrayMap<>();
+    private ImageView mIvPanelRecord;
+    private OnClickListener mOnPanelRecordBtnClickListener;
+    private Map<String, List<MomentFace>> mData;
+    private View mTvStickerTab;
+    private View mTvPropTab;
+    private int mCurrentTabIndex = 0;
 
     public MomentFacePanelLayout(Context context) {
         this(context, null);
@@ -90,10 +102,50 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
         this.context = context;
         LayoutInflater.from(context).inflate(R.layout.view_face_panel_layout, this);
         initViews();
+        initEvent();
+    }
+
+    public void setPanelRecordBtnClickListener(OnClickListener onClickListener) {
+        mOnPanelRecordBtnClickListener = onClickListener;
+    }
+
+
+    private void initEvent() {
+        mIvPanelRecord.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnPanelRecordBtnClickListener != null) {
+                    mOnPanelRecordBtnClickListener.onClick(v);
+                }
+            }
+        });
+        mTvStickerTab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mTvStickerTab.isSelected()) {
+                    selectTab(mTvStickerTab);
+                }
+            }
+        });
+
+        mTvPropTab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mTvPropTab.isSelected()) {
+                    selectTab(mTvPropTab);
+                }
+            }
+        });
+
     }
 
     private void initViews() {
         facePanelRecView = findViewById(R.id.face_panel);
+        mIvPanelRecord = findViewById(R.id.iv_panel_record);
+        mTvStickerTab = findViewById(R.id.tv_sticker_tab);
+        mTvPropTab = findViewById(R.id.tv_prop_tab);
+        mTvStickerTab.setSelected(true);
+
         initFacepanelView();
         progressDrawable = new IndeterminateDrawable(Color.WHITE, UIUtils.getPixels(3));
         progressView = new View(context);
@@ -102,6 +154,46 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
         LayoutParams progressLP = new LayoutParams(size, size);
         progressLP.gravity = Gravity.CENTER;
         addView(progressView, progressLP);
+
+        selectTab(mTvStickerTab);
+    }
+
+
+    private void selectTab(View view) {
+        if (mData == null) {
+            return;
+        }
+
+        mTvStickerTab.setSelected(false);
+        mTvPropTab.setSelected(false);
+        List<MomentFace> dataList = null;
+        List<MomentFaceItemModel> modelList = null;
+        String key = null;
+        if (view == mTvStickerTab) {
+            mTvStickerTab.setSelected(true);
+            key = "sticker";
+            mCurrentTabIndex = 0;
+        } else {
+            mTvPropTab.setSelected(true);
+            key = "prop";
+            mCurrentTabIndex = 1;
+
+        }
+        modelList = allModels.get(key);
+        if (modelList == null) {
+            dataList = mData.get(key);
+        }
+        if (modelList != null) {
+            mFacePanelAdapter.replaceAllModels(modelList);
+        } else if (dataList != null) {
+            modelList = new ArrayList<>(dataList.size());
+            for (MomentFace face : dataList) {
+                MomentFaceItemModel model = new MomentFaceItemModel(face);
+                modelList.add(model);
+            }
+            allModels.put(key, modelList);
+            mFacePanelAdapter.replaceAllModels(modelList);
+        }
     }
 
     @Override
@@ -134,12 +226,13 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
         mFacePanelAdapter.setOnItemClickListener(new CementAdapter.OnItemClickListener() {
             @Override
             public void onClick(@NonNull View itemView, @NonNull CementViewHolder viewHolder, int position, @NonNull CementModel<?> model) {
-                if (position == 0) {
+                MomentFace face = ((MomentFaceItemModel) model).getFace();
+
+                if (face.isEmptyFace()) {
                     clearFace(((MomentFaceItemModel.ViewHolder) viewHolder).getIconView());
                 } else {
                     playBoundAnim(((MomentFaceItemModel.ViewHolder) viewHolder).getIconView());
                     // face点击事件
-                    MomentFace face = ((MomentFaceItemModel) model).getFace();
                     if (((MomentFaceItemModel) model).isSelected()) {
                         return;
                     }
@@ -147,10 +240,15 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
                         mOnFaceResourceSelectListener.onSelected(face);
                     }
                 }
-                for (MomentFaceItemModel model1 : allModels) {
-                    model1.setSelected(false);
+                Set<String> keys = allModels.keySet();
+                for (String key : keys) {
+                    List<MomentFaceItemModel> momentFaceItemModels = allModels.get(key);
+                    for (MomentFaceItemModel momentFaceItemModel : momentFaceItemModels) {
+                        momentFaceItemModel.setSelected(false);
+                    }
                 }
-                allModels.get(position).setSelected(true);
+
+                allModels.valueAt(mCurrentTabIndex).get(position).setSelected(true);
                 mFacePanelAdapter.notifyDataSetChanged();
             }
 
@@ -179,11 +277,11 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
     }
 
     @Override
-    public void onFaceDataLoadSuccess(List<MomentFace> data) {
+    public void onFaceDataLoadSuccess(Map<String, List<MomentFace>> data) {
         if (data == null || data.isEmpty()) {
             return;
         }
-
+        mData = data;
         // 更新UI
         if (errorTipView != null) {
             errorTipView.setVisibility(View.GONE);
@@ -194,15 +292,7 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
         // 初始化选中的变脸项
         //        scrollToPosition(1, 0, null, true);
 
-        allModels.clear();
-        for (MomentFace face : data) {
-            MomentFaceItemModel model = new MomentFaceItemModel(face);
-            if (face.isEmptyFace()) {
-                model.setSelected(true);
-            }
-            allModels.add(model);
-        }
-        mFacePanelAdapter.replaceAllModels(allModels);
+        selectTab(mTvStickerTab);
     }
 
     @Override
@@ -252,9 +342,22 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
 
     @Override
     public void notifyItemChanged(MomentFace face) {
-        for (MomentFaceItemModel model : allModels) {
-            if (model.getFace() == face) {
-                mFacePanelAdapter.notifyModelChanged(model);
+        Set<String> keys = allModels.keySet();
+        for (String key : keys) {
+            List<MomentFaceItemModel> momentFaceItemModels = allModels.get(key);
+            for (final MomentFaceItemModel momentFaceItemModel : momentFaceItemModels) {
+                if (momentFaceItemModel.getFace() == face) {
+                    if(Looper.myLooper()!=null&&Looper.myLooper()==Looper.getMainLooper()){
+                        mFacePanelAdapter.notifyModelChanged(momentFaceItemModel);
+                    }else {
+                        MomoMainThreadExecutor.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mFacePanelAdapter.notifyModelChanged(momentFaceItemModel);
+                            }
+                        });
+                    }
+                }
             }
         }
     }

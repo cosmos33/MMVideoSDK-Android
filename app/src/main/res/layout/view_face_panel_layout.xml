@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_common_panel"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dimen_dip_15"
-        android:text="变脸道具"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_sticker_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_dip_15"
+            android:text="贴纸"
+            android:textColor="@color/record_face_panel_tab_text_select"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_prop_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_dip_15"
+            android:text="道具"
+            android:textColor="@color/record_face_panel_tab_text_select"
+            android:textSize="18sp" />
+    </LinearLayout>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/face_panel"
@@ -20,4 +38,12 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="@dimen/dimen_dip_50"
         android:layout_marginBottom="61dp" />
+
+    <ImageView
+        android:id="@+id/iv_panel_record"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_record_gradient" />
 </FrameLayout>

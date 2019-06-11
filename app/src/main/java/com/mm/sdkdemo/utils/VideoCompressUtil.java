@@ -85,6 +85,10 @@ public class VideoCompressUtil {
 
             @Override
             public void onProcessFinished() {
+                if (compressProcess != null) {
+                    compressProcess.release();
+                    compressProcess = null;
+                }
                 MomoMainThreadExecutor.post(TASK_TAG, new Runnable() {
                     @Override
                     public void run() {
@@ -127,6 +131,7 @@ public class VideoCompressUtil {
             public void run() {
                 if (compressProcess != null) {
                     compressProcess.release();
+                    compressProcess = null;
                 }
             }
         });

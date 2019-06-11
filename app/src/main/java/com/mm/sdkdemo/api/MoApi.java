@@ -1,5 +1,6 @@
 package com.mm.sdkdemo.api;
 
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mm.base.BaseApi;
@@ -18,7 +19,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MoApi extends BaseApi {
     public static String getDynamicStickerList(ArrayList<DynamicSticker> list) throws Exception {
@@ -73,8 +76,10 @@ public class MoApi extends BaseApi {
         return musics;
     }
 
-    public static List<MomentFace> getFaceData() {
-        List<MomentFace> faces = new ArrayList<>(5);
+    public static Map<String, List<MomentFace>> getFaceData() {
+        Map<String, List<MomentFace>> sourceMap = new LinkedHashMap<>();
+
+        List<MomentFace> stickers = new ArrayList<>(5);
         MomentFace emptyFace = new MomentFace(true);
         emptyFace.setTitle("无");
 
@@ -118,14 +123,29 @@ public class MoApi extends BaseApi {
         momentFace5.setVersion(20);
         momentFace5.setTitle("小黄鸭");
 
-        faces.add(emptyFace);
-        faces.add(momentFace1);
-        faces.add(momentFace2);
-        faces.add(momentFace3);
-        faces.add(momentFace4);
-        faces.add(momentFace5);
+        MomentFace momentFace6 = new MomentFace(false);
+        momentFace6.setId("6");
+        momentFace6.setImage_url("http://img.momocdn.com/app/C6/35/C63576E7-6094-E223-773D-2D3B9471431420171023.png");
+        momentFace6.setZip_url("http://img.momocdn.com/momentlib/4C/CF/4CCFD1B8-C548-3118-3EF0-C17C705455BF20171023.zip");
+        momentFace6.setVersion(30);
+        momentFace6.setTitle("3D_Test1");
 
-        return faces;
+        stickers.add(emptyFace);
+        stickers.add(momentFace1);
+        stickers.add(momentFace2);
+        stickers.add(momentFace3);
+        stickers.add(momentFace4);
+        stickers.add(momentFace5);
+        stickers.add(momentFace6);
+
+        sourceMap.put("sticker", stickers);
+
+        List<MomentFace> props = new ArrayList<>();
+//        props.add(momentFace6);
+
+        sourceMap.put("prop", props);
+
+        return sourceMap;
     }
 
     private static String[] coverList = {

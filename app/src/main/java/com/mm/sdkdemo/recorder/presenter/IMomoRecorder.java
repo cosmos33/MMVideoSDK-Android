@@ -1,6 +1,8 @@
 package com.mm.sdkdemo.recorder.presenter;
 
 import android.content.res.Configuration;
+import android.support.annotation.FloatRange;
+import android.view.MotionEvent;
 
 import com.mm.sdkdemo.recorder.model.MusicContent;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
@@ -25,6 +27,8 @@ public interface IMomoRecorder extends IRecorder {
 
     void changeToFilter(int index, boolean up, float offset);
 
+    void setFilterIntensity(@FloatRange(from = 0, to = 1.0f) float intensity);
+
     void setItemSelectSkinLevel(float[] value);
 
     void setFaceEyeScale(float eyeScale);
@@ -38,5 +42,7 @@ public interface IMomoRecorder extends IRecorder {
     void onConfigurationChanged(Configuration newConfig);
 
     void initFilter(List<MMPresetFilter> filters);
+
+    void feedCameraZoomEvent(MotionEvent motionEvent);
 
 }

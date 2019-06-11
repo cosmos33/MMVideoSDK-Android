@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.utils.ImageUtil;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mediasdk.videoprocess.MoVideo;
@@ -61,6 +61,7 @@ import com.mm.sdkdemo.recorder.editor.player.OnVolumeChangeListener;
 import com.mm.sdkdemo.recorder.editor.player.VideoEditPresenter;
 import com.mm.sdkdemo.recorder.listener.FilterSelectListener;
 import com.mm.sdkdemo.recorder.listener.FragmentChangeListener;
+import com.mm.sdkdemo.recorder.listener.OnFilterDensityChangeListener;
 import com.mm.sdkdemo.recorder.listener.StickerEditListener;
 import com.mm.sdkdemo.recorder.model.MusicContent;
 import com.mm.sdkdemo.recorder.model.Video;
@@ -191,6 +192,7 @@ public class VideoEditFragment extends BaseFragment
     private Animator.AnimatorListener animatorListener;
     private ProgressDialog progressDialog;
     private MusicPanelHelper musicPanelHelper;
+    private int mCurrentFilterSelectPosition;
 
     public void setFragmentChangeListener(FragmentChangeListener fragmentChangeListener) {
         this.fragmentChangeListener = fragmentChangeListener;
@@ -506,15 +508,15 @@ public class VideoEditFragment extends BaseFragment
         final int vh = getVirtualBarHeight();
         if (vh > 0) {
             toolsLayout.setPadding(toolsLayout.getPaddingLeft(),
-                                   toolsLayout.getPaddingTop(),
-                                   toolsLayout.getPaddingRight(),
-                                   toolsLayout.getPaddingBottom() + vh);
+                    toolsLayout.getPaddingTop(),
+                    toolsLayout.getPaddingRight(),
+                    toolsLayout.getPaddingBottom() + vh);
             toolsLayout.getLayoutParams().height += vh;
             toolsLayout.requestLayout();
             deleteStickerView.setPadding(deleteStickerView.getPaddingLeft(),
-                                         deleteStickerView.getPaddingTop(),
-                                         deleteStickerView.getPaddingRight(),
-                                         deleteStickerView.getPaddingBottom() + vh);
+                    deleteStickerView.getPaddingTop(),
+                    deleteStickerView.getPaddingRight(),
+                    deleteStickerView.getPaddingBottom() + vh);
             deleteStickerView.getLayoutParams().height += vh;
             deleteStickerView.requestLayout();
         }
@@ -908,13 +910,14 @@ public class VideoEditFragment extends BaseFragment
         }
         hideToolsLayout(true);
         if (specialPanelViewHelper == null) {
-            specialDataControl = new SpecialDataControl();
+            specialDataControl = new SpecialDataControl(getContext().getApplicationContext());
             processPresenter.addSpecialFilter(specialDataControl.getSpecialFilter());
             specialPanelViewHelper = new SpecialPanelViewHelper(this, getContentView(), specialDataControl, processPresenter, video, frames);
             specialPanelViewHelper.setOnSpecialPanelListener(new SpecialPanelViewHelper.SpecialPanelListener() {
                 @Override
-                public void onHide() {
+                public void onHide(boolean isTimeFilterSelected) {
                     hideSpecialFilterPanel();
+
                 }
             });
             animatorListener = new Animator.AnimatorListener() {
@@ -1842,10 +1845,10 @@ public class VideoEditFragment extends BaseFragment
         if (stickerWidth > 0 && stickerHeight > 0) {
             if (allStickerContainer != null && stickerContainerView != null && editRecorder.isChangeFilter()) {
                 blendBitmap = ImageUtil.createBitmapByView(allStickerContainer,
-                                                           stickerWidth,
-                                                           stickerHeight,
-                                                           stickerMarginLeft,
-                                                           stickerMarginTop);
+                        stickerWidth,
+                        stickerHeight,
+                        stickerMarginLeft,
+                        stickerMarginTop);
                 blendChanged = true;
             }
             processPresenter.getMomentExtraInfo().setBlendBmp(blendBitmap);
@@ -1969,6 +1972,9 @@ public class VideoEditFragment extends BaseFragment
         @Override
         protected void onCancelled() {
             super.onCancelled();
+            if (videoDataRetrieve != null) {
+                videoDataRetrieve.release();
+            }
         }
 
         @Override
@@ -1977,10 +1983,16 @@ public class VideoEditFragment extends BaseFragment
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();
             }
+            if (videoDataRetrieve != null) {
+                videoDataRetrieve.release();
+            }
         }
 
         @Override
         protected void onTaskError(Exception e) {
+            if (videoDataRetrieve != null) {
+                videoDataRetrieve.release();
+            }
             onErrorCompress(video);
         }
     }
@@ -1994,10 +2006,17 @@ public class VideoEditFragment extends BaseFragment
                 return;
             }
             filterPanel = (MomentFilterPanelLayout) filterStub.inflate();
+            filterPanel.setFilterDensityChangeListener(new OnFilterDensityChangeListener() {
+                @Override
+                public void onFilterDensityChange(int density) {
+                    processPresenter.setFilterIntensity(density / 100.0f);
+                }
+            });
             filterPanel.setFilterSelectListener(new FilterSelectListener() {
                 @Override
                 public void onFilterTabSelect(int selectPosition) {
-                    processPresenter.addFilter(selectPosition);
+                    mCurrentFilterSelectPosition = selectPosition;
+                    processPresenter.changeToFilter(selectPosition);
                 }
 
                 @Override
@@ -2017,7 +2036,7 @@ public class VideoEditFragment extends BaseFragment
     private void showFilterPanel(@MomentFilterPanelTabLayout.TabSelectedPosition final int tabPanelPosition) {
         filterBg.setVisibility(View.VISIBLE);
         initFilterPanel();
-        filterPanel.switchTabPanel(tabPanelPosition, processPresenter.getAllFilters(), 0, 0, 0, 0, 0);
+        filterPanel.switchTabPanel(tabPanelPosition, processPresenter.getAllFilters(), mCurrentFilterSelectPosition, 0, 0, 0, 0);
         AnimUtils.Default.showFromBottom(filterPanel, 400);
         AnimUtils.Default.hideToBottom(toolsLayout, false, 400);
     }

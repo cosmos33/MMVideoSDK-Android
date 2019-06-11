@@ -2,7 +2,7 @@ package com.mm.sdkdemo.bean;
 
 import android.support.annotation.WorkerThread;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.sdkdemo.log.LogTag;
 
 /**

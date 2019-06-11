@@ -69,7 +69,7 @@ public class MomentFaceItemModel extends CementModel<MomentFaceItemModel.ViewHol
         if (face.isEmptyFace()) {
             holder.downloadView.setVisibility(View.GONE);
             holder.loadingLayout.setVisibility(View.GONE);
-            holder.iconView.setBackgroundResource(R.drawable.filter_no_select);
+            holder.iconView.setImageResource(R.drawable.filter_no_select);
             holder.root.setBackgroundResource(R.drawable.bg_video_edit_icon);
         } else {
             holder.root.setBackgroundResource(R.drawable.bg_moment_face_icon);

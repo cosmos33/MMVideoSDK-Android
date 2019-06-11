@@ -123,4 +123,38 @@
         <item name="android:drawablePadding">6dp</item>
     </style>
 
+    <style name="record_line_style" parent="@android:style/Widget.EditText">
+
+        <item name="android:maxLines">2</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:background">@drawable/record_round_bkg</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="record_btn_style" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/record_btn_bg</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_height">36dp</item>
+    </style>
+
+    <style name="style_single_line_cell_without_icon">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:background">@drawable/bglistitem_selector_white</item>
+        <item name="drawTopLine">false</item>
+        <item name="drawBottomLine">true</item>
+        <item name="lineLeftMargin">15dp</item>
+        <item name="dlw_lineColor">@color/C03</item>
+    </style>
 </resources>

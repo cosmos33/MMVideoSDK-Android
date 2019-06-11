@@ -24,6 +24,7 @@
     <string name="moment_edit_add_sticker">贴纸</string>
     <string name="moment_edit_add_text">文字</string>
     <string name="moment_edit_paint">涂鸦</string>
+    <string name="moment_edit_crop">剪裁</string>
 
     <array name="speed_array">
         <item>0.2x</item>

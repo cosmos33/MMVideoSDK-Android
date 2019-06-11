@@ -15,6 +15,7 @@ import com.momo.mcamera.mask.MaskModel;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,12 +24,13 @@ import java.util.Observer;
  * 管理变脸面板的单元        <br/>
  * 注意，使用前，需要先设置{@link MomentFaceDataManager}对象，
  * 使用{@link #setFaceDataManager(MomentFaceDataManager)}接口进行设置          <br/>
- *                                                                          <br/>
+ * <br/>
  * PS:
  * 外部可以设置变脸面板需要选中的变脸项。但是，因为UI和列表数据并不是在{@link MomentFacePanelElement}对象创建的时候就已经准备好的。
  * 随意这就有一个问题，在设置需要选中的变脸项的时候，UI或者数据没准备好。                 <br/>
- * 目前的解决方案就是在数据准备好的回调中做一次判断{@link #onFaceDataLoadSuccess(List<MomentFace>)}，
+ * 目前的解决方案就是在数据准备好的回调中做一次判断{@link #onFaceDataLoadSuccess(Map<String, List<MomentFace>>)}，
  * 在UI准备好之后的回调中也做一次判断{@link #initView()}
+ *
  * @see Element
  */
 public class MomentFacePanelElement extends Element<ViewStub> implements IMomentFacePresenter {
@@ -48,7 +50,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
     // 在面板UI未加载前，用来临时存放要选中的变脸项
     private MomentFace mScheduledFaceItem;
     // 拉取下来的数据列表，如果View还没有inflate，而数据拉取回来了，这个不为空
-    private List<MomentFace> mScheduledFaceData;
+    private Map<String, List<MomentFace>> mScheduledFaceData;
     // 是否拉取数据列表失败了
     private boolean isFaceDataLoadFailed;
     // 默认需要显示的变脸信息
@@ -57,6 +59,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
     private boolean mIsFaceDataFetched;
     // 监听资源下载成功回调，包括其他界面发出的下载请求
     private MomentFaceDownloadObserver mMomentFaceDownloadObserver = new MomentFaceDownloadObserver(this);
+    private View.OnClickListener mPanelRecordBtnClickListener;
 
     public MomentFacePanelElement(ViewStub view) {
         super(view);
@@ -75,6 +78,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
     private void initView() {
         mViewProxy.getStubView().setOnFaceResourceSelectListener(mMomentFaceSelectListener);
         mViewProxy.getStubView().attachPresenter(this);
+        mViewProxy.getStubView().setPanelRecordBtnClickListener(mPanelRecordBtnClickListener);
 
         if (mScheduledFaceData != null) {
             mViewProxy.getStubView().onFaceDataLoadSuccess(mScheduledFaceData);
@@ -82,7 +86,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
             if (mScheduledFaceItem != null) {
             } else if (mTolerantMoment != null) {
                 // 如果数据列表已经拉取回来，找到指定的变脸信息
-                final MomentFace momentFace = MomentFaceUtil.findMomentFace((List<MomentFace>) mFaceDataManager.getData(), mTolerantMoment.getFaceId());
+                final MomentFace momentFace = MomentFaceUtil.findMomentFace((Map<String, List<MomentFace>>) mFaceDataManager.getData(), mTolerantMoment.getFaceId());
                 if (momentFace == null) {
                     return;
                 }
@@ -93,6 +97,14 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
             mViewProxy.getStubView().showLoadingView();
         }
 
+    }
+
+    public void setPanelRecordBtnClickListener(View.OnClickListener onClickListener) {
+        if (mViewProxy.isInflate()) {
+            mViewProxy.getStubView().setPanelRecordBtnClickListener(onClickListener);
+        } else {
+            mPanelRecordBtnClickListener = onClickListener;
+        }
     }
 
     /**
@@ -126,6 +138,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
     /**
      * 资源下载成功，这个下载不一定仅仅是当前面板发出的，可能有推荐面板发出的下载请求，也会回调到这里。<br/>
      * 本面板发出的下载请求见{@link #onFaceDownloadSuccess(MomentFace, boolean)}
+     *
      * @param face 更新的变脸资源
      */
     private void updateMomentFace(MomentFace face) {
@@ -164,7 +177,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
         mMomentFacePanelHelper = momentFacePanelHelper;
     }
 
-    private void onFaceDataLoadSuccess(List<MomentFace> data) {
+    private void onFaceDataLoadSuccess(Map<String, List<MomentFace>> data) {
         this.mIsFaceDataFetched = true;
         if (mViewProxy.isInflate()) {
             mViewProxy.getStubView().onFaceDataLoadSuccess(data);
@@ -172,7 +185,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
             if (mScheduledFaceItem != null) {
             } else if (mTolerantMoment != null) {
                 // 如果数据列表已经拉取回来，找到指定的变脸信息
-                MomentFace momentFace = MomentFaceUtil.findMomentFace((List<MomentFace>) mFaceDataManager.getData(), mTolerantMoment.getFaceId());
+                MomentFace momentFace = MomentFaceUtil.findMomentFace((Map<String, List<MomentFace>>) mFaceDataManager.getData(), mTolerantMoment.getFaceId());
                 if (momentFace == null) {
                     return;
                 }
@@ -183,7 +196,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
             // 这需求...即使UI没准备好，也需要先回调默认变脸项。
             if (mTolerantMoment != null && canSetTolerantMoment()) {
                 // 如果数据列表已经拉取回来，找到指定的变脸信息
-                MomentFace momentFace = MomentFaceUtil.findMomentFace((List<MomentFace>) mFaceDataManager.getData(), mTolerantMoment.getFaceId());
+                MomentFace momentFace = MomentFaceUtil.findMomentFace((Map<String, List<MomentFace>>) mFaceDataManager.getData(), mTolerantMoment.getFaceId());
                 mMomentFaceSelectListener.onSelected(momentFace);
             }
         }
@@ -191,6 +204,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 设置默认选中的变脸项
+     *
      * @param tolerantMoment 默认选中的变脸项信息
      * @see TolerantMoment
      */
@@ -200,7 +214,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
         }
         if (mIsFaceDataFetched) {
             // 如果数据列表已经拉取回来，找到指定的变脸信息
-            MomentFace momentFace = MomentFaceUtil.findMomentFace((List<MomentFace>) mFaceDataManager.getData(), tolerantMoment.getFaceId());
+            MomentFace momentFace = MomentFaceUtil.findMomentFace((Map<String, List<MomentFace>>) mFaceDataManager.getData(), tolerantMoment.getFaceId());
             if (momentFace == null) {
                 return;
             }
@@ -213,13 +227,15 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 是否可以设置默认变脸
+     *
      * @return true 可以，false 不可以
      */
     private boolean canSetTolerantMoment() {
         if (mScheduledFaceItem != null) {
             // 如果外部已经设置了需要选中的变脸项，还设置个P默认项
             return false;
-        } else return !mViewProxy.isInflate() || !mIsFaceDataFetched || !mViewProxy.getStubView().hasSelectItem();
+        } else
+            return !mViewProxy.isInflate() || !mIsFaceDataFetched || !mViewProxy.getStubView().hasSelectItem();
     }
 
     /**
@@ -245,6 +261,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 下载资源成功
+     *
      * @param isLocalExit 当前资源是否是本地已经存在并且可用的资源。
      */
     private void onFaceDownloadSuccess(MomentFace face, boolean isLocalExit) {
@@ -326,6 +343,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 变脸界面是否显示
+     *
      * @return true 显示，false 隐藏
      */
     public boolean isShown() {
@@ -334,6 +352,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 显示变脸页面
+     *
      * @see #show(boolean)
      */
     public void show() {
@@ -342,6 +361,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 显示变脸界面
+     *
      * @param withAnimation 是否播放进入动画
      * @see #show()
      */
@@ -351,6 +371,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 隐藏变脸界面
+     *
      * @see #hide(boolean)
      */
     public void hide() {
@@ -359,6 +380,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 隐藏变脸界面
+     *
      * @param withAnimation true
      * @see #hide()
      */
@@ -392,6 +414,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
 
     /**
      * 当前View是否已经inflate到内存
+     *
      * @return true 已经inflate，false 未inflate
      */
     public boolean isViewInflated() {
@@ -401,7 +424,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
     /**
      * 列表数据拉取回调
      */
-    private static class FaceDataLoadCallback implements MomentFaceDataManager.FaceDataLoadCallback<List<MomentFace>> {
+    private static class FaceDataLoadCallback implements MomentFaceDataManager.FaceDataLoadCallback<Map<String, List<MomentFace>>> {
 
         private WeakReference<MomentFacePanelElement> mRef;
 
@@ -410,7 +433,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
         }
 
         @Override
-        public void onFaceDataLoadSuccess(List<MomentFace> data) {
+        public void onFaceDataLoadSuccess(Map<String, List<MomentFace>> data) {
             MomentFacePanelElement element = mRef.get();
             if (element == null || element.isDestroy()) {
                 return;

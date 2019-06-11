@@ -20,6 +20,8 @@ public class MusicContent implements Parcelable, Serializable {
     public String cover;
 
     public static final int MUSIC_LENGTH = 15000;
+    public String artist;
+    public String album;
 
     public MusicContent() {
     }
@@ -50,6 +52,8 @@ public class MusicContent implements Parcelable, Serializable {
         dest.writeInt(startMillTime);
         dest.writeInt(endMillTime);
         dest.writeString(this.cover);
+        dest.writeString(this.artist);
+        dest.writeString(this.album);
 
     }
 
@@ -61,6 +65,8 @@ public class MusicContent implements Parcelable, Serializable {
         startMillTime = in.readInt();
         endMillTime = in.readInt();
         this.cover = in.readString();
+        this.artist = in.readString();
+        this.album = in.readString();
     }
 
     public static final Creator<MusicContent> CREATOR = new Creator<MusicContent>() {

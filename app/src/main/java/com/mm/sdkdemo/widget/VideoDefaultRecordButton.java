@@ -66,6 +66,7 @@ public class VideoDefaultRecordButton extends View implements ValueAnimator.Anim
     private boolean recordAnimCancel = false;
     private boolean progressAnimCancel = false;
 
+
     private Callback callback;
     private RecordButtonTouchEventHelper touchEventHelper;
     private ValueAnimator mScaleAnim;
@@ -444,7 +445,9 @@ public class VideoDefaultRecordButton extends View implements ValueAnimator.Anim
         this.callback = callback;
         touchEventHelper.setCallback(callback);
     }
-
+    public Callback getCallback() {
+        return callback;
+    }
     public void setCanLongPress(boolean can) {
         touchEventHelper.setCanLongPress(can);
     }

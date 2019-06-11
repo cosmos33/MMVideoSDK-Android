@@ -18,8 +18,8 @@ import android.view.Window;
 import android.widget.PopupWindow;
 import android.widget.Space;
 
-import com.mm.mmutil.toast.Toaster;
 import com.mm.mediasdk.utils.UIUtils;
+import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseActivity;
 import com.mm.sdkdemo.base.BaseTabOptionFragment;
@@ -28,6 +28,7 @@ import com.mm.sdkdemo.bean.VideoInfoTransBean;
 import com.mm.sdkdemo.bean.VideoRecordDefs;
 import com.mm.sdkdemo.recorder.MediaConstants;
 import com.mm.sdkdemo.recorder.activity.ImageEditActivity;
+import com.mm.sdkdemo.recorder.activity.RecordParamSettingActivity;
 import com.mm.sdkdemo.recorder.activity.VideoCutActivity;
 import com.mm.sdkdemo.recorder.model.AlbumDirectory;
 import com.mm.sdkdemo.recorder.model.Photo;
@@ -519,17 +520,10 @@ public class AlbumFragment extends BaseTabOptionFragment implements
 
     @Override
     public void gotoRecord(VideoInfoTransBean transBean) {
-        transBean.showAlbum = false;
-        transBean.video = null;
-        transBean.initAlbumIndex = AlbumHomeFragment.STATE_ALBUM;
-        IAlbumView albumView = (IAlbumView) getParentFragment();
-        if (transBean.mediaType != AlbumConstant.MEDIA_TYPE_IMAGE) {
-            mArgs.putInt(MediaConstants.EXTRA_KEY_VIDEO_STATE, VideoInfoTransBean.STATE_DEFAULT_RECORD);
-        }
-        mArgs.putString(GOTO_WHERE, VideoRecordFragment.class.getSimpleName());
-        if (albumView != null) {
-            albumView.changeFragment(this, mArgs);
-        }
+
+        Intent intent = new Intent(getActivity(), RecordParamSettingActivity.class);
+        startActivity(intent);
+
     }
 
     public void onSendClick() {

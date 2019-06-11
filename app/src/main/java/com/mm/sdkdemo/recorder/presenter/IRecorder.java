@@ -3,6 +3,7 @@ package com.mm.sdkdemo.recorder.presenter;
 import android.app.Activity;
 
 import com.core.glcore.config.MRConfig;
+import com.core.glcore.config.Size;
 import com.immomo.moment.config.MRecorderActions;
 import com.mm.sdkdemo.recorder.view.IRecordView;
 
@@ -66,4 +67,12 @@ public interface IRecorder {
     void focusOnTouch(double x, double y, int viewWidth, int viewHeight);
 
     void setFlashMode(int mode);
+
+     Size getVisualSize();
+
+    int getMaxZoomLevel();
+
+    void setZoomLevel(int zoomLevel);
+
+    int getCurrentZoomLevel();
 }

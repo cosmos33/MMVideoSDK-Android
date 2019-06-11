@@ -1,6 +1,6 @@
 package com.mm.sdkdemo.recorder.helper;
 
-import com.mm.mdlog.MDLog;
+import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.utils.DownloadUtil;
 import com.mm.mmutil.FileUtil;
 import com.mm.mmutil.MD5Utils;

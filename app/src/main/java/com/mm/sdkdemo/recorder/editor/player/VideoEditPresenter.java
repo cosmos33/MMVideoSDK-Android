@@ -11,19 +11,18 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.mm.mdlog.MDLog;
-import com.mm.mediasdk.IVideoProcessor;
-import com.mm.mediasdk.MoMediaManager;
-import com.mm.mediasdk.utils.FilterUtils;
-import com.mm.mediasdk.utils.ImageUtil;
-import com.mm.mediasdk.utils.UIUtils;
-import com.mm.mediasdk.videoprocess.MoVideo;
-import com.mm.mmutil.app.AppContext;
-import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.cmds.EffectModel;
 import com.immomo.moment.mediautils.cmds.TimeRangeScale;
+import com.immomo.moment.mediautils.cmds.VideoCut;
 import com.immomo.moment.mediautils.cmds.VideoEffects;
+import com.cosmos.mdlog.MDLog;
+import com.mm.mediasdk.IVideoProcessor;
+import com.mm.mediasdk.MoMediaManager;
+import com.mm.mediasdk.utils.ImageUtil;
+import com.mm.mediasdk.utils.UIUtils;
+import com.mm.mmutil.app.AppContext;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.bean.MomentExtraInfo;
 import com.mm.sdkdemo.config.Configs;
@@ -39,6 +38,7 @@ import com.momo.mcamera.mask.MaskModel;
 import com.momo.mcamera.mask.MaskStore;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import project.android.imageprocessing.ext.BitmapBlendFilter;
@@ -81,7 +81,7 @@ public class VideoEditPresenter implements IProcessPresenter {
         this.view = view;
         this.video = video;
         videoProcessor = MoMediaManager.createVideoProcessor();
-        //        editFilterGroupWapper.addFilter(FiltersManager.getInstance().getFilterGroupByIndex(0, AppContext.getContext()));
+        //        editFilterGroupWapper.addEndFilter(FiltersManager.getInstance().getFilterGroupByIndex(0, AppContext.getContext()));
 
         momentExtraInfo = new MomentExtraInfo(video);
         int size[] = momentExtraInfo.getTargetSize();
@@ -138,6 +138,7 @@ public class VideoEditPresenter implements IProcessPresenter {
         } else {
             videoProcessor.prepareVideo(video.path, null, 0, 0, video.osPercent, video.psPercent);
         }
+        videoProcessor.initFilters(getAllFilters());
         initProcessAndPlay();
     }
 
@@ -222,16 +223,10 @@ public class VideoEditPresenter implements IProcessPresenter {
     }
 
     @Override
-    public void addFilter(int index) {
-        BasicFilter filter = FilterUtils.getFilterGroupByIndex(index, getAllFilters());
-        if (null != lastFilter) {
-            videoProcessor.deleteFilter(lastFilter);
-        }
-        if (index >= 0) {
-            lastFilter = filter;
-            videoProcessor.addFilter(lastFilter);
-        }
+    public void changeToFilter(int index) {
+        videoProcessor.changeToFilter(index, false, 0);
     }
+
 
     @Override
     public void setEffectModelForSpeedAdjust(EffectModel effectModel) {
@@ -296,6 +291,15 @@ public class VideoEditPresenter implements IProcessPresenter {
     @Override
     public void updateEffectModelAndPlay(@Nullable List<TimeRangeScale> timeRangeScales, long seekTime) {
         videoProcessor.updateEffect(timeRangeScales, seekTime, true);
+    }
+
+    @Override
+    public void updateEffectModelAndPlay(@Nullable List<VideoCut> videoCut, @Nullable List<TimeRangeScale> timeRangeScales, long seekTime) {
+        if (videoCut == null) {
+            videoCut = new ArrayList<>();
+            videoCut.add(new VideoCut(video.path, 0, video.length, false));
+        }
+        videoProcessor.updateEffect(videoCut, timeRangeScales, seekTime, true);
     }
 
     @Override
@@ -632,6 +636,18 @@ public class VideoEditPresenter implements IProcessPresenter {
         } else {
             MDLog.i(LogTag.PROCESSOR.PROCESS, "setPlayMusic null");
             videoProcessor.setMusic(null, 0, 0);
+        }
+    }
+
+    @Override
+    public void restoreEffectModel() {
+        updateEffectModelAndPlay(null, null, 0);
+    }
+
+    @Override
+    public void setFilterIntensity(float value) {
+        if (null != videoProcessor) {
+            videoProcessor.setFilterIntensity(value);
         }
     }
 }
