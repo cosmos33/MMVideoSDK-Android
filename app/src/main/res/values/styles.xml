@@ -138,10 +138,11 @@
 
     <style name="record_btn_style" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/record_btn_bg</item>
-        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_height">44dp</item>
     </style>
 
     <style name="style_single_line_cell_without_icon">
@@ -155,6 +156,11 @@
         <item name="drawTopLine">false</item>
         <item name="drawBottomLine">true</item>
         <item name="lineLeftMargin">15dp</item>
-        <item name="dlw_lineColor">@color/C03</item>
+        <item name="dlw_lineColor">#33ffffff</item>
     </style>
+
+    <style name="live_photo_tab_text">
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

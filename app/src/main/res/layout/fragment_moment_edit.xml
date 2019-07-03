@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/video_cover_and_process"
@@ -24,29 +23,27 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true" />
-    </RelativeLayout>
-
-
-    <!--所有贴纸 包括文字贴纸-->
-    <FrameLayout
-        android:id="@+id/moment_edit_all_sticker_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:clipChildren="false">
-
-        <com.mm.sdkdemo.widget.sticker.StickerContainerView
-            android:id="@+id/moment_edit_sticker_container"
+        <!--所有贴纸 包括文字贴纸-->
+        <FrameLayout
+            android:id="@+id/moment_edit_all_sticker_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipChildren="false" />
+            android:layout_centerInParent="true"
+            android:clipChildren="false">
+
+            <com.mm.sdkdemo.widget.sticker.StickerContainerView
+                android:id="@+id/moment_edit_sticker_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false" />
+        </FrameLayout>
 
         <ImageView
             android:id="@+id/moment_edit_draw_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+    </RelativeLayout>
 
-    </FrameLayout>
 
     <TextView
         android:id="@+id/moment_edit_btn_close"

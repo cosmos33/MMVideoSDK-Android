@@ -44,11 +44,14 @@ import android.widget.TextView;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
+import com.immomo.doki.DokiContextHolder;
+import com.immomo.doki.filter.makeup.MakeupFilter;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.model.VideoFragment;
 import com.cosmos.mdlog.MDLog;
-import com.mm.mediasdk.bean.MMRecorderParams;
+import com.mm.sdkdemo.bean.MMRecorderParams;
 import com.mm.mediasdk.utils.UIUtils;
+import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.R;
@@ -91,6 +94,7 @@ import com.mm.sdkdemo.utils.album.AlbumConstant;
 import com.mm.sdkdemo.utils.filter.FiltersManager;
 import com.mm.sdkdemo.widget.FaceTipView;
 import com.mm.sdkdemo.widget.FilterScrollMoreViewPager;
+import com.mm.sdkdemo.widget.MomentBeautyPanelLayout;
 import com.mm.sdkdemo.widget.MomentFilterPanelLayout;
 import com.mm.sdkdemo.widget.MomentFilterPanelTabLayout;
 import com.mm.sdkdemo.widget.MomentRecordProgressView;
@@ -103,6 +107,7 @@ import com.mm.sdkdemo.widget.SlideIndicatorBuilder;
 import com.mm.sdkdemo.widget.VideoAdvancedRecordButton;
 import com.mm.sdkdemo.widget.VideoDefaultRecordButton;
 import com.mm.sdkdemo.widget.VideoRecordControllerLayout;
+import com.momo.mcamera.dokibeauty.MakeupHelper;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.mask.MaskModel;
 import com.momo.mcamera.mask.Sticker;
@@ -215,6 +220,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     // 变脸面板ViewStub对象
     private ViewStub mFacePannelViewStub;
 
+    private MomentBeautyPanelLayout beautyPanelLayout;
+
     private MomentFilterPanelLayout filterPanel;  // 滤镜布局
     private FaceTipView mStickerTriggerTipView;
     private Fragment[] fragments;
@@ -238,8 +245,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private long lastClickTime = 0;
 
     private Drawable timeBackground;
-
-    private int soundPitchMode = 0;
 
     @Nullable
     private MusicContent selectedMusic;//真正选中的音乐
@@ -286,6 +291,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private MusicPanelHelper musicPanelHelper;
 
     private ImageView lastFrameView;
+
+    private MakeupFilter filter;
 
     @Override
     protected int getLayout() {
@@ -359,6 +366,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
     @Override
     protected void initViews(final View contentView) {
+        beautyPanelLayout = findViewById(R.id.record_beauty);
         videoRecordSurfaceView = findViewById(R.id.video_record_surfaceView);
         lastFrameView = findViewById(R.id.last_frame);
         changeFragmentViewpager = findViewById(R.id.change_fragment_viewpager);
@@ -619,6 +627,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             slideBar.setCurrentIndicatorIndex(currentSpeedIndex);
             AnimUtils.Default.fadeWeight(slideBar, true);
         } else {
+            beautyPanelLayout.setVisibility(View.GONE);
             slideBar.setVisibility(View.GONE);
         }
     }
@@ -872,6 +881,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 if (slideBar != null && slideBar.getVisibility() == View.VISIBLE) {
                     showSpeedView(false);
                 }
+                beautyPanelLayout.setVisibility(View.GONE);
                 return true;
             }
 
@@ -929,7 +939,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                     }
                     boolean consumed = XEngineEventHelper.touchHitTest(event.getX(), event.getY());
                     if (consumed) {
-                        XEngineEventHelper.handEvent(event);
+                        XEngineEventHelper.handEvent(event, changeFragmentViewpager);
                     }
                     changeFragmentViewpager.setEnabled(!consumed);
                     return consumed;
@@ -937,7 +947,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                     if (mIs3D) {
                         boolean consumed = XEngineEventHelper.touchHitTest(event.getX(), event.getY());
                         if (consumed) {
-                            XEngineEventHelper.handEvent(event);
+                            XEngineEventHelper.handEvent(event, changeFragmentViewpager);
                             return true;
                         }
                     }
@@ -1220,8 +1230,22 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         videoAdvancedBtnDelete.setOnClickListener(this);
         tvFilterName.setOnClickListener(this);
         videoSlimmingContainer.setOnClickListener(this);
+        findViewById(R.id.video_beauty).setOnClickListener(this);
         videoFaceContainer.setOnClickListener(this);
         videoSpeed.setOnClickListener(this);
+
+        beautyPanelLayout.setBeautySelectListener(new MomentBeautyPanelLayout.BeautySelectListener() {
+            @Override
+            public void onSelect(File file) {
+                if (filter == null) {
+                    DokiContextHolder.init(AppContext.getContext());
+                    filter = new MakeupFilter();
+                    mPresenter.addFilter(filter);
+                }
+                MakeupHelper.clearMakeupLayer();
+                MakeupHelper.parseMakeupResources(file.getAbsolutePath());
+            }
+        });
 
     }
 
@@ -1310,7 +1334,21 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 }
                 switchFacePanel();
                 break;
+            case R.id.video_beauty:
+                hideSpeedView();
+                if (isFacePanelShowing()) {
+                    hideFacePanel();
+                }
+                if (beautyPanelLayout.getVisibility() == View.VISIBLE) {
+                    beautyPanelLayout.setVisibility(View.GONE);
+                } else {
+                    beautyPanelLayout.setVisibility(View.VISIBLE);
+                }
+                break;
             case R.id.speed:
+                if (beautyPanelLayout.getVisibility() == View.VISIBLE) {
+                    beautyPanelLayout.setVisibility(View.GONE);
+                }
                 if (null == slideBar || slideBar.getVisibility() == View.GONE) {
                     showSpeedView(true);
                 } else {
@@ -1323,6 +1361,9 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     }
 
     private void hideSpeedView() {
+        if (beautyPanelLayout.getVisibility() == View.VISIBLE) {
+            beautyPanelLayout.setVisibility(View.GONE);
+        }
         if (slideBar != null && slideBar.getVisibility() == View.VISIBLE) {
             showSpeedView(false);
         }
@@ -1545,6 +1586,10 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 mPresenter.initFilter(filters);
                 onBeautyTabSelect(Configs.DEFAULT_BEAUTY, MomentFilterPanelLayout.TYPE_BEAUTY);
                 onBeautyTabSelect(Configs.DEFAULT_BIG_EYE, MomentFilterPanelLayout.TYPE_EYE_AND_THIN);
+                if (filter != null) {
+                    mPresenter.addFilter(filter);
+                    beautyPanelLayout.clickCurrentTab();
+                }
             } else {
                 Toaster.show("相机打开失败，请检查系统相机是否可用");
                 finishActivity();
@@ -1887,14 +1932,21 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                     if (maskModel == null) {
                         return;
                     }
-                    if (recordTipManager != null)
-                        recordTipManager.reset();
-                    mIs3D = is3d(maskModel);
-                    mSelectedFaceID = face.getId();
-                    mPresenter.addMaskModel(maskModel);
-                    if (maskModel.getFilterDisable() != null && maskModel.getFilterDisable().booleanValue()) {
-                        selectFilterPos(0, false);
+
+
+                    if (face.isCustomMaskModelType()) {
+                        mPresenter.addCustomTypeMaskModel(maskModel);
+                    } else {
+                        if (recordTipManager != null)
+                            recordTipManager.reset();
+                        mIs3D = is3d(maskModel);
+                        mSelectedFaceID = face.getId();
+                        mPresenter.addMaskModel(maskModel);
+
                     }
+//                    if (maskModel.getFilterDisable() != null && maskModel.getFilterDisable().booleanValue()) {
+//                        selectFilterPos(0, false);
+//                    }
                 }
 
                 private boolean is3d(MaskModel maskModel) {
@@ -2334,7 +2386,9 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         }
         v.playingMusic = playMusic;
         transBean.musicContent = playMusic;
-        v.soundPitchMode = soundPitchMode;
+        if(mRecorderParams == null || mRecorderParams.isEnableAudioRecorder()&&mPresenter.getCurrentMaskModel()!=null){
+            v.soundPitchMode = mPresenter.getCurrentMaskModel().getSoundPitchMode();
+        }
         // 内置拍摄器拍摄的视频  默认是已经转码视频
         v.hasTranscoding = true;
         transBean.state = state;
@@ -2385,9 +2439,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
     @Override
     public void onMaskModelSet(MaskModel model) {
-        int soundPitchMode = model.getSoundPitchMode();
-        if (soundPitchMode != 0)
-            this.soundPitchMode = soundPitchMode;
         if (recordTipManager != null) {
             if (model.getAdditionalInfo() == null) {
                 recordTipManager.reset();
@@ -2575,13 +2626,11 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
     @Override
     public void onRecordStarted() {
-        MDLog.e("duanqingTest", "onRecordStarted");
         isRecording = true;
     }
 
     @Override
     public void onRecordPaused() {
-        MDLog.e("duanqingTest", "onRecordPaused");
         isRecording = false;
     }
 
@@ -2817,232 +2866,234 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             } else {
                 videoDefaultRecordBtn.setEnabled(false);
                 mPresenter.takePhoto();
-            }}
-            @Override
-            public void onClick () {
-                changeFragmentViewpager.setEnabled(false);
-                recordPagerIndicator.setEnabled(false);
-                if (mPresenter != null) {
-                    if (isDefault()) {
-                        if (transBean != null && transBean.mediaType == AlbumConstant.MEDIA_TYPE_VIDEO) {
-                            changeFragmentViewpager.setEnabled(true);
-                            recordPagerIndicator.setEnabled(true);
-                            if (!TextUtils.isEmpty(transBean.alertToast))
-                                Toaster.show(transBean.alertToast);
-                            return;
-                        }
-                        recordCancelTip.setVisibility(View.INVISIBLE);
-                        checkDelayAndStartShooting();
-//                        mPresenter.takePhoto();
-                    } else {
-                        if (mPresenter.isRecording()) {
-                            stopRecording(true);
-                        } else {
-                            draggingToCancel = false;
-                            checkDelayAndStartRecord();
-                        }
-                    }
-                }
             }
         }
 
-        private class DelayStartRecord implements Runnable {
-            DelayStartRecord() {
-            }
-
-            @Override
-            public void run() {
-                delayStartRecordTask = null;
-                startAnimToStartRecord(true);
-            }
-        }
-
-        private void startAnimToStartRecord(boolean showToolBar) {
-            if (state == STATE_DEFAULT_RECORD) {
-                videoDefaultRecordBtn.startAnimToRecord();
-            } else {
-                videoAdvancedRecordBtn.startAnimToRecord();
-            }
-            if (showToolBar) {
-                btnClose.setVisibility(View.VISIBLE);
-            }
-        }
-
-        private void cancelRecord() {
-            if (videoAdvancedProgressView != null)
-                videoAdvancedProgressView.stopRecord();
+        @Override
+        public void onClick() {
+            changeFragmentViewpager.setEnabled(false);
+            recordPagerIndicator.setEnabled(false);
             if (mPresenter != null) {
-                mPresenter.cancelRecording();
-                removeLast();
-                refreshView(false);
-                resetRecordButton(true);
-            }
-            if (videoRecordControllerLayout != null) {
-                videoRecordControllerLayout.showRecordingFace(false);
-            }
-        }
-
-        private class ShowDelayTimeTask implements Runnable {
-            static final long ANIM_TIME = 300;
-            boolean cancel = false;
-
-            @Override
-            public void run() {
-                if (cancel)
-                    return;
-                if (delayTime <= 0) {
-                    delayTextTask = null;
-                    delayText.setVisibility(View.INVISIBLE);
-                    return;
-                }
-                delayText.setText("" + delayTime);
-                delayTime--;
-                playDelayTextAnim(ANIM_TIME);
-                if (cancel)
-                    return;
-                MomoMainThreadExecutor.postDelayed(getTaskTag(), this, 1000);
-            }
-        }
-
-        private void playDelayTextAnim(long duration) {
-            delayText.setVisibility(View.VISIBLE);
-            delayText.startAnimation(
-                    AnimUtils.Animations.setListener(
-                            AnimUtils.Animations.playTogether(
-                                    AnimUtils.Animations.newFadeInThenFadeOutAnimation(duration, duration),
-                                    AnimUtils.Animations.newZoomInAnimation(duration)
-                            ),
-                            AnimUtils.Animations.newGoneListener(delayText)
-                    ));
-        }
-
-        @Override
-        public void onFilterTabSelect(int selectPosition) {
-            if (mPresenter == null)
-                return;
-            mPresenter.changeToFilter(selectPosition, false, 0);
-            setCurrentFilterIndex(selectPosition);
-        }
-
-        @Override
-        public void onBeautyTabSelect(int selectPosition, int type) {
-            float[] value = new float[2];
-            switch (type) {
-                case MomentFilterPanelLayout.TYPE_BEAUTY:   // 美肤 美白
-                    value[0] = Configs.DOKI_BEAUTY[selectPosition];
-                    value[1] = Configs.DOKI_BEAUTY[selectPosition];
-                    mPresenter.setItemSelectSkinLevel(value);
-
-                    mCurFilterBeautyPos = selectPosition;
-                    break;
-                case MomentFilterPanelLayout.TYPE_EYE_AND_THIN: //  大眼 瘦脸
-                    value[0] = Configs.DOKI_BIG_EYE[selectPosition];
-                    value[1] = Configs.DOKI_THIN_FACE[selectPosition];
-                    mPresenter.setFaceEyeScale(value[0]);
-                    mPresenter.setFaceThinScale(value[1]);
-                    mCurFilterEyeThinPos = selectPosition;
-                    break;
-                case MomentFilterPanelLayout.TYPE_SLIMMING:    // 瘦身
-                    mPresenter.setSlimmingScale(VideoPanelFaceAndSkinManager.getInstance().getSlimmingAndLongLegsLevel(selectPosition, type));
-                    mCurFilterSlimmingPos = selectPosition;
-                    break;
-                case MomentSkinAndFacePanelLayout.TYPE_LONG_LEGS:  // 长腿
-                    mPresenter.setLongLegScale(VideoPanelFaceAndSkinManager.getInstance().getSlimmingAndLongLegsLevel(selectPosition, type));
-                    mCurFilterLongLegPos = selectPosition;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        @Override
-        public void onBeautyMoreChanged(float[] value, int type) {
-            switch (type) {
-                case MomentFilterPanelLayout.TYPE_BEAUTY:   // 美肤 美白
-                    mPresenter.setItemSelectSkinLevel(value);
-                    break;
-                case MomentFilterPanelLayout.TYPE_EYE_AND_THIN: //  大眼 瘦脸
-                    //                value[0] = Configs.DOKI_BIG_EYE[selectPosition];
-                    //                value[1] = Configs.DOKI_THIN_FACE[selectPosition];
-                    mPresenter.setFaceEyeScale(value[0]);
-                    mPresenter.setFaceThinScale(value[1]);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        @Override
-        public void onStop() {
-            super.onStop();
-        }
-
-        public void release() {
-            if (mPresenter != null) {
-                mPresenter.clearTempFiles();
-            }
-        }
-
-        /**
-         * 根据从哪个页面跳转过来、和页面内操作时上传预览入口的显示逻辑确定是否需要显示
-         * eg:相册页跳转过来（showAlbum : false）、问问模式（isWenWenModel : true）
-         *
-         * @param needStatus 需要的状态，eg:View.VISIBLE、View.GONE
-         * @return 应该处于什么状态
-         */
-        private int isShowAlbumPreview(int needStatus) {
-            if (showAlbum) {  //控制从不同页面跳转过来时，是否展示预览入口
-                return needStatus;
-            }
-            return View.GONE;
-        }
-
-        private MRecorderActions.OnRecordFinishedListener onRecordFinishedListener = new MRecorderActions.OnRecordFinishedListener() {
-            @Override
-            public void onFinishingProgress(int progress) {
-                onRecordProcess(progress);
-            }
-
-            @Override
-            public void onRecordFinished() {
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    File videoFile = new File(restoreVideoPath);
-                    final boolean invalid = !videoFile.exists() || videoFile.length() <= 0;
-                    onRecordFinish(restoreVideoPath, !invalid);
-
-                    if (invalid) {
-                        Toaster.showInvalidate("视频录制错误，请重试");
+                if (isDefault()) {
+                    if (transBean != null && transBean.mediaType == AlbumConstant.MEDIA_TYPE_VIDEO) {
+                        changeFragmentViewpager.setEnabled(true);
+                        recordPagerIndicator.setEnabled(true);
+                        if (!TextUtils.isEmpty(transBean.alertToast))
+                            Toaster.show(transBean.alertToast);
                         return;
                     }
+                    recordCancelTip.setVisibility(View.INVISIBLE);
+                    checkDelayAndStartShooting();
+//                        mPresenter.takePhoto();
+                } else {
+                    if (mPresenter.isRecording()) {
+                        stopRecording(true);
+                    } else {
+                        draggingToCancel = false;
+                        checkDelayAndStartRecord();
+                    }
                 }
             }
+        }
+    }
 
-            @Override
-            public void onFinishError(final String errMsg) {
-                MomoMainThreadExecutor.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPresenter.cancelRecording();
-                        removeLast();
-                        refreshView(false);
-                        resetRecordButton(true);
-                        onProcessError(errMsg);
-                    }
-                });
-            }
-        };
+    private class DelayStartRecord implements Runnable {
+        DelayStartRecord() {
+        }
 
-        private class DelayStartShooting implements Runnable {
-            DelayStartShooting() {
-            }
+        @Override
+        public void run() {
+            delayStartRecordTask = null;
+            startAnimToStartRecord(true);
+        }
+    }
 
-            @Override
-            public void run() {
-                videoDefaultRecordBtn.setEnabled(false);
-                cancelDelayBtn.setVisibility(View.GONE);
-                delayStartShootingTask = null;
-                mPresenter.takePhoto();
+    private void startAnimToStartRecord(boolean showToolBar) {
+        if (state == STATE_DEFAULT_RECORD) {
+            videoDefaultRecordBtn.startAnimToRecord();
+        } else {
+            videoAdvancedRecordBtn.startAnimToRecord();
+        }
+        if (showToolBar) {
+            btnClose.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void cancelRecord() {
+        if (videoAdvancedProgressView != null)
+            videoAdvancedProgressView.stopRecord();
+        if (mPresenter != null) {
+            mPresenter.cancelRecording();
+            removeLast();
+            refreshView(false);
+            resetRecordButton(true);
+        }
+        if (videoRecordControllerLayout != null) {
+            videoRecordControllerLayout.showRecordingFace(false);
+        }
+    }
+
+    private class ShowDelayTimeTask implements Runnable {
+        static final long ANIM_TIME = 300;
+        boolean cancel = false;
+
+        @Override
+        public void run() {
+            if (cancel)
+                return;
+            if (delayTime <= 0) {
+                delayTextTask = null;
+                delayText.setVisibility(View.INVISIBLE);
+                return;
             }
+            delayText.setText("" + delayTime);
+            delayTime--;
+            playDelayTextAnim(ANIM_TIME);
+            if (cancel)
+                return;
+            MomoMainThreadExecutor.postDelayed(getTaskTag(), this, 1000);
+        }
+    }
+
+    private void playDelayTextAnim(long duration) {
+        delayText.setVisibility(View.VISIBLE);
+        delayText.startAnimation(
+                AnimUtils.Animations.setListener(
+                        AnimUtils.Animations.playTogether(
+                                AnimUtils.Animations.newFadeInThenFadeOutAnimation(duration, duration),
+                                AnimUtils.Animations.newZoomInAnimation(duration)
+                        ),
+                        AnimUtils.Animations.newGoneListener(delayText)
+                ));
+    }
+
+    @Override
+    public void onFilterTabSelect(int selectPosition) {
+        if (mPresenter == null)
+            return;
+        mPresenter.changeToFilter(selectPosition, false, 0);
+        setCurrentFilterIndex(selectPosition);
+    }
+
+    @Override
+    public void onBeautyTabSelect(int selectPosition, int type) {
+        float[] value = new float[2];
+        switch (type) {
+            case MomentFilterPanelLayout.TYPE_BEAUTY:   // 美肤 美白
+                value[0] = Configs.DOKI_BEAUTY[selectPosition];
+                value[1] = Configs.DOKI_BEAUTY[selectPosition];
+                mPresenter.setItemSelectSkinLevel(value);
+
+                mCurFilterBeautyPos = selectPosition;
+                break;
+            case MomentFilterPanelLayout.TYPE_EYE_AND_THIN: //  大眼 瘦脸
+                value[0] = Configs.DOKI_BIG_EYE[selectPosition];
+                value[1] = Configs.DOKI_THIN_FACE[selectPosition];
+                mPresenter.setFaceEyeScale(value[0]);
+                mPresenter.setFaceThinScale(value[1]);
+                mCurFilterEyeThinPos = selectPosition;
+                break;
+            case MomentFilterPanelLayout.TYPE_SLIMMING:    // 瘦身
+                mPresenter.setSlimmingScale(VideoPanelFaceAndSkinManager.getInstance().getSlimmingAndLongLegsLevel(selectPosition, type));
+                mCurFilterSlimmingPos = selectPosition;
+                break;
+            case MomentSkinAndFacePanelLayout.TYPE_LONG_LEGS:  // 长腿
+                mPresenter.setLongLegScale(VideoPanelFaceAndSkinManager.getInstance().getSlimmingAndLongLegsLevel(selectPosition, type));
+                mCurFilterLongLegPos = selectPosition;
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onBeautyMoreChanged(float[] value, int type) {
+        switch (type) {
+            case MomentFilterPanelLayout.TYPE_BEAUTY:   // 美肤 美白
+                mPresenter.setItemSelectSkinLevel(value);
+                break;
+            case MomentFilterPanelLayout.TYPE_EYE_AND_THIN: //  大眼 瘦脸
+                //                value[0] = Configs.DOKI_BIG_EYE[selectPosition];
+                //                value[1] = Configs.DOKI_THIN_FACE[selectPosition];
+                mPresenter.setFaceEyeScale(value[0]);
+                mPresenter.setFaceThinScale(value[1]);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    public void release() {
+        if (mPresenter != null) {
+            mPresenter.clearTempFiles();
+        }
+    }
+
+    /**
+     * 根据从哪个页面跳转过来、和页面内操作时上传预览入口的显示逻辑确定是否需要显示
+     * eg:相册页跳转过来（showAlbum : false）、问问模式（isWenWenModel : true）
+     *
+     * @param needStatus 需要的状态，eg:View.VISIBLE、View.GONE
+     * @return 应该处于什么状态
+     */
+    private int isShowAlbumPreview(int needStatus) {
+        if (showAlbum) {  //控制从不同页面跳转过来时，是否展示预览入口
+            return needStatus;
+        }
+        return View.GONE;
+    }
+
+    private MRecorderActions.OnRecordFinishedListener onRecordFinishedListener = new MRecorderActions.OnRecordFinishedListener() {
+        @Override
+        public void onFinishingProgress(int progress) {
+            onRecordProcess(progress);
+        }
+
+        @Override
+        public void onRecordFinished() {
+            if (getActivity() != null && !getActivity().isFinishing()) {
+                File videoFile = new File(restoreVideoPath);
+                final boolean invalid = !videoFile.exists() || videoFile.length() <= 0;
+                onRecordFinish(restoreVideoPath, !invalid);
+
+                if (invalid) {
+                    Toaster.showInvalidate("视频录制错误，请重试");
+                    return;
+                }
+            }
+        }
+
+        @Override
+        public void onFinishError(final String errMsg) {
+            MomoMainThreadExecutor.post(new Runnable() {
+                @Override
+                public void run() {
+                    mPresenter.cancelRecording();
+                    removeLast();
+                    refreshView(false);
+                    resetRecordButton(true);
+                    onProcessError(errMsg);
+                }
+            });
+        }
+    };
+
+    private class DelayStartShooting implements Runnable {
+        DelayStartShooting() {
+        }
+
+        @Override
+        public void run() {
+            videoDefaultRecordBtn.setEnabled(false);
+            cancelDelayBtn.setVisibility(View.GONE);
+            delayStartShootingTask = null;
+            mPresenter.takePhoto();
+        }
 
     }
 }

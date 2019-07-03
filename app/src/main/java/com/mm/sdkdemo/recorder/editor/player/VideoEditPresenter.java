@@ -9,14 +9,14 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
+import android.view.TextureView;
 
+import com.cosmos.mdlog.MDLog;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.cmds.EffectModel;
 import com.immomo.moment.mediautils.cmds.TimeRangeScale;
 import com.immomo.moment.mediautils.cmds.VideoCut;
 import com.immomo.moment.mediautils.cmds.VideoEffects;
-import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.IVideoProcessor;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.utils.ImageUtil;
@@ -81,6 +81,7 @@ public class VideoEditPresenter implements IProcessPresenter {
         this.view = view;
         this.video = video;
         videoProcessor = MoMediaManager.createVideoProcessor();
+        videoProcessor.setSoftAudioDecoder(true);
         //        editFilterGroupWapper.addEndFilter(FiltersManager.getInstance().getFilterGroupByIndex(0, AppContext.getContext()));
 
         momentExtraInfo = new MomentExtraInfo(video);
@@ -120,7 +121,9 @@ public class VideoEditPresenter implements IProcessPresenter {
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        videoProcessor.stopPreview();
+        if (!alreadyRelease) {
+            videoProcessor.stopPreview();
+        }
         return false;
     }
 
@@ -312,61 +315,46 @@ public class VideoEditPresenter implements IProcessPresenter {
         videoProcessor.updateEffect(seekTime, true);
     }
 
+    private boolean alreadyRelease;
     @Override
     public void releaseProcess() {
         videoProcessor.release();
+        alreadyRelease = true;
         needForceNewFilter = true;
         started = false;
     }
 
     @Override
     public void addMaskModel(String folderPath, float posX, float posY, float width) {
-        View videoView = view.getVideoView();
+        TextureView videoView = view.getVideoView();
         if (videoView == null)
             return;
         MaskModel model = MaskStore.getInstance().getMask(AppContext.getContext(), folderPath);
         if (null == model) {
             return;
         }
-        //计算坐标
-        //为满足"动态贴纸在视频中的位置与面板中一致。"这一需求。
-        final int displayWidth = videoView.getWidth();
-        final int displayHeight = videoView.getHeight();
-        final int screenWidth = UIUtils.getScreenWidth();
-        final int screenHeight = UIUtils.getScreenHeight();
 
         Rect viewRect = new Rect();
         videoView.getGlobalVisibleRect(viewRect);
 
-        posX = posX + (displayWidth - screenWidth) / 2;
-        posY = posY + (displayHeight - screenHeight) / 2;
 
-        int stickerDefaultWidth = (int) width;
-        int stickerDefaultHeight = (int) width;
+        //计算坐标
+        //为满足"动态贴纸在视频中的位置与面板中一致。"这一需求。
+        final int displayWidth = videoView.getWidth();
+        final int displayHeight = videoView.getHeight();
+
+
+        posX = displayWidth / 2 - (int) width / 2;
+        posY = displayHeight / 2 - (int) width / 2;
+        if (posX < 0) {
+            posX = 0;
+        }
+        if (posY < 0) {
+            posY = 0;
+        }
 
         int stickerId = StickerIDUtils.nextSeqId();
-        if ((int) posX == 0 && (int) posY == 0) {
-            posX = (viewRect.left + viewRect.right - stickerDefaultWidth) / 2;
-            posY = (viewRect.top + viewRect.bottom - stickerDefaultWidth) / 2;
-        }
 
-        //对于可能出现在屏幕外的动态贴纸，将位置重置到中心
-        if (posY + stickerDefaultHeight >= screenHeight - stickerDefaultHeight) {
-            posX = (viewRect.left + viewRect.right - stickerDefaultWidth) / 2;
-            posY = (viewRect.top + viewRect.bottom - stickerDefaultWidth) / 2;
-        }
-
-        //横屏模式自动显示中心
-        if (displayWidth >= displayHeight) {
-            posX = (viewRect.left + viewRect.right - stickerDefaultWidth) / 2;
-            posY = (viewRect.top + viewRect.bottom - stickerDefaultWidth) / 2;
-        }
-
-        //针对部分特殊机型以及情况做适配，超出视频范围则重置到中心
-        if (!viewRect.contains((int) (posX + stickerDefaultHeight / 2), (int) (posY + stickerDefaultHeight / 2))) {
-            posX = (viewRect.left + viewRect.right - stickerDefaultWidth) / 2;
-            posY = (viewRect.top + viewRect.bottom - stickerDefaultWidth) / 2;
-        }
 
         final StickerEntity stickerEntity = new StickerEntity();
         stickerEntity.setCover(model.getPreviewPath());
@@ -374,8 +362,8 @@ public class VideoEditPresenter implements IProcessPresenter {
         StickerEntity.StickerLocationEntity entity = new StickerEntity.StickerLocationEntity();
         entity.setOriginx(posX);
         entity.setOriginy(posY);
-        entity.setWidth(stickerDefaultWidth);
-        entity.setHeight(stickerDefaultHeight);
+        entity.setWidth(width);
+        entity.setHeight(width);
         stickerEntity.setLocationScreen(entity);
 
         Drawable drawable = UIUtils.getDrawable(R.drawable.bg_sticker_edit);
@@ -383,7 +371,8 @@ public class VideoEditPresenter implements IProcessPresenter {
 
         view.onAddSticker(viewRect, bitmap, stickerEntity);
 
-        videoProcessor.addMaskModel(model, stickerId, posX / displayWidth, posY / displayHeight);
+
+        videoProcessor.addMaskModel(model, stickerId, 0.5f, 0.5f);
         stickerCount++;
     }
 
@@ -401,6 +390,11 @@ public class VideoEditPresenter implements IProcessPresenter {
     @Override
     public void updateMaskModel(PointF centerPoint, float scale, float angle, int stickerId) {
         videoProcessor.updateMaskModel(centerPoint, scale, angle, stickerId);
+    }
+
+    @Override
+    public void setStickerTimeRange(int stickerId, long startTime, long endTime) {
+        videoProcessor.setStickerTimeRange(stickerId, startTime, endTime);
     }
 
     @Override
@@ -433,6 +427,25 @@ public class VideoEditPresenter implements IProcessPresenter {
                 return ve.getTimeRangeScales();
         }
         return null;
+    }
+
+    @Override
+    public long getCurrentRealVideoTime() {
+        EffectModel em = getEffectModelForSpeedAdjust();
+        if (em != null && em.getVideoEffects() != null && em.getVideoEffects().getTimeRangeScales() != null && em.getVideoEffects().getTimeRangeScales().size() > 0) {
+            List<TimeRangeScale> timeRangeScales = em.getVideoEffects().getTimeRangeScales();
+
+            long videoLength = video.length;
+            for (TimeRangeScale timeRangeScale : timeRangeScales) {
+                long start = timeRangeScale.getStart();
+                long end = timeRangeScale.getEnd();
+                float speed = timeRangeScale.getSpeed();
+                long diff = end - start;
+                videoLength = (long) (videoLength - diff + speed * diff);
+            }
+            return videoLength;
+        }
+        return video.length;
     }
 
     @Override
@@ -594,6 +607,9 @@ public class VideoEditPresenter implements IProcessPresenter {
 
     @Override
     public void changeToPreviewMode() {
+        if (textFilter != null) {
+            videoProcessor.deleteFilter(textFilter);
+        }
         videoProcessor.changeToPreviewMode();
     }
 

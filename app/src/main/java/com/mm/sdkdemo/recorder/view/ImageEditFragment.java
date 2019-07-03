@@ -73,7 +73,6 @@ import project.android.imageprocessing.FastImageGLTextureView;
  */
 
 public class ImageEditFragment extends BaseFragment implements View.OnClickListener {
-    public static final String KEY_FROM_CROP = "key_from_crop";
 
     private static int TextPosY = 0;
     private int stickerMarginLeft = 0;
@@ -177,7 +176,6 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
             return;
         }
         originPath = StringUtils.notEmpty(image.tempPath) ? image.tempPath : image.path;
-        isFromCrop = args.getBoolean(KEY_FROM_CROP);
         finishText = args.getString(AlbumConstant.KEY_FINISH_TEXT);
     }
 
@@ -429,7 +427,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                 if (image.isTakePhoto || isEdited()) {
                     send();
                 } else {
-                    finishEdit("");
+                    finishEdit(isFromCrop ? originPath : null);
                 }
                 break;
             case R.id.media_edit_btn_close:
@@ -437,6 +435,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                     showCloseDialog();
                 } else {
                     getActivity().finish();
+                    deleteTempFile();
                 }
                 break;
             case R.id.media_edit_filter_tv:   // 滤镜展示
@@ -576,7 +575,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
             showCloseDialog();
             return true;
         }
-
+        deleteTempFile();
         return super.onBackPressed();
     }
 
@@ -619,7 +618,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
         }
         MomoMainThreadExecutor.cancelAllRunnables(getTaskTag());
 
-        deleteTempFile();
+//        deleteTempFile();
 
         super.onDestroy();
     }
@@ -1004,6 +1003,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                 if (getActivity() != null) {
                     getActivity().finish();
                 }
+                deleteTempFile();
             }
         });
         mCloseDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface
@@ -1035,6 +1035,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
         if (requestCode == sCropImageRequestCode && resultCode == RESULT_OK && data != null) {
             String cropImagePath = data.getStringExtra(ImageCropActivity.TargetImagePathKey);
             if (!TextUtils.isEmpty(cropImagePath) && new File(cropImagePath).exists()) {
+                isFromCrop = true;
                 originPath = cropImagePath;
                 Bitmap previewBitmap = BitmapFactory.decodeFile(originPath);
                 image.width = previewBitmap.getWidth();

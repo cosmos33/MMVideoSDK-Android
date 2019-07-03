@@ -4,30 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/setting_blank_background">
 
-        <ImageView
-            android:id="@+id/iv_close"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:src="@drawable/ic_moment_arrow"
-            android:tint="@color/black_overlay" />
+        <include layout="@layout/toolbar" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="选择音乐"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/music_picker_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        <FrameLayout
+            android:id="@+id/music_picker_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+    </android.support.design.widget.AppBarLayout>
 </LinearLayout>

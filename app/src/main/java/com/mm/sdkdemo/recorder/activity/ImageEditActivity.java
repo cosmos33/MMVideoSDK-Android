@@ -45,13 +45,12 @@ public class ImageEditActivity extends BaseFullScreenActivity {
             finish();
             return;
         }
-        showImageEdit(false);
+        showImageEdit();
     }
 
-    private void showImageEdit(boolean fromCrop) {
+    private void showImageEdit() {
         Bundle bundle = new Bundle();
         bundle.putParcelable(AlbumConstant.KEY_EDIT_MEDIA, image);
-        bundle.putBoolean(ImageEditFragment.KEY_FROM_CROP, fromCrop);
         bundle.putString(AlbumConstant.KEY_FINISH_TEXT, getIntent().getStringExtra(AlbumConstant.KEY_FINISH_TEXT));
         bundle.putBoolean(AlbumConstant.KEY_IS_FROM_DIGIMON, getIntent().getBooleanExtra(AlbumConstant.KEY_IS_FROM_DIGIMON, false));
         bundle.putBoolean(AlbumConstant.KEY_IS_FROM_ARPET, getIntent().getBooleanExtra(AlbumConstant.KEY_IS_FROM_ARPET, false));

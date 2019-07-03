@@ -1,6 +1,7 @@
 package com.mm.sdkdemo.utils;
 
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.core.glcore.config.MediaModuleGlobalConfig;
 import com.mm.mediasdk.utils.UIUtils;
@@ -30,7 +31,7 @@ public class XEngineEventHelper {
         return window.handleTouchHitTest(x_, y_);
     }
 
-    public static void handEvent(MotionEvent event) {
+    public static void handEvent(MotionEvent event, View view) {
         if (!MediaModuleGlobalConfig.hasXE()) {
             return;
         }
@@ -38,41 +39,7 @@ public class XEngineEventHelper {
         if (window == null || event == null) {
             return;
         }
-        final int width = window.getWidth();
-        final int height = window.getHeight();
-        final int pointerNumber = event.getPointerCount();
-        final int[] ids = new int[pointerNumber];
-        final float[] xs = new float[pointerNumber];
-        final float[] ys = new float[pointerNumber];
-        for (int i = 0; i < pointerNumber; i++) {
-            ids[i] = event.getPointerId(i);
-            xs[i] = event.getX(i) * width / UIUtils.getScreenWidth();
-            ys[i] = event.getY(i) * height / UIUtils.getScreenHeight();
-        }
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_POINTER_DOWN:
-                window.handleTouchesBegin(pointerNumber, ids, xs, ys);
-                break;
-            case MotionEvent.ACTION_DOWN:
-                window.handleTouchesBegin(pointerNumber, ids, xs, ys);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                window.handleTouchesMove(pointerNumber, ids, xs, ys);
-                break;
-            case MotionEvent.ACTION_POINTER_UP:
-                final int indexPointUp = event.getAction() >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
-                if (indexPointUp != 0) {
-                    break;
-                }
-                window.handleTouchesEnd(pointerNumber, ids, xs, ys);
-                break;
-            case MotionEvent.ACTION_UP:
-                window.handleTouchesEnd(pointerNumber, ids, xs, ys);
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                window.handleTouchesCancel(pointerNumber, ids, xs, ys);
-                break;
-            default:
-        }
+
+        window.handleTouchEvent(event,view);
     }
 }

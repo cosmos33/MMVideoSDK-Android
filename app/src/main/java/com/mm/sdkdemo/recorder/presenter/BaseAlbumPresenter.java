@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.mm.sdkdemo.utils.album.ItemConstant.TYPE_IMAGE;
+
 /**
  * @author wangduanqing
  */
@@ -60,13 +62,14 @@ public abstract class BaseAlbumPresenter implements IAlbumFragmentPresenter {
     public BaseAlbumPresenter(IAlbumFragment fragment, VideoInfoTransBean conditions) {
         mFragment = fragment;
         mTransBean = conditions;
-        if (mTransBean.mode == VideoInfoTransBean.MODE_BACK_RESULT_IMMEDIATLY) {
+        if (mTransBean.mode == VideoInfoTransBean.MODE_MULTIPLE) {
             if (mTransBean.mediaType == AlbumConstant.MEDIA_TYPE_IMAGE) {
                 setSelectMode();
             } else {
                 setChooseMode();
             }
         }
+        setSelectMode();
     }
 
     @Override
@@ -89,7 +92,7 @@ public abstract class BaseAlbumPresenter implements IAlbumFragmentPresenter {
                 final Photo item = albumItemModel.getPhoto();
 
                 if (view == viewHolder.mItemLayout.mImageView) {
-                    if (isSelectMode()) {
+                    if (isSelectMode()&&item.type==TYPE_IMAGE) {
                         onPostSelectClicked(item);
                     } else {
                         onPostImageClicked(item, albumItemModel.getPosition());
@@ -219,7 +222,7 @@ public abstract class BaseAlbumPresenter implements IAlbumFragmentPresenter {
         handleItemClick(item, position);
     }
 
-    private void onPostSelectClicked(Photo item) {
+    protected void onPostSelectClicked(Photo item) {
 
         final boolean isSelected = !mFragment.isChecked(item);
 
@@ -268,32 +271,9 @@ public abstract class BaseAlbumPresenter implements IAlbumFragmentPresenter {
                 return;
             }
 
-            final Video video = new Video();
-            video.path = item.path;
+            doFinishVideoChoose(item.path);
 
-            if (!checkValid(video)) {
-                return;
-            }
-            if (mTransBean.mode == VideoInfoTransBean.MODE_BACK_RESULT_IMMEDIATLY) {
-                ArrayList<Photo> result = new ArrayList<>(1);
-                result.add(item);
-                mFragment.handleResult(result);
-                return;
-            }
-            video.isChosenFromLocal = true;
-            long maxDuration = MediaConstants.MIN_CUT_VIDEO_DURATION;
-
-            maxDuration += MediaConstants.MOMENT_DURATION_EXPAND;
-
-            if (video.length > maxDuration) {
-                mFragment.gotoVideoCut(video);
-            } else {
-                //获取修正过rotate的视频信息
-                VideoUtils.getVideoFixMetaInfo(video);
-                mFragment.gotoVideoEdit(video);
-            }
-
-        } else if (item.type == ItemConstant.TYPE_IMAGE) {
+        } else if (item.type == TYPE_IMAGE) {
             if ((mTransBean.mediaType&AlbumConstant.MEDIA_TYPE_IMAGE) == 0) {
                 if (!TextUtils.isEmpty(mTransBean.alertToast)) {
                     mFragment.showVideoAlertToast(mTransBean.alertToast);
@@ -303,12 +283,12 @@ public abstract class BaseAlbumPresenter implements IAlbumFragmentPresenter {
                 return;
             }
 
-            if (mTransBean.mode == VideoInfoTransBean.MODE_BACK_RESULT_IMMEDIATLY) {
+           /* if (mTransBean.mode == VideoInfoTransBean.MODE_MULTIPLE) {
                 ArrayList<Photo> result = new ArrayList<>(1);
                 result.add(item);
                 mFragment.handleResult(result);
                 return;
-            }
+            }*/
             if (mTransBean.mode == VideoInfoTransBean.MODE_STYLE_ONE) {
                 mSelectedMedias.clear();
                 mSelectedMedias.add(item);
@@ -326,6 +306,33 @@ public abstract class BaseAlbumPresenter implements IAlbumFragmentPresenter {
             }
             MediaSourceHelper.sAllMedias = getFilteredMedias(item);
             mFragment.gotoImagePreview(getFixedPosition(MediaSourceHelper.sAllMedias, position));
+        }
+    }
+
+    protected void doFinishVideoChoose(String path) {
+        final Video video = new Video();
+        video.path = path;
+
+        if (!checkValid(video)) {
+            return;
+        }
+            /*if (mTransBean.mode == VideoInfoTransBean.MODE_MULTIPLE) {
+                ArrayList<Photo> result = new ArrayList<>(1);
+                result.add(item);
+                mFragment.handleResult(result);
+                return;
+            }*/
+        video.isChosenFromLocal = true;
+        long maxDuration = MediaConstants.MIN_CUT_VIDEO_DURATION;
+
+        maxDuration += MediaConstants.MOMENT_DURATION_EXPAND;
+
+        if (video.length > maxDuration) {
+            mFragment.gotoVideoCut(video);
+        } else {
+            //获取修正过rotate的视频信息
+            VideoUtils.getVideoFixMetaInfo(video);
+            mFragment.gotoVideoEdit(video);
         }
     }
 

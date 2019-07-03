@@ -19,8 +19,9 @@ import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.IMultiRecorder;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.RecorderConstants;
-import com.mm.mediasdk.bean.MMRecorderParams;
+import com.mm.sdkdemo.bean.MMRecorderParams;
 import com.mm.mediasdk.bean.MRSDKConfig;
+import com.mm.mediasdk.utils.CameraSizeUtil;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.log.Log4Android;
@@ -34,6 +35,7 @@ import com.mm.sdkdemo.recorder.view.IMomoRecordView;
 import com.mm.sdkdemo.recorder.view.IRecordView;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.mask.MaskModel;
+import com.momo.mcamera.mask.Sticker;
 import com.momo.mcamera.mask.StickerBlendFilter;
 import com.momo.mcamera.mask.VersionType;
 import com.momo.xeengine.XE3DEngine;
@@ -41,6 +43,8 @@ import com.momo.xeengine.XE3DEngine;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
+
+import project.android.imageprocessing.filter.BasicFilter;
 
 /**
  * Created by wangduanqing on 2019/2/10.
@@ -72,6 +76,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     private static final long SWITCH_CAMERA_TIME = 1000;
 
     private final CameraZoomChecker mCameraZoomChecker;
+    private MaskModel mCurrentMaskModel;
 
     public RecordPresenter(MMRecorderParams recorderParams) {
         this.mRecorderParams = recorderParams;
@@ -124,7 +129,13 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         getMRConfig();
         //        mRecorder.setFaceBeautiful(0);
         //        mRecorder.setUseCameraVersion2(true);
-        MRSDKConfig.Build build = new MRSDKConfig.Build(mrConfig);
+        MRSDKConfig recorderSdkConfig = fullMRSDKConfig();
+        return multiRecorder.prepare(activity, recorderSdkConfig);
+        //        multiRecorder.setUseCameraVersion2(true);
+    }
+
+    private MRSDKConfig fullMRSDKConfig() {
+        MRSDKConfig.Builder build = new MRSDKConfig.Builder(mrConfig);
         switch (mRecorderParams.getBeautyFaceVersion()) {
             case RecorderConstants.BeautyFaceVersion.V2: {
                 build.setBeautyFaceVersion(VersionType.CXSkinVersion.VersionType2);
@@ -139,8 +150,8 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
                 break;
             }
         }
-        return multiRecorder.prepare(activity, build.build());
-        //        multiRecorder.setUseCameraVersion2(true);
+        build.setEnableAudioRecorder(mRecorderParams.isEnableAudioRecorder());
+        return build.build();
     }
 
     @Override
@@ -148,7 +159,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         if (takingPhoto)
             return;
         if (multiRecorder != null) {
-            //            setFlashMode(mView == null ? -1 : mView.getFlashMode());
+            //            setFlashMode(mPresenter == null ? -1 : mPresenter.getFlashMode());
             mPhotoPath = generatePhotoPath();
             if (TextUtils.isEmpty(mPhotoPath)) {
                 if (mView != null) {
@@ -213,7 +224,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 //                MomoMainThreadExecutor.post(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        mView.onRecordPaused();
+//                        mPresenter.onRecordPaused();
 //                    }
 //                });
 //            }
@@ -228,14 +239,14 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         //            mRecorder.removeLast();
         //        }
         //        isRecording = false;
-        //        if (mView != null)
-        //            mView.removeLast();
-        //        startRecord = mView != null && mView.getCount() > 0;
+        //        if (mPresenter != null)
+        //            mPresenter.removeLast();
+        //        startRecord = mPresenter != null && mPresenter.getCount() > 0;
         //        onClearVideo();
         //        //防止 recorder没有录制上，这时应该清空progressView
         //        //mRecorder.getFragmentCount() 不靠谱 ，有可能太短，没录制上
-        //        if (mRecorder != null && mView != null && mView.getCount() <= 0) {
-        //            mView.clearProgress();
+        //        if (mRecorder != null && mPresenter != null && mPresenter.getCount() <= 0) {
+        //            mPresenter.clearProgress();
         //            onClearVideo();
         //        }
         multiRecorder.cancelRecording();
@@ -260,8 +271,8 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         //                    MultiRecorder.finishRecording(fragmentList, mVideoPath, getCfgPath(), onRecordFinishedListener, activity.getBaseContext());
         //                }
         //            });
-        //            if (mView != null) {
-        //                mView.onStartFinish();
+        //            if (mPresenter != null) {
+        //                mPresenter.onStartFinish();
         //            }
         //        }
         return multiRecorder.finishRecord(onRecordFinishedListener);
@@ -441,6 +452,8 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     }
 
     private void setCameraAndCodecInfo(Size target) {
+        target = CameraSizeUtil.selectMatchSize(activity.getApplicationContext(), target, RecorderConstants.ScaleMode.SCALE_MODE_WIDTH_FIXED, 16.0f / 9.0f);
+
         if (target.getWidth() >= 1280) {
             mrConfig.setVideoEncodeBitRate(8 << 20);
         } else if (target.getWidth() >= 960) {
@@ -502,7 +515,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
             Log4Android.getInstance().e(e);
         }
         if (dir != null) {
-            path = dir.getAbsolutePath() + dir.separator;
+            path = dir.getAbsolutePath() + File.separator;
         }
         return path;
     }
@@ -566,7 +579,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 //                    MomoMainThreadExecutor.post(new Runnable() {
 //                        @Override
 //                        public void run() {
-//                            mView.onRecordStarted();
+//                            mPresenter.onRecordStarted();
 //                        }
 //                    });
 //                }
@@ -602,21 +615,40 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         multiRecorder.setFilterIntensity(intensity);
     }
 
+    @Override
+    public void addFilter(BasicFilter filter) {
+        multiRecorder.addFilter(filter, true);
+    }
+
     /**
      * @param maskModel
      */
     @Override
     public boolean addMaskModel(MaskModel maskModel) {
-        boolean result = multiRecorder.addMaskModel(maskModel);
+        boolean result = multiRecorder.getRecorderMaskModelOperator().addMomentMaskModel(maskModel);
         if (result && mView != null) {
+            mCurrentMaskModel = maskModel;
             mView.onMaskModelSet(maskModel);
         }
         return result;
     }
 
     @Override
+    public boolean addCustomTypeMaskModel(MaskModel maskModel) {
+        if (maskModel != null && maskModel.getStickers() != null) {
+            List<Sticker> stickers = maskModel.getStickers();
+            for (Sticker sticker : stickers) {
+                sticker.setDuration(4 * 1000);
+            }
+        }
+        boolean result = multiRecorder.getRecorderMaskModelOperator().addCustomMultiTypeMaskModel(888, maskModel);
+        return result;
+    }
+
+    @Override
     public void clearFace() {
-        multiRecorder.clearMaskModel();
+        mCurrentMaskModel = null;
+        multiRecorder.getRecorderMaskModelOperator().clearMomentMaskModel();
     }
 
     @Override
@@ -655,5 +687,10 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     @Override
     public void setFlashMode(int mode) {
         multiRecorder.setFlashMode(mode);
+    }
+
+    @Override
+    public MaskModel getCurrentMaskModel() {
+        return mCurrentMaskModel;
     }
 }

@@ -9,10 +9,12 @@ import android.view.View;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
+import com.immomo.moment.config.MRecorderActions;
 import com.cosmos.mdlog.MDLog;
 import com.immomo.moment.config.MRecorderActions;
 import com.mm.mediasdk.IMultiRecorder;
 import com.mm.mediasdk.MoMediaManager;
+import com.mm.mediasdk.utils.CameraSizeUtil;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
 
@@ -72,8 +74,8 @@ public class VideoRecordTestActivity extends BaseFullScreenActivity {
         MRConfig mrConfig = MRConfig.obtain();
         mrConfig.setDefaultCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
         //设置码率 8M
-        mrConfig.setVideoEncodeBitRate(8<<20);
-        mrConfig.setEncodeSize(new Size(640, 960));
+        mrConfig.setVideoEncodeBitRate(8 << 20);
+        mrConfig.setEncodeSize(CameraSizeUtil.selectMatchSize(getApplicationContext(), new Size(640, 960), 0, 16.0f / 9.0f));
 
 //        mrConfig.setEncodeSize(size);
         //设置音频声道数

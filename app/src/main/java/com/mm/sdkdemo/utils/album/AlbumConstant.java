@@ -21,7 +21,7 @@ public class AlbumConstant {
     public static final int INDEX_PICTURE_CATEGORY = 2;
     //public static final int MAX_VIDEO_FRAME_RATE = MomentConstants.MAX_VIDEO_FRAME_RATE;
     public static final int MAX_VIDEO_FRAME_RATE = 61; // 支持fps = 60帧的视频导入
-    public static final int MAX_SELECTED_COUNT = 9; // 最多能选择图片数
+    public static final int MAX_SELECTED_COUNT = 10; // 最多能选择图片数
 
     /* ================ media type ================ */
     public static final int MEDIA_TYPE_IMAGE = 0x01;

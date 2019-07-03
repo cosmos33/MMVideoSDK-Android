@@ -6,12 +6,13 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.mm.sdkdemo.R;
+import com.mm.sdkdemo.base.BaseActivity;
 import com.mm.sdkdemo.local_music_picker.bean.MusicDirectory;
 import com.mm.sdkdemo.local_music_picker.model.MusicStoreHelper;
-import com.mm.sdkdemo.base.BaseActivity;
 import com.mm.sdkdemo.recorder.model.MusicContent;
 
 
@@ -29,6 +30,7 @@ public class MusicPickerActivity extends BaseActivity {
     private MusicPickerFragment musicPickerFragment;
 
     private int maxLength = Integer.MAX_VALUE;
+    private Toolbar mToolbar;
 
     public static final void startPickMusic(Activity context, int requestCode) {
         startPickMusic(context, requestCode, Integer.MAX_VALUE);
@@ -59,22 +61,28 @@ public class MusicPickerActivity extends BaseActivity {
             maxLength = intent.getIntExtra(KEY_MAX_LENGTH, maxLength);
         }
 
-        setContentView(R.layout.activity_music_picker);
-        setTitle("选择音乐");
+        initViews();
 
         initFragment();
-        initEvent();
     }
 
-    private void initEvent() {
-        findViewById(R.id.iv_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+    private void initViews() {
+        setContentView(R.layout.activity_music_picker);
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("选择音乐");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

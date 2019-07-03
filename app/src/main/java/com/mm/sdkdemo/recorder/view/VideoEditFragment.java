@@ -22,15 +22,15 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cosmos.mdlog.MDLog;
+import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
+import com.immomo.moment.mediautils.cmds.EffectModel;
+import com.immomo.moment.mediautils.cmds.TimeRangeScale;
 import com.mm.mediasdk.utils.ImageUtil;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mediasdk.videoprocess.MoVideo;
@@ -39,9 +39,6 @@ import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.mmutil.task.ThreadUtils;
 import com.mm.mmutil.toast.Toaster;
-import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
-import com.immomo.moment.mediautils.cmds.EffectModel;
-import com.immomo.moment.mediautils.cmds.TimeRangeScale;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseFragment;
 import com.mm.sdkdemo.bean.VideoInfoTransBean;
@@ -80,6 +77,7 @@ import com.mm.sdkdemo.utils.OnAnimationEndListener;
 import com.mm.sdkdemo.utils.VideoCompressUtil;
 import com.mm.sdkdemo.utils.VideoUtils;
 import com.mm.sdkdemo.widget.DynamicStickerPanel;
+import com.mm.sdkdemo.widget.DynamicStickerPanelContainerHelper;
 import com.mm.sdkdemo.widget.IndeterminateDrawable;
 import com.mm.sdkdemo.widget.MomentEdittextPannel;
 import com.mm.sdkdemo.widget.MomentFilterPanelLayout;
@@ -193,6 +191,8 @@ public class VideoEditFragment extends BaseFragment
     private ProgressDialog progressDialog;
     private MusicPanelHelper musicPanelHelper;
     private int mCurrentFilterSelectPosition;
+    private View mStickerPanelContentView;
+    private DynamicStickerPanelContainerHelper mDynamicStickerPanelContainerHelper;
 
     public void setFragmentChangeListener(FragmentChangeListener fragmentChangeListener) {
         this.fragmentChangeListener = fragmentChangeListener;
@@ -411,7 +411,7 @@ public class VideoEditFragment extends BaseFragment
             edittextPannel.onBackPressed();
             return true;
         }
-        if (stickerPanel != null && stickerPanel.getVisibility() == View.VISIBLE) {
+        if (mDynamicStickerPanelContainerHelper != null && mDynamicStickerPanelContainerHelper.isShowing()) {
             hideStickerPanel();
             return true;
         }
@@ -546,8 +546,8 @@ public class VideoEditFragment extends BaseFragment
         imageParams = new ViewGroup.MarginLayoutParams(stickerWidth, stickerHeight);
         imageParams.setMargins(stickerMarginLeft, stickerMarginTop, 0, 0);
         videoRootView.setLayoutParams(new RelativeLayout.LayoutParams(imageParams));
-        stickerContainerView.setParams(stickerWidth, stickerHeight, stickerMarginLeft, stickerMarginTop);
-        addDrawBgImage.setLayoutParams(new FrameLayout.LayoutParams(imageParams));
+        stickerContainerView.setParams(stickerWidth, stickerHeight,0 ,0 );
+        stickerContainerView.showRect = new Rect(0, 0, stickerWidth, stickerHeight);
     }
 
     private boolean showSticker() {
@@ -602,11 +602,16 @@ public class VideoEditFragment extends BaseFragment
 
             @Override
             public void onStickerClick(StickerView view) {
+                stickerContainerView.clearAllShowClickEditState();
                 if (view.isText()) {
                     editingStickerView = view;
                     String text = view.getText();
                     int index = view.getChosenTextColorIndex();
                     showEdittextPannel(text, index);
+                } else if (view.getType() == StickerView.TYPE_IMG) {
+                    showStickerPanel();
+                    mDynamicStickerPanelContainerHelper.updateCurrentEditSticker(view.getStickerEntity(), false);
+                    view.setShowEditBorder(true);
                 }
                 stickerContainerView.endEditIndeed();
             }
@@ -625,8 +630,12 @@ public class VideoEditFragment extends BaseFragment
      * 删除贴纸后，取消纪录
      */
     private void unRecordSticker(StickerView view) {
-        if (processPresenter != null)
+        if (processPresenter != null) {
             processPresenter.removeMaskModel((int) view.getStickerId());
+        }
+        if (mDynamicStickerPanelContainerHelper != null && mDynamicStickerPanelContainerHelper.isShowing()) {
+            mDynamicStickerPanelContainerHelper.onStickerRemoved(view.getStickerId());
+        }
     }
 
     /**
@@ -667,9 +676,6 @@ public class VideoEditFragment extends BaseFragment
                         } else if (getAllStickerCount() >= MediaConstants.MAX_STICKER_COUNT) {
                             Toaster.showInvalidate("最多只能添加 " + MediaConstants.MAX_STICKER_COUNT + " 个贴纸");
                         } else {
-                            Rect viewRect = new Rect();
-                            videoView.getGlobalVisibleRect(viewRect);
-                            stickerContainerView.showRect = viewRect;
                             StickerView stickerView = stickerContainerView.addSticker(textBitmap, text, checkedIndex, getTextStickerPosX(textBitmap), textPosY);
                             recordTextSticker(stickerView);
                         }
@@ -683,6 +689,9 @@ public class VideoEditFragment extends BaseFragment
         edittextPannel.setVisibility(View.VISIBLE);
         edittextPannel.beginEdit(getActivity());
         hideToolsLayout(true);
+        if (mDynamicStickerPanelContainerHelper != null && mDynamicStickerPanelContainerHelper.isShowing()) {
+            mDynamicStickerPanelContainerHelper.dismiss();
+        }
     }
 
     private int getAllStickerCount() {
@@ -789,6 +798,9 @@ public class VideoEditFragment extends BaseFragment
         if (specialPanelViewHelper != null && specialPanelViewHelper.useSpecialFilter()) {
             Toaster.show("特效滤镜与变速不能叠加使用");
             return;
+        }else if(stickerContainerView.hasImageSticker()){
+            Toaster.show("先使用了贴纸不能使用变速");
+            return;
         }
         if (processPresenter != null) {
             VideoSpeedAdjustActivity.start(getActivity(), video.path, processPresenter
@@ -869,7 +881,18 @@ public class VideoEditFragment extends BaseFragment
         if (null != processPresenter) {
             processPresenter.updateVideo(video);
         }
-        MomoTaskExecutor.executeUserTask(getTaskTag(), new GetFrameByVideo(video));
+        MomoTaskExecutor.executeUserTask(getTaskTag(), new GetFrameByVideo(video) {
+            @Override
+            protected void onTaskSuccess(List<Bitmap> bitmaps) {
+                super.onTaskSuccess(bitmaps);
+                List<TimeRangeScale> timeRangeScales = new ArrayList<>();
+                timeRangeScales.add(new TimeRangeScale(0, video.length, 1f));
+                if (processPresenter != null) {
+                    processPresenter.updateEffectModelWithoutPlay(timeRangeScales, 0L);
+                }
+                showSpecialFilterPanel();
+            }
+        });
     }
 
     @Override
@@ -1061,14 +1084,36 @@ public class VideoEditFragment extends BaseFragment
      * 显示所有贴纸界面
      */
     private void showStickerPanel() {
+        if (frames == null || frames.size() <= 0) {
+            MomoTaskExecutor.executeUserTask(getTaskTag(), new GetFrameByVideo(video) {
+                @Override
+                protected void onTaskSuccess(List<Bitmap> bitmaps) {
+                    super.onTaskSuccess(bitmaps);
+                    showStickerPanel();
+                }
+            });
+            return;
+        }
+
         if (paintPanel != null) {
             paintPanel.setVisibility(View.GONE);
         }
         hideToolsLayout(true);
         if (stickerPanel == null) {
             ViewStub vs = findViewById(R.id.moment_edit_sticker_panel_stub);
-            stickerPanel = (DynamicStickerPanel) vs.inflate();
-
+            mStickerPanelContentView = vs.inflate();
+            mDynamicStickerPanelContainerHelper = new DynamicStickerPanelContainerHelper();
+            mDynamicStickerPanelContainerHelper.init(mStickerPanelContentView, video.length, processPresenter);
+            mDynamicStickerPanelContainerHelper.bindVideoFrames(frames);
+            stickerPanel = mStickerPanelContentView.findViewById(R.id.sticker);
+            mDynamicStickerPanelContainerHelper.setOnCancelListener(new DynamicStickerPanelContainerHelper.OnCancelListener() {
+                @Override
+                public void onCancel(List<Integer> cancelList) {
+                    for (int stickerId : cancelList) {
+                        stickerContainerView.removeStickerViewById(stickerId);
+                    }
+                }
+            });
             stickerPanel.setOnStickerPanelListener(new DynamicStickerPanel.OnStickerPanelListener() {
                 @Override
                 public void onCloseClicked() {
@@ -1119,15 +1164,41 @@ public class VideoEditFragment extends BaseFragment
                 }
             });
         }
-        //增加动画
-        if (stickerPanel.getVisibility() != View.VISIBLE) {
-            stickerPanel.clearAnimation();
-            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_from_bottom);
-            anim.setDuration(200);
-            anim.setInterpolator(new AccelerateInterpolator());
-            stickerPanel.startAnimation(anim);
-            stickerPanel.setVisibility(View.VISIBLE);
+
+        if (mDynamicStickerPanelContainerHelper != null && !mDynamicStickerPanelContainerHelper.isShowing()) {
+//            allStickerContainer.setVisibility(View.GONE);
+            stickerContainerView.setClickDeleteMode(true);
+            mDynamicStickerPanelContainerHelper.show(videoRootView, videoRootView.getWidth() < videoRootView.getHeight(), new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    processPresenter.pause();
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+//                    allStickerContainer.setVisibility(View.VISIBLE);
+                    processPresenter.setNeedAutoPlay(true);
+                    processPresenter.setLoopBack(true);
+                    processPresenter.seekVideo(0L, false);
+                    stickerContainerView.setClickDeleteMode(false);
+                    stickerContainerView.clearAllShowClickEditState();
+                    showToolsLayout();
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
         }
+
+
         stickerPanel.loadStickerData();
     }
 
@@ -1140,7 +1211,6 @@ public class VideoEditFragment extends BaseFragment
         MDLog.e(LogTag.COMMON, "processPresenter.getDynamicStickerCount() %d  getMaxDynamicStickerCount()  %d", processPresenter.getDynamicStickerCount(), getMaxDynamicStickerCount());
         if (processPresenter.getDynamicStickerCount() >= getMaxDynamicStickerCount()) {
             Toaster.showInvalidate("最多只能添加 " + getMaxDynamicStickerCount() + " 个动态贴纸");
-            hideStickerPanel();
             return;
         }
 
@@ -1159,7 +1229,6 @@ public class VideoEditFragment extends BaseFragment
                     public void run() {
                         int posX = viewRect.left;
                         int posY = viewRect.top;
-                        hideStickerPanel();
                         String path = StickerManager.getStickerDir(sticker).getAbsolutePath();
                         processPresenter.addMaskModel(path, posX, posY, viewRect.width());
                     }
@@ -1297,8 +1366,10 @@ public class VideoEditFragment extends BaseFragment
 
     @Override
     public void onAddSticker(Rect viewRect, Bitmap bitmap, final StickerEntity entity) {
+        if (mDynamicStickerPanelContainerHelper != null) {
+            mDynamicStickerPanelContainerHelper.updateCurrentEditSticker(entity, true);
+        }
         editRecorder.setChangeSticker(true);
-        stickerContainerView.showRect = viewRect;
         stickerContainerView.addSticker(bitmap, entity, new StickerView.onUpdateViewListener() {
             @Override
             public void onUpdateView(PointF centerPoint, long stickerId, float scale, float angle) {
@@ -1308,14 +1379,16 @@ public class VideoEditFragment extends BaseFragment
                     videoView.getGlobalVisibleRect(viewRect);
                     int width = videoView.getWidth();
                     int height = videoView.getHeight();
-                    float centerX = (centerPoint.x - viewRect.left) / (float) width;
-                    float centerY = (centerPoint.y - viewRect.top) / (float) height;
+                    float centerX = centerPoint.x / (float) width;
+                    float centerY = centerPoint.y / (float) height;
                     float shaderScale = scale;//shader 坐标转换
                     if (processPresenter != null)
                         processPresenter.updateMaskModel(new PointF(centerX, centerY), shaderScale, angle, (int) stickerId);
                 }
             }
         });
+        stickerContainerView.clearAllShowClickEditState();
+        stickerContainerView.getCurrentEditView().setShowEditBorder(true);
     }
 
     @Override
@@ -1363,6 +1436,12 @@ public class VideoEditFragment extends BaseFragment
             public void run() {
                 if (specialPanelViewHelper != null && specialPanelViewHelper.isInFilterMode()) {
                     specialPanelViewHelper.onProcessProgress(progress);
+                }
+                if (mDynamicStickerPanelContainerHelper != null && mDynamicStickerPanelContainerHelper.isShowing()) {
+                    mDynamicStickerPanelContainerHelper.onProcessProgress(progress);
+                }
+                if (stickerContainerView != null) {
+                    stickerContainerView.checkStickerNeedShow((long) (progress * video.length));
                 }
             }
         });
@@ -1481,13 +1560,8 @@ public class VideoEditFragment extends BaseFragment
      * 隐藏所有贴纸界面
      */
     private void hideStickerPanel() {
-        if (stickerPanel.getVisibility() != View.GONE) {
-            stickerPanel.clearAnimation();
-            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.slide_out_to_bottom);
-            anim.setDuration(200);
-            anim.setInterpolator(new AccelerateInterpolator());
-            stickerPanel.startAnimation(anim);
-            stickerPanel.setVisibility(View.GONE);
+        if (mDynamicStickerPanelContainerHelper != null && mDynamicStickerPanelContainerHelper.isShowing()) {
+            mDynamicStickerPanelContainerHelper.dismiss();
         }
         showToolsLayout();
     }
@@ -1847,8 +1921,8 @@ public class VideoEditFragment extends BaseFragment
                 blendBitmap = ImageUtil.createBitmapByView(allStickerContainer,
                         stickerWidth,
                         stickerHeight,
-                        stickerMarginLeft,
-                        stickerMarginTop);
+                        0,
+                        0);
                 blendChanged = true;
             }
             processPresenter.getMomentExtraInfo().setBlendBmp(blendBitmap);
@@ -1960,13 +2034,8 @@ public class VideoEditFragment extends BaseFragment
                 frames.clear();
             }
             videoNodes.clear();
-            List<TimeRangeScale> timeRangeScales = new ArrayList<>();
-            timeRangeScales.add(new TimeRangeScale(0, video.length, 1f));
-            if (processPresenter != null) {
-                processPresenter.updateEffectModelWithoutPlay(timeRangeScales, 0L);
-            }
             frames = bitmaps;
-            showSpecialFilterPanel();
+
         }
 
         @Override

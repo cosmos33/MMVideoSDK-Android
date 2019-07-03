@@ -62,6 +62,7 @@ public class StickerContainerView extends RelativeLayout {
     private boolean isCanEdit = true;
 
     public StickerEditListener stickerEditListener;
+    private boolean isClikeDelete = false;
 
     public StickerContainerView(Context context) {
         super(context);
@@ -90,6 +91,7 @@ public class StickerContainerView extends RelativeLayout {
 
     /**
      * 添加贴图，若是文字贴图，text不为null
+     *
      * @param bitmap
      * @param text
      * @param chosenColorIndex
@@ -124,6 +126,7 @@ public class StickerContainerView extends RelativeLayout {
 
     /**
      * 添加动态贴纸
+     *
      * @param bitmap
      * @param stickerEntity
      * @param listener
@@ -181,11 +184,11 @@ public class StickerContainerView extends RelativeLayout {
         if (topMargin > 0) {
             if (coverTopView == null) {
                 coverTopView = createTopBottomView();
-                addView(coverTopView);
+//                addView(coverTopView);
             }
             if (coverBottomView == null) {
                 coverBottomView = createTopBottomView();
-                addView(coverBottomView);
+//                addView(coverBottomView);
             }
             coverTopView.setLayoutParams(new LayoutParams(-1, topMargin));
             MarginLayoutParams bottom = new LayoutParams(-1, topMargin);
@@ -196,11 +199,11 @@ public class StickerContainerView extends RelativeLayout {
         } else if (leftMargin > 0) {
             if (coverTopView == null) {
                 coverTopView = createTopBottomView();
-                addView(coverTopView);
+//                addView(coverTopView);
             }
             if (coverBottomView == null) {
                 coverBottomView = createTopBottomView();
-                addView(coverBottomView);
+//                addView(coverBottomView);
             }
             coverTopView.setLayoutParams(new LayoutParams(leftMargin, -1));
             MarginLayoutParams bottom = new LayoutParams(leftMargin, -1);
@@ -234,6 +237,9 @@ public class StickerContainerView extends RelativeLayout {
         } else {
             isInDeleteMode = mode;
         }
+        if (isClikeDelete) {
+            return;
+        }
         if (isInDeleteMode) {
             deleteBtn.setImageResource(R.drawable.ic_moment_edit_delete_sticker_png);
             ScaleAnimation animation = new ScaleAnimation(1.0f, 1.4f, 1.0f, 1.4f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
@@ -250,6 +256,10 @@ public class StickerContainerView extends RelativeLayout {
             deleteBtn.setImageResource(R.drawable.ic_moment_edit_delete_sticker_dark);
 
         }
+    }
+
+    public void setClickDeleteMode(boolean clickDelete) {
+        isClikeDelete = clickDelete;
     }
 
     private long downTime = 0;
@@ -271,11 +281,26 @@ public class StickerContainerView extends RelativeLayout {
         float x = pointF.x;
         float y = pointF.y;
         //修复偶尔viewRect == null 的bug
-        if (null == view || null == view.viewRect) {
+        if (null == view || null == view.rootRect) {
             return false;
         }
 
-        return view.viewRect.contains((int) x, (int) y);
+        return view.rootRect.contains((int) x, (int) y);
+    }
+
+    public boolean inInBorderDelteView(StickerView view, PointF pointF) {
+        float x = pointF.x;
+        float y = pointF.y;
+        //修复偶尔viewRect == null 的bug
+        if (null == view || null == view.rootRect) {
+            return false;
+        }
+        return scaleRect(view.deleteIconRect, 2f).contains((int) x, (int) y);
+    }
+
+    private Rect scaleRect(Rect targetRect, float scale) {
+        targetRect.inset(-(int) (targetRect.width() * scale), -(int) (targetRect.height() * scale));
+        return targetRect;
     }
 
     public PointF getCenterPoint(StickerView view) {
@@ -433,7 +458,7 @@ public class StickerContainerView extends RelativeLayout {
                 if (isOnView) {
                     if (null != stickerEditListener) {
                         stickerEditListener.beginEdit();
-                        if (deleteBtn.getVisibility() != VISIBLE) {
+                        if (!isClikeDelete && deleteBtn.getVisibility() != VISIBLE) {
                             deleteBtn.setVisibility(VISIBLE);
                         }
                         if (btnDeleteRect.left == 0) {
@@ -507,6 +532,9 @@ public class StickerContainerView extends RelativeLayout {
             case MotionEvent.ACTION_CANCEL:
                 final long upTime = System.currentTimeMillis();
                 if (upTime - downTime <= MAX_CLICK_TIME && isOnView) {
+                    if (isClikeDelete && mCurrentView != null && mCurrentView.isShowEditBorder() && inInBorderDelteView(mCurrentView, new PointF(mDownX, mDownY))) {
+                        changeToDeleteMode(true, null);
+                    }
                     onStickerClick();
                     break;
                 }
@@ -554,8 +582,7 @@ public class StickerContainerView extends RelativeLayout {
         if (null == showRect || null == mCurrentView || null == mCurrentView.centerPoint) {
             return flag;
         }
-
-        flag = flag|!showRect.contains((int) mCurrentView.centerPoint.x, (int) mCurrentView.centerPoint.y);
+        flag = flag | !showRect.contains((int) mCurrentView.centerPoint.x, (int) mCurrentView.centerPoint.y);
 
         return flag;
     }
@@ -595,23 +622,27 @@ public class StickerContainerView extends RelativeLayout {
                 //bug fixed 动态贴纸放到最大后，无法移动贴纸。
                 mCurrentView = mViews.get(mViews.size() - 1);
             }
+            if (!isClikeDelete) {
+                changeToDeleteMode(false, new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
 
-            changeToDeleteMode(false, new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
+                    }
 
-                }
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        endEditIndeed();
+                    }
 
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    endEditIndeed();
-                }
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
 
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
+                    }
+                });
+            } else {
+                changeToDeleteMode(false, null);
+                endEditIndeed();
+            }
 
         } else {
             endEditIndeed();
@@ -627,13 +658,87 @@ public class StickerContainerView extends RelativeLayout {
 
     private void onStickerClick() {
         if (mCurrentView != null && stickerEditListener != null) {
-            stickerEditListener.onStickerClick(mCurrentView);
+
+            if (stickerEditListener != null) {
+                stickerEditListener.onStickerClick(mCurrentView);
+            }
+        }
+    }
+
+    public void removeStickerViewById(int stickerId) {
+
+        StickerView needDeleteSticker = null;
+        for (StickerView stickerView : mViews) {
+            StickerEntity stickerEntity = stickerView.getStickerEntity();
+            if (stickerEntity != null && stickerId == stickerEntity.getId()) {
+                needDeleteSticker = stickerView;
+                break;
+            }
+        }
+
+        if (needDeleteSticker == null) {
+            return;
+        }
+        mViews.remove(needDeleteSticker);
+        removeView(needDeleteSticker);
+        if (null != stickerEditListener) {
+            stickerEditListener.onDeleteSticker(needDeleteSticker);
+        }
+        if (mViews.size() == 0) {
+            mCurrentView = null;
+        } else {
+            //bug fixed 动态贴纸放到最大后，无法移动贴纸。
+            mCurrentView = mViews.get(mViews.size() - 1);
         }
     }
 
     public void setInSaveMode(boolean isSaveMode) {
         if (mCurrentView == null) {
             return;
+        }
+    }
+
+    public boolean hasImageSticker() {
+        if (mViews != null && mViews.size() > 0) {
+            for (StickerView stickerView : mViews) {
+                if (stickerView.getType() == StickerView.TYPE_IMG) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void checkStickerNeedShow(long currentPlayingTime) {
+        if (mViews != null) {
+            for (StickerView stickerView : mViews) {
+                if (stickerView.getStickerEntity() == null) {
+                    continue;
+                }
+                Long startShowTime = stickerView.getStickerEntity().getStartShowTime();
+                Long endShowTime = stickerView.getStickerEntity().getEndShowTime();
+                if (startShowTime != null && endShowTime != null) {
+                    if (startShowTime <= currentPlayingTime && endShowTime >= currentPlayingTime) {
+                        if (stickerView.getVisibility() != VISIBLE) {
+                            stickerView.setVisibility(VISIBLE);
+                        }
+                    } else if (stickerView.getVisibility() != GONE) {
+                        stickerView.setVisibility(GONE);
+                    }
+
+                } else if (stickerView.getVisibility() != VISIBLE) {
+                    stickerView.setVisibility(VISIBLE);
+                }
+            }
+        }
+    }
+
+
+    public void clearAllShowClickEditState() {
+        if (mViews != null) {
+            for (StickerView stickerView : mViews) {
+                stickerView.setShowEditBorder(false);
+            }
         }
     }
 
@@ -649,6 +754,11 @@ public class StickerContainerView extends RelativeLayout {
         void onDeleteSticker(StickerView stickerView);
 
         void onStickerClick(StickerView view);
+
+    }
+
+    public StickerView getCurrentEditView() {
+        return mCurrentView;
     }
 
     public boolean hasStickers() {
@@ -657,6 +767,7 @@ public class StickerContainerView extends RelativeLayout {
 
     /**
      * 获取当前动态贴纸数量
+     *
      * @return
      */
     public int getStickerCount() {

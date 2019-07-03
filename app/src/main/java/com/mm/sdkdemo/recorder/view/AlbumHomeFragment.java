@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseFragment;
@@ -45,7 +46,7 @@ public class AlbumHomeFragment extends BaseScrollTabGroupFragment implements IAl
     public static final int STATE_ALBUM = 0x0002;//相册
     public static final int STATE_VIDEO = 0x0004;//视频
     public static final int STATE_FACE = 0x0008; //人物
-    public static final int STATE_ALL = STATE_PICTURE_ALBUM|STATE_ALBUM|STATE_VIDEO;
+    public static final int STATE_ALL = STATE_PICTURE_ALBUM | STATE_ALBUM | STATE_VIDEO;
 
     private AppBarLayout appBarLayout;
     private View pagerTabContent;
@@ -59,6 +60,7 @@ public class AlbumHomeFragment extends BaseScrollTabGroupFragment implements IAl
 
     private TextTabInfo videoTab;
     private DropDownTabInfo albumTab;
+    private TextView mSendBtn;
 
     public static AlbumHomeFragment newInstance(Bundle args) {
         final AlbumHomeFragment fragment = new AlbumHomeFragment();
@@ -127,13 +129,9 @@ public class AlbumHomeFragment extends BaseScrollTabGroupFragment implements IAl
     }
 
     private void initView() {
+        mSendBtn = findViewById(R.id.finish);
         pagerTabContent = findViewById(R.id.pagertabcontent);
-        toolbarHelper.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+
         mTransBean = getArguments().getParcelable(MediaConstants.EXTRA_KEY_VIDEO_TRANS_INFO);
         mPresenter = new AlbumPresenterImpl(mTransBean);
         mPresenter.bindView(this);
@@ -147,6 +145,26 @@ public class AlbumHomeFragment extends BaseScrollTabGroupFragment implements IAl
     @Override
     protected void initViews(View contentView) {
         initView();
+        initEvents();
+    }
+
+    private void initEvents() {
+        mSendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IAlbumFragment f = (IAlbumFragment) getCurrentFragment();
+                if (f != null) {
+                    f.onSendClick();
+                }
+            }
+        });
+
+        toolbarHelper.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -170,13 +188,13 @@ public class AlbumHomeFragment extends BaseScrollTabGroupFragment implements IAl
         List<TextTabInfo> textTabList = new ArrayList<>(4);
         mInitTabs = new ArrayList<>(4);
 
-        if ((flag&STATE_ALBUM) != 0) {
+        if ((flag & STATE_ALBUM) != 0) {
             albumTab = new DropDownTabInfo("相册", AlbumFragment.class, getBundleByType(1));
             textTabList.add(albumTab);
             mInitTabs.add(STATE_ALBUM);
         }
 
-        if ((flag&STATE_VIDEO) != 0) {
+        if ((flag & STATE_VIDEO) != 0) {
             videoTab = new TextTabInfo("视频", VideoFragment.class, getBundleByType(1));
             textTabList.add(videoTab);
             mInitTabs.add(STATE_VIDEO);
@@ -248,6 +266,16 @@ public class AlbumHomeFragment extends BaseScrollTabGroupFragment implements IAl
 
     @Override
     public void onSelectClick(int count, String sendText) {
+        if (mSendBtn != null) {
+            if (count <= 0) {
+                mSendBtn.setVisibility(View.GONE);
+            } else {
+                mSendBtn.setVisibility(View.VISIBLE);
+                mSendBtn.setEnabled(true);
+                mSendBtn.setTextColor(0xff3bb3fa);
+                mSendBtn.setText("完成");
+            }
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
 import com.immomo.moment.config.MRecorderActions;
 import com.mm.sdkdemo.recorder.view.IRecordView;
+import com.momo.mcamera.mask.MaskModel;
 
 /**
  * Created by wangduanqing on 2019/2/10.
@@ -68,11 +69,15 @@ public interface IRecorder {
 
     void setFlashMode(int mode);
 
-     Size getVisualSize();
+    Size getVisualSize();
 
     int getMaxZoomLevel();
 
     void setZoomLevel(int zoomLevel);
 
     int getCurrentZoomLevel();
+
+    boolean addCustomTypeMaskModel(MaskModel maskModel);
+
+    MaskModel getCurrentMaskModel();
 }

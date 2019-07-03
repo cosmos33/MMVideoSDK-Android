@@ -222,6 +222,23 @@
             android:textSize="11sp" />
 
         <TextView
+            android:id="@+id/video_beauty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@drawable/ic_media_slimming_filter"
+            android:gravity="center"
+            android:shadowColor="@color/translucent_color"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="2"
+            android:text="美妆"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+
+        <TextView
             android:id="@+id/speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -378,6 +395,14 @@
         app:rpi_text_color="#9fff"
         app:rpi_text_margin_bottom="3dp"
         app:rpi_text_size="15sp" />
+
+    <com.mm.sdkdemo.widget.MomentBeautyPanelLayout
+        android:visibility="invisible"
+        android:id="@+id/record_beauty"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/moment_common_panel_height"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/moment_face_panel_margin_bottom"/>
 
     <ViewStub
         android:id="@+id/record_face_viewstub"

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -15,8 +17,8 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
-import com.mm.mmutil.log.Log4Android;
 import com.mm.mediasdk.utils.UIUtils;
+import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.recorder.sticker.StickerEntity;
 
 /**
@@ -41,6 +43,11 @@ public class StickerView extends ImageView {
 
     //用于更新动态贴纸的坐标
     private onUpdateViewListener onUpdateViewListener;
+    private Paint mBorderPaint;
+
+
+    private boolean isShowEditBorder;
+    private Bitmap mDeleteStickerBitmap;
 
     public void setOnUpdateViewListener(StickerView.onUpdateViewListener onUpdateViewListener) {
         this.onUpdateViewListener = onUpdateViewListener;
@@ -128,6 +135,9 @@ public class StickerView extends ImageView {
     }
 
     public Rect viewRect;
+    public Rect rootRect = new Rect();
+    public Rect contentViewRect = new Rect();
+    public Rect deleteIconRect = new Rect();
 
     public PointF centerPoint;
 
@@ -168,9 +178,13 @@ public class StickerView extends ImageView {
             //            }
             //canvas.save();
             //LogUtil.d("centerPoint" + centerPoint.x +":" +centerPoint.y);
+            rootRect.set(viewRect);
+            scaleRect(rootRect, 0.25f);
 
             canvas.drawBitmap(mBitmap, matrix, localPaint);
-
+            if (isShowEditBorder) {
+                drawBorder(canvas);
+            }
             if (null != onUpdateViewListener) {
                 //更新动态贴纸的坐标
                 onUpdateViewListener.onUpdateView(centerPoint, stickerId, viewRect.width() / (float) this.mBitmap.getWidth(), (angle % 360));
@@ -180,6 +194,53 @@ public class StickerView extends ImageView {
             //删除在右上角
             // canvas.restore();
         }
+    }
+
+    private void drawBorder(Canvas canvas) {
+        canvas.save();
+        initBorderPaintIfNeed();
+        contentViewRect.set(viewRect);
+
+        canvas.drawRect(scaleRect(contentViewRect, 0.2f), mBorderPaint);
+
+//        drawDeleteIcon(canvas);
+
+        canvas.restore();
+    }
+
+    private void drawDeleteIcon(Canvas canvas) {
+        if (mDeleteStickerBitmap == null) {
+            mDeleteStickerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sticker_delete);
+        }
+        deleteIconRect.set(contentViewRect.right - mDeleteStickerBitmap.getWidth() / 2, contentViewRect.top - mDeleteStickerBitmap.getHeight() / 2, contentViewRect.right + mDeleteStickerBitmap.getWidth() / 2, contentViewRect.top + mDeleteStickerBitmap.getHeight() / 2);
+        canvas.drawBitmap(mDeleteStickerBitmap, deleteIconRect.left, deleteIconRect.top, localPaint);
+    }
+
+    private void initBorderPaintIfNeed() {
+        if (mBorderPaint == null) {
+            mBorderPaint = new Paint();
+            mBorderPaint.setStyle(Paint.Style.STROKE);
+            mBorderPaint.setAntiAlias(true);
+            mBorderPaint.setStrokeWidth(UIUtils.getPixels(2));
+            mBorderPaint.setColor(Color.parseColor("#ffffff"));
+            mBorderPaint.setPathEffect(new DashPathEffect(new float[]{4, 4}, 0));
+        }
+    }
+
+    public void setShowEditBorder(boolean show) {
+        if (isShowEditBorder != show) {
+            isShowEditBorder = show;
+            invalidate();
+        }
+    }
+
+    public boolean isShowEditBorder() {
+        return isShowEditBorder;
+    }
+
+    private Rect scaleRect(Rect targetRect, float scale) {
+        targetRect.inset(-(int) (targetRect.width() * scale), -(int) (targetRect.height() * scale));
+        return targetRect;
     }
 
     public void setFilter(boolean filter, int color) {
@@ -201,6 +262,7 @@ public class StickerView extends ImageView {
 
     /**
      * 制定图片的放置位置
+     *
      * @param bitmap
      * @param x
      * @param y

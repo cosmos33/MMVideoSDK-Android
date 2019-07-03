@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.mm.mediasdk.RecorderConstants;
-import com.mm.mediasdk.bean.MMRecorderParams;
+import com.mm.sdkdemo.bean.MMRecorderParams;
 import com.mm.mmutil.toast.Toaster;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.base.BaseActivity;
@@ -41,6 +41,8 @@ public class RecordParamSettingActivity extends BaseActivity implements View.OnC
     private View mBtBeautyVersion3;
     private int mBeautyVersion;
     private Toolbar mToolbar;
+    private View mBtOpenAudio;
+    private View mBtCloseAudio;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +63,8 @@ public class RecordParamSettingActivity extends BaseActivity implements View.OnC
         mBtBeautyVersion1.setOnClickListener(this);
         mBtBeautyVersion2.setOnClickListener(this);
         mBtBeautyVersion3.setOnClickListener(this);
-
+        mBtOpenAudio.setOnClickListener(this);
+        mBtCloseAudio.setOnClickListener(this);
     }
 
     @Override
@@ -76,7 +79,7 @@ public class RecordParamSettingActivity extends BaseActivity implements View.OnC
         setContentView(R.layout.activity_recorder_setting);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("录制设置");
+        mToolbar.setTitle("拍摄设置");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,13 +102,29 @@ public class RecordParamSettingActivity extends BaseActivity implements View.OnC
         mBtBeautyVersion2 = findViewById(R.id.bt_beauty_version2);
         mBtBeautyVersion3 = findViewById(R.id.bt_beauty_version3);
 
+        mBtOpenAudio = findViewById(R.id.bt_open_audio);
+        mBtCloseAudio = findViewById(R.id.bt_close_audio);
+
 
         mBtStartRecord = findViewById(R.id.bt_start_record);
 
         selectResolution(mBtRecordResolution720p);
         selectRatio(mBtVideoRatio9_16);
         selectBeautyVersion(mBtBeautyVersion1);
+        selectAudioState(mBtOpenAudio);
     }
+
+
+    private void selectAudioState(View view) {
+        mBtOpenAudio.setSelected(false);
+        mBtCloseAudio.setSelected(false);
+        if (mBtOpenAudio == view) {
+            mBtOpenAudio.setSelected(true);
+        } else if (mBtCloseAudio == view) {
+            mBtCloseAudio.setSelected(true);
+        }
+    }
+
 
     private void selectBeautyVersion(View view) {
         mBtBeautyVersion1.setSelected(false);
@@ -176,7 +195,8 @@ public class RecordParamSettingActivity extends BaseActivity implements View.OnC
             MMRecorderParams.Builder builder = new MMRecorderParams.Builder();
             builder.setResolutionMode(mResolutionMode)
                     .setVideoRatio(mRatioMode)
-                    .setBeautyFaceVersion(mBeautyVersion);
+                    .setBeautyFaceVersion(mBeautyVersion)
+                    .setEnableAudioRecorder(mBtOpenAudio.isSelected());
 
             String bitrate = mEtBitrateEdit.getText().toString().trim();
             String frameRate = mEtFrameRateEdit.getText().toString().trim();
@@ -221,7 +241,7 @@ public class RecordParamSettingActivity extends BaseActivity implements View.OnC
                     || checkMinError(19, recorderParams.getFrameRate(), "帧率最好大于等于20")
                     || checkMinError(1000, recorderParams.getMaxDuration(), "最大录制时长最好大于1秒")
                     || checkMaxError(60, recorderParams.getFrameRate(), "帧率需要小于等于60")
-                    || checkMaxError(15 * 1024*1000 , recorderParams.getVideoBitrate(), "码率最好小于15M(" + 15 * 1024  + "kbps)")
+                    || checkMaxError(15 * 1024 * 1000, recorderParams.getVideoBitrate(), "码率最好小于15M(" + 15 * 1024 + "kbps)")
             ) {
                 return;
             }
@@ -236,6 +256,8 @@ public class RecordParamSettingActivity extends BaseActivity implements View.OnC
             selectRatio(v);
         } else if (v == mBtBeautyVersion1 || v == mBtBeautyVersion2 || v == mBtBeautyVersion3) {
             selectBeautyVersion(v);
+        } else if (v == mBtOpenAudio || v == mBtCloseAudio) {
+            selectAudioState(v);
         }
     }
 

@@ -21,6 +21,26 @@ public class StickerEntity {
     private TagEngity tagEntity;
     private StickerLocationEntity location;//location 上传到server radio
     private StickerLocationEntity locationScreen;//location转化后的位置
+    private Long startShowTime;
+    private Long endShowTime;
+
+    public Long getStartShowTime() {
+        return startShowTime;
+    }
+
+    public void setStartShowTime(Long startShowTime) {
+        this.startShowTime = startShowTime;
+    }
+
+    public Long getEndShowTime() {
+        return endShowTime;
+    }
+
+    public void setEndShowTime(Long endShowTime) {
+        this.endShowTime = endShowTime;
+    }
+
+
 
     public String getCover() {
         return cover;

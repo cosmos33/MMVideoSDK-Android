@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.core.glcore.config.MediaModuleGlobalConfig;
 import com.immomo.performance.core.BlockConfiguration;
 import com.immomo.performance.core.CaptureConfiguration;
 import com.immomo.performance.core.Configuration;
@@ -14,7 +15,9 @@ import com.mm.mediasdk.MoMediaManager;
 import com.mm.mmutil.FileUtil;
 import com.mm.player.PlayerManager;
 import com.mm.sdkdemo.config.Configs;
+import com.mm.sdkdemo.utils.LivePhotoUtil;
 import com.mm.sdkdemo.utils.filter.FilterFileUtil;
+import com.momo.xeengine.XELogger;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
@@ -34,7 +37,11 @@ public class DemoApplication extends MultiDexApplication {
         if (Configs.DEBUG) {
             MoMediaManager.openLog(new File(Environment.getExternalStorageDirectory(), "mmvideo_sdk_log").getAbsolutePath());
             PlayerManager.openDebugLog(true, null);
+            if(MediaModuleGlobalConfig.hasXE()){
+                XELogger.getInstance().setLogEnable(Configs.DEBUG);
+            }
         }
+        PlayerManager.openLogAnalyze(true);
         File filterDir = FilterFileUtil.getMomentFilterHomeDir();
         if (FilterFileUtil.needUpdateFilter(getApplicationContext()) || !filterDir.exists() || filterDir.list().length <= 0) {
             if (filterDir.exists()) {
@@ -43,6 +50,23 @@ public class DemoApplication extends MultiDexApplication {
             FileUtil.copyAssets(this, "filterData.zip", new File(FilterFileUtil.getCacheDirectory(), "filterData.zip"));
             FileUtil.unzip(new File(FilterFileUtil.getCacheDirectory(), "filterData.zip").getAbsolutePath(), FilterFileUtil.getCacheDirectory().getAbsolutePath(), false);
             FilterFileUtil.saveCurrentFilterVersion(getApplicationContext());
+        }
+
+        File livePhotoHomeDir = LivePhotoUtil.getLivePhotoHomeDir();
+        if (LivePhotoUtil.needUpdate(getApplicationContext()) || !livePhotoHomeDir.exists() || livePhotoHomeDir.list().length <= 0) {
+            if (livePhotoHomeDir.exists()) {
+                FileUtil.deleteDir(livePhotoHomeDir);
+            }
+            FileUtil.copyAssets(this, "photoLiveSrc.zip", new File(LivePhotoUtil.getCacheDirectory(), "photoLiveSrc.zip"));
+            FileUtil.unzip(new File(LivePhotoUtil.getCacheDirectory(), "photoLiveSrc.zip").getAbsolutePath(), livePhotoHomeDir.getAbsolutePath(), false);
+            LivePhotoUtil.saveCurrentVersion(getApplicationContext());
+        }
+
+
+        File dokiDir = FilterFileUtil.getDokiFilterHomeDir();
+        if (!dokiDir.exists() || dokiDir.list().length <= 0) {
+            FileUtil.copyAssets(this, "doki_res.zip", new File(FilterFileUtil.getCacheDirectory(), "doki_res.zip"));
+            FileUtil.unzip(new File(FilterFileUtil.getCacheDirectory(), "doki_res.zip").getAbsolutePath(), FilterFileUtil.getCacheDirectory().getAbsolutePath(), false);
         }
 
         //bugly

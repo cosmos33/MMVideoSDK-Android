@@ -14,9 +14,10 @@ import java.io.File;
 public class FilterFileUtil {
 
     public static final String MOMENT_FILTER_FILE = "filterData";
+    public static final String DOKI_FILTER_FILE = "doki_res";
     public static final String MOMENT_FILTER_IMG_FILE = "filterImg";
     public static final String MAKE_UP_PNG = "makeup.png";
-    public static final int FILTER_VERSION = 2;
+    public static final int FILTER_VERSION = 3;
     public static final String KEY_DEMO_FILTER_VERSION = "key_demo_filter_version";
     // 妆感文件下载地址
     public static final String MAKE_UP_FILE_URL = "https://img.momocdn.com/banner/7B/47/7B47D324-0069-F0FD-EB75-D4E3FC96790A20180727.png";
@@ -28,6 +29,14 @@ public class FilterFileUtil {
      */
     public static File getMomentFilterHomeDir() {
         File dir = new File(getCacheDirectory(), MOMENT_FILTER_FILE);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        return dir;
+    }
+
+    public static File getDokiFilterHomeDir() {
+        File dir = new File(getCacheDirectory(), DOKI_FILTER_FILE);
         if (!dir.exists()) {
             dir.mkdirs();
         }

@@ -8,7 +8,10 @@
     android:orientation="vertical"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    app:lineLeftMargin="15dp">
+    app:lineLeftMargin="12.5dp"
+    app:lineRightMargin="12.5dp"
+
+    >
 
     <TextView
         android:id="@+id/music_name"
@@ -19,7 +22,8 @@
         android:gravity="left|bottom"
         android:maxLines="1"
         android:singleLine="true"
-        android:textColor="#1e1e1e"
+        android:layout_marginLeft="8dp"
+        android:textColor="@color/white"
         android:textSize="16sp"
         tools:text="Uptown Funk" />
 
@@ -33,6 +37,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:textColor="#9b9b9b"
+        android:layout_marginLeft="8dp"
         android:textSize="13sp"
         tools:text="Bruno Mars - Uptown Special" />
 </com.mm.sdkdemo.widget.DrawLineLinearLayout>

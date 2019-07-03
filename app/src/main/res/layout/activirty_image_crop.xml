@@ -8,38 +8,51 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/black"
-        android:layout_weight="1">
-        <include layout="@layout/toolbar" />
-
-       <!-- <com.steelkiwi.cropiwa.CropIwaView
-            android:id="@+id/crop_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            app:ci_dynamic_aspect_ratio="true" />-->
+        android:layout_weight="1"
+        android:background="@color/black">
+        <!-- <com.steelkiwi.cropiwa.CropIwaView
+             android:id="@+id/crop_view"
+             android:layout_width="match_parent"
+             android:layout_height="0dp"
+             android:layout_marginLeft="20dp"
+             android:layout_marginRight="20dp"
+             android:layout_marginTop="10dp"
+             android:layout_weight="1"
+             app:ci_dynamic_aspect_ratio="true" />-->
         <com.yalantis.ucrop.view.UCropView
             android:id="@+id/crop_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:alpha="0"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-             />
-        <TextView
-            android:id="@+id/tv_reset"
+            android:alpha="0" />
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:layout_marginTop="15dp"
-            android:background="?colorPrimary"
-            android:text="恢复" />
+            android:layout_height="0.5dp"
+            android:background="@color/whitewith40tran" />
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="还原"
+                android:id="@+id/toolbar_title"
+                android:textColor="@color/whitewith40tran"
+                android:textSize="15sp" />
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
 </LinearLayout>

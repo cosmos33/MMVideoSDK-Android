@@ -9,10 +9,12 @@ import android.view.View;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
+import com.immomo.moment.config.MRecorderActions;
 import com.cosmos.mdlog.MDLog;
 import com.immomo.moment.config.MRecorderActions;
 import com.mm.mediasdk.IMultiRecorder;
 import com.mm.mediasdk.MoMediaManager;
+import com.mm.mediasdk.utils.CameraSizeUtil;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.log.LogTag;
 import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
@@ -77,6 +79,8 @@ public class TakePhotoTestActivity extends BaseFullScreenActivity {
         MRConfig mrConfig = MRConfig.obtain();
         mrConfig.setDefaultCamera(Camera.CameraInfo.CAMERA_FACING_FRONT);
         Size size = new Size(1280, 720);
+        size = CameraSizeUtil.selectMatchSize(getApplicationContext(), size, 0, 16.0f/9.0f);
+
         mrConfig.setEncodeSize(size);
         // 设置camera 的采集分辨率
         mrConfig.setTargetVideoSize(size);

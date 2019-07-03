@@ -23,6 +23,15 @@
             app:navigationIcon="@drawable/ic_album_cancel"
             app:title="">
 
+            <TextView
+                android:id="@+id/finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="12dp"
+                android:text="完成"
+                android:textSize="16sp" />
+
             <com.google.android.material.tabs.MMTabLayout
                 android:id="@id/tablayout_id"
                 style="@style/CommonTabLayout.Transparent" />
@@ -36,8 +45,6 @@
         android:id="@id/pagertabcontent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/appbar_id"
-        android:paddingLeft="9dp"
-        android:paddingRight="9dp" />
+        android:layout_below="@id/appbar_id" />
 
 </RelativeLayout>

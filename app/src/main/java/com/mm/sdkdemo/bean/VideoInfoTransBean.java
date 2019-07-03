@@ -7,7 +7,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 
-import com.mm.mediasdk.bean.MMRecorderParams;
 import com.mm.sdkdemo.recorder.MediaConstants;
 import com.mm.sdkdemo.recorder.model.MusicContent;
 import com.mm.sdkdemo.recorder.model.Video;
@@ -41,7 +40,7 @@ public class VideoInfoTransBean implements Parcelable {
      */
     public static final int MODE_DEFAULT = 0;   // 默认模式
     public static final int MODE_STYLE_ONE = 1; // 头像选择上传时，设置该mode
-    public static final int MODE_BACK_RESULT_IMMEDIATLY = 2;    //在相册选择完图片或视频后，直接返回结果（先通过检测）
+    public static final int MODE_MULTIPLE = 2;    //多选
 
     public static final int SHOW_TAB_ALBUM = 0x0001;            // 显示相册tab
     public static final int SHOW_TAB_DEFAULT_RECORD = 0x0002;   // 显示普通拍摄tab
@@ -61,7 +60,7 @@ public class VideoInfoTransBean implements Parcelable {
     public @interface State {
     }
 
-    @IntDef({MODE_DEFAULT, MODE_STYLE_ONE, MODE_BACK_RESULT_IMMEDIATLY})
+    @IntDef({MODE_DEFAULT, MODE_STYLE_ONE, MODE_MULTIPLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Mode {
     }

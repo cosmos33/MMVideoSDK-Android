@@ -14,14 +14,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.mm.mediasdk.dynamicresources.DynamicResourceConstants;
-import com.mm.mediasdk.dynamicresources.ModelResourceManager;
+import com.core.glcore.config.MediaModuleGlobalConfig;
+import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
+import com.immomo.resdownloader.manager.ModelResourceManager;
+import com.immomo.resdownloader.manager.DynamicResourceConstants;
+import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.MD5Utils;
 import com.mm.mmutil.log.Log4Android;
 import com.mm.mmutil.task.ThreadUtils;
 import com.mm.mmutil.toast.Toaster;
-import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
-import com.mm.mediasdk.utils.UIUtils;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.config.Configs;
 import com.mm.sdkdemo.recorder.MediaConstants;
@@ -473,13 +474,15 @@ public class SelectMomentCoverActivity extends BaseFullScreenActivity implements
         }
         videoDataRetrieve.setImageFrameFilterListener(imageFrameFilterListener);
 
-        File faFilePath = ModelResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_FA_MODEL);
-        File fdFilePath = ModelResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_MACE_FD_MODEL);
-        List<String> modlePath = new ArrayList<>();
-        if (fdFilePath != null && fdFilePath.exists() && faFilePath != null && faFilePath.exists()) {
-            modlePath.add(0, fdFilePath.getAbsolutePath());
-            modlePath.add(1, faFilePath.getAbsolutePath());
-            videoDataRetrieve.setmFaceModeList(modlePath);
+        if (MediaModuleGlobalConfig.hasCV()) {
+            File faFilePath = ModelResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_FA_MODEL);
+            File fdFilePath = ModelResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_MACE_FD_MODEL);
+            List<String> modlePath = new ArrayList<>();
+            if (fdFilePath != null && fdFilePath.exists() && faFilePath != null && faFilePath.exists()) {
+                modlePath.add(0, fdFilePath.getAbsolutePath());
+                modlePath.add(1, faFilePath.getAbsolutePath());
+                videoDataRetrieve.setmFaceModeList(modlePath);
+            }
         }
 
         videoDataRetrieve.executeFrameFilter();

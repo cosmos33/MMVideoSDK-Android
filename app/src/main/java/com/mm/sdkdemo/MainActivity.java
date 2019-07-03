@@ -51,7 +51,7 @@ public class MainActivity extends BaseFullScreenActivity {
                 VideoInfoTransBean videoRecordInfo = new VideoInfoTransBean();
                 videoRecordInfo.state = VideoInfoTransBean.STATE_CHOOSE_MEDIA;
                 videoRecordInfo.showAlbumTabs = AlbumHomeFragment.STATE_ALL;
-                videoRecordInfo.mode = VideoInfoTransBean.MODE_STYLE_ONE;
+                videoRecordInfo.mode = VideoInfoTransBean.MODE_MULTIPLE;
                 videoRecordInfo.initAlbumIndex = AlbumHomeFragment.STATE_ALBUM;
                 videoRecordInfo.sendText = VideoInfoTransBean.BTN_TEXT_COMPLETE;
                 videoRecordInfo.setShowCamera(true);

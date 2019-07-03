@@ -66,7 +66,7 @@ public class VolFragment extends BaseEditMusicFragment {
             MusicContent choose = data.getParcelableExtra(MusicPickerActivity.KEY_MUSIC_EXTRA);
             if (choose != null && !TextUtils.isEmpty(choose.path)) {
                 EditMusicModel editMusicModel = new EditMusicModel(choose);
-                cementAdapter.insertModelBefore(editMusicModel,mChoseLocalMusicModel);
+                cementAdapter.addModel(editMusicModel);
                 handleSelectMusic(editMusicModel);
             }
         }
@@ -294,7 +294,7 @@ public class VolFragment extends BaseEditMusicFragment {
             }
             cementAdapter.addModels(models);
             mChoseLocalMusicModel = new ChoseLocalMusicModel();
-            cementAdapter.addFooter(mChoseLocalMusicModel);
+            cementAdapter.insertModelAfter(mChoseLocalMusicModel,clearMusicModel);
             refreshMusicTitle();
         }
 

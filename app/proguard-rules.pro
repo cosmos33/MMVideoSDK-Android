@@ -49,8 +49,10 @@ native <methods>;
 -keep interface com.immomo.moment.mediautils.VideoDataRetrieverBySoft$* {*;}
 -keep class com.immomo.moment.mediautils.VideoDataRetrieverBySoft$* {*;}
 -keep class * extends com.immomo.moment.mediautils.MediaUtils {*;}
+-keep class com.immomo.moment.mediautils.FFVideoDecoder* {*;}
+-keep class com.momoap.pitchshift.** {*;}
 
-
+-keep class com.immomo.doki.media.entity.** {*;}
 -keep class com.momo.mcamera.** {*;}
 -dontwarn com.momo.mcamera.mask.**
 -keep class com.google.gson.** {*;}

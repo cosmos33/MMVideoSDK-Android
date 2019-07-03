@@ -3,7 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mm.sdkdemo">
 
-    <uses-sdk tools:overrideLibrary="com.mm.recordsdk, com.momo, com.immomo.moment, com.example.baseutil,com.core.glcore,project.android.imageprocessing,com.example.ffmpeg,com.imomo.momo.mediamuxer,com.imomo.momo.mediaencoder,com.momo.xeengine,com.immomo.mmopenssl" />
+    <uses-sdk tools:overrideLibrary="com.mm.recordsdk, com.momo, com.immomo.moment, com.example.baseutil,com.core.glcore,project.android.imageprocessing,
+    com.example.ffmpeg,com.imomo.momo.mediamuxer,
+    com.imomo.momo.mediaencoder,
+    com.momo.xeengine,
+    com.immomo.mmopenssl,
+    com.immomo.cvcenter,
+    com.immomo.resdownloader,
+    com.immomo.doki,
+    com.momo.xeengine_lua,
+    com.momo.xengine_android
+" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />

@@ -37,6 +37,8 @@ public interface IProcessPresenter extends TextureView.SurfaceTextureListener {
 
     List<TimeRangeScale> getTimeRangeScales(EffectModel em);
 
+    long getCurrentRealVideoTime();
+
     void setLoopBack(boolean loopBack);
 
     void seekVideo(long time, boolean pause);
@@ -75,6 +77,8 @@ public interface IProcessPresenter extends TextureView.SurfaceTextureListener {
 
     void updateMaskModel(PointF centerPoint, float scale, float angle, int stickerId);
 
+    void setStickerTimeRange(int stickerId, long startTime, long endTime);
+
     void removeMaskModel(int stickerId);
 
     void setBlendBitmap(Bitmap bitmap, Bitmap easeBitmap);
@@ -108,7 +112,6 @@ public interface IProcessPresenter extends TextureView.SurfaceTextureListener {
      * @param value 取值范围：(0,1]
      */
     void setFilterIntensity(@FloatRange(from = 0, to = 1.0f) float value);
-
 
 
 }

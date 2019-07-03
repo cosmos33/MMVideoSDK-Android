@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_height="60dp"
+        android:layout_width="60dp">
+        <com.mm.sdkdemo.widget.RoundCornerImageView
+            android:id="@+id/animate_image"
+            android:layout_height="59dp"
+            android:layout_width="59dp"
+            app:radius="12dp"
+            android:scaleType="centerCrop"
+            />
+
+        <View
+            android:id="@+id/select_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@drawable/bg_live_photo_fuction_item"/>
+
+    </FrameLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/animate_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@drawable/edit_video_special_filter_tab_selector"
+        android:textSize="12sp"
+        tools:text="炫目" />
+
+</LinearLayout>

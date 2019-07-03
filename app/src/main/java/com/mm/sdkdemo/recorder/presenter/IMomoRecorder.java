@@ -10,6 +10,8 @@ import com.momo.mcamera.mask.MaskModel;
 
 import java.util.List;
 
+import project.android.imageprocessing.filter.BasicFilter;
+
 /**
  * Created by XiongFangyu on 2017/11/29.
  */
@@ -26,6 +28,8 @@ public interface IMomoRecorder extends IRecorder {
     boolean setPlayMusic(MusicContent music);
 
     void changeToFilter(int index, boolean up, float offset);
+
+    void addFilter(BasicFilter filter);
 
     void setFilterIntensity(@FloatRange(from = 0, to = 1.0f) float intensity);
 

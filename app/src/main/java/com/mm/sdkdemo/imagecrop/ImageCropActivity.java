@@ -100,16 +100,16 @@ public class ImageCropActivity extends BaseFullScreenActivity {
         setContentView(R.layout.activirty_image_crop);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("剪裁");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         mUCropView = (UCropView) findViewById(R.id.crop_view);
         mGestureCropImageView = mUCropView.getCropImageView();
         mOverlayView = mUCropView.getOverlayView();
 
         mGestureCropImageView.setTransformImageListener(mImageListener);
 
-        mTvReset = findViewById(R.id.tv_reset);
+        mTvReset = findViewById(R.id.toolbar_title);
     }
 
     private void setImageData(@NonNull final Intent intent) {
@@ -186,13 +186,13 @@ public class ImageCropActivity extends BaseFullScreenActivity {
         mOverlayView.setCircleDimmedLayer(OverlayView.DEFAULT_CIRCLE_DIMMED_LAYER);
 
         mOverlayView.setShowCropFrame(OverlayView.DEFAULT_SHOW_CROP_FRAME);
-        mOverlayView.setCropFrameColor(getResources().getColor(com.yalantis.ucrop.R.color.ucrop_color_default_crop_frame));
+        mOverlayView.setCropFrameColor(0xff00C0FF);
         mOverlayView.setCropFrameStrokeWidth(getResources().getDimensionPixelSize(com.yalantis.ucrop.R.dimen.ucrop_default_crop_frame_stoke_width));
 
         mOverlayView.setShowCropGrid(OverlayView.DEFAULT_SHOW_CROP_GRID);
         mOverlayView.setCropGridRowCount(OverlayView.DEFAULT_CROP_GRID_ROW_COUNT);
         mOverlayView.setCropGridColumnCount(OverlayView.DEFAULT_CROP_GRID_COLUMN_COUNT);
-        mOverlayView.setCropGridColor(getResources().getColor(com.yalantis.ucrop.R.color.ucrop_color_default_crop_grid));
+        mOverlayView.setCropGridColor(0xff00C0FF);
         mOverlayView.setCropGridStrokeWidth(getResources().getDimensionPixelSize(com.yalantis.ucrop.R.dimen.ucrop_default_crop_grid_stoke_width));
 
         mGestureCropImageView.setTargetAspectRatio(CropImageView.SOURCE_IMAGE_ASPECT_RATIO);

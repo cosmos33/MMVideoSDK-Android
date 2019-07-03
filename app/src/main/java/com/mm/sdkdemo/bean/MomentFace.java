@@ -18,36 +18,86 @@ import org.json.JSONObject;
 public class MomentFace implements Cloneable, Parcelable, IZipResourceModel {
     private String id;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     private String title;
     private int version;
     private String zip_url;
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
-    }
 
     private String image_url;
     private boolean isFaceRig = false;
     private boolean isArkit = false;
     private String classId;
 
+    //是否空的资源，用于第一位展示，清空资源用
+    private boolean isEmptyFace = false;
+
+    private boolean isCustomMaskModelType = false;
+
+
     public MomentFace(boolean pIsEmptyFace) {
         this.isEmptyFace = pIsEmptyFace;
     }
 
-    //是否空的资源，用于第一位展示，清空资源用
-    private boolean isEmptyFace = false;
+
+    protected MomentFace(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        version = in.readInt();
+        zip_url = in.readString();
+        image_url = in.readString();
+        isFaceRig = in.readByte() != 0;
+        isArkit = in.readByte() != 0;
+        classId = in.readString();
+        isEmptyFace = in.readByte() != 0;
+        isCustomMaskModelType = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeInt(version);
+        dest.writeString(zip_url);
+        dest.writeString(image_url);
+        dest.writeByte((byte) (isFaceRig ? 1 : 0));
+        dest.writeByte((byte) (isArkit ? 1 : 0));
+        dest.writeString(classId);
+        dest.writeByte((byte) (isEmptyFace ? 1 : 0));
+        dest.writeByte((byte) (isCustomMaskModelType ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<MomentFace> CREATOR = new Creator<MomentFace>() {
+        @Override
+        public MomentFace createFromParcel(Parcel in) {
+            return new MomentFace(in);
+        }
+
+        @Override
+        public MomentFace[] newArray(int size) {
+            return new MomentFace[size];
+        }
+    };
 
     public boolean isEmptyFace() {
         return isEmptyFace;
     }
 
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public static MomentFace fromJson(JSONObject json) {
@@ -158,47 +208,16 @@ public class MomentFace implements Cloneable, Parcelable, IZipResourceModel {
             face.version = this.version;
             face.zip_url = this.zip_url;
             face.image_url = this.image_url;
+            face.isCustomMaskModelType = this.isCustomMaskModelType;
         }
         return face;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean isCustomMaskModelType() {
+        return isCustomMaskModelType;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.title);
-        dest.writeInt(this.version);
-        dest.writeString(this.zip_url);
-        dest.writeString(this.image_url);
-        dest.writeByte(this.isFaceRig ? (byte) 1 : (byte) 0);
-        dest.writeString(this.classId);
-        dest.writeByte(this.isEmptyFace ? (byte) 1 : (byte) 0);
+    public void setCustomMaskModelType(boolean customMaskModelType) {
+        isCustomMaskModelType = customMaskModelType;
     }
-
-    protected MomentFace(Parcel in) {
-        this.id = in.readString();
-        this.title = in.readString();
-        this.version = in.readInt();
-        this.zip_url = in.readString();
-        this.image_url = in.readString();
-        this.isFaceRig = in.readByte() != 0;
-        this.classId = in.readString();
-        this.isEmptyFace = in.readByte() != 0;
-    }
-
-    public static final Creator<MomentFace> CREATOR = new Creator<MomentFace>() {
-        @Override
-        public MomentFace createFromParcel(Parcel source) {
-            return new MomentFace(source);
-        }
-
-        @Override
-        public MomentFace[] newArray(int size) {
-            return new MomentFace[size];
-        }
-    };
 }

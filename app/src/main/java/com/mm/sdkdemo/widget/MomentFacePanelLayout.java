@@ -18,7 +18,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mm.mediasdk.utils.UIUtils;
@@ -32,6 +31,7 @@ import com.mm.sdkdemo.base.cement.SimpleCementAdapter;
 import com.mm.sdkdemo.bean.IMomentFacePresenter;
 import com.mm.sdkdemo.bean.MomentFace;
 import com.mm.sdkdemo.bean.MomentFacePanelElement;
+import com.mm.sdkdemo.recorder.helper.MomentFaceUtil;
 import com.mm.sdkdemo.recorder.model.MomentFaceItemModel;
 import com.mm.sdkdemo.utils.BounceInAnimator;
 import com.mm.sdkdemo.widget.recyclerview.layoutmanager.GridLayoutManagerWithSmoothScroller;
@@ -72,7 +72,7 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
     private MomentFace mScheduledMomentFace;
     // 当前选中的所有models
     private ArrayMap<String, List<MomentFaceItemModel>> allModels = new ArrayMap<>();
-    private ImageView mIvPanelRecord;
+    private View mTvPanelRecord;
     private OnClickListener mOnPanelRecordBtnClickListener;
     private Map<String, List<MomentFace>> mData;
     private View mTvStickerTab;
@@ -111,7 +111,7 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
 
 
     private void initEvent() {
-        mIvPanelRecord.setOnClickListener(new OnClickListener() {
+        mTvPanelRecord.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mOnPanelRecordBtnClickListener != null) {
@@ -141,7 +141,7 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
 
     private void initViews() {
         facePanelRecView = findViewById(R.id.face_panel);
-        mIvPanelRecord = findViewById(R.id.iv_panel_record);
+        mTvPanelRecord = findViewById(R.id.iv_panel_record);
         mTvStickerTab = findViewById(R.id.tv_sticker_tab);
         mTvPropTab = findViewById(R.id.tv_prop_tab);
         mTvStickerTab.setSelected(true);
@@ -233,7 +233,7 @@ public class MomentFacePanelLayout extends FrameLayout implements IMomentFaceVie
                 } else {
                     playBoundAnim(((MomentFaceItemModel.ViewHolder) viewHolder).getIconView());
                     // face点击事件
-                    if (((MomentFaceItemModel) model).isSelected()) {
+                    if (((MomentFaceItemModel) model).isSelected()||MomentFaceUtil.isOnDownloadTask(face)) {
                         return;
                     }
                     if (mOnFaceResourceSelectListener != null) {

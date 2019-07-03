@@ -30,6 +30,8 @@ import com.mm.sdkdemo.recorder.MediaConstants;
 import com.mm.sdkdemo.recorder.activity.ImageEditActivity;
 import com.mm.sdkdemo.recorder.activity.RecordParamSettingActivity;
 import com.mm.sdkdemo.recorder.activity.VideoCutActivity;
+import com.mm.sdkdemo.recorder.editor.image_composition_video.bean.LiveAnimate;
+import com.mm.sdkdemo.recorder.editor.image_composition_video.view.LivePhotoFuctionHelper;
 import com.mm.sdkdemo.recorder.model.AlbumDirectory;
 import com.mm.sdkdemo.recorder.model.Photo;
 import com.mm.sdkdemo.recorder.model.Video;
@@ -77,11 +79,13 @@ public class AlbumFragment extends BaseTabOptionFragment implements
     private String mediaType = MediaConstants.MEDIA_TYPE_IMAGES;
     private Video backVideo;
 
-    private BaseAlbumPresenter mPresenter;
+    private AlbumFragmentPresenter mPresenter;
 
     private Space space;
     private DropDownTabInfo dropDownTabInfo;
     private ScanResult scanResult;
+    private LiveAnimate mLiveAnimate;
+    private LivePhotoFuctionHelper mLivePhotoFuctionHelper;
 
     public static AlbumFragment newInstance(Bundle args) {
         final AlbumFragment fragment = new AlbumFragment();
@@ -229,7 +233,7 @@ public class AlbumFragment extends BaseTabOptionFragment implements
                 }
                 if (mArgs != null) {
                     mArgs.putParcelable(MediaConstants.EXTRA_KEY_VIDEO_DATA,
-                                        data.getParcelableExtra(MediaConstants.KEY_PICKER_VIDEO));
+                            data.getParcelableExtra(MediaConstants.KEY_PICKER_VIDEO));
                 }
                 receiveFromVideoCut(resultCode, data);
                 break;
@@ -409,11 +413,12 @@ public class AlbumFragment extends BaseTabOptionFragment implements
             public void onCancel(DialogInterface dialog) {
                 mIsCompressing = false;
                 VideoCompressUtil.stopCompress();
-                Toaster.showInvalidate("已停止压缩", Toaster.LENGTH_SHORT);
+                Toaster.showInvalidate("已停止处理", Toaster.LENGTH_SHORT);
                 hideCompressDialog();
+                mPresenter.cancelImageConvert();
             }
         });
-        progressDialog.setMessage("视频压缩中......");
+        progressDialog.setMessage("视频处理中......");
         final Window window = progressDialog.getWindow();
         if (window != null) {
             window.setLayout(UIUtils.getPixels(170), UIUtils.getPixels(50));
@@ -532,13 +537,20 @@ public class AlbumFragment extends BaseTabOptionFragment implements
         if (photos == null || photos.size() <= 0) {
             return;
         }
-        handleResult(photos);
+        if (photos.size() == 1) {
+            gotoImageEdit(photos.get(0));
+        } else {
+            mPresenter.startPhotoCompressVideo();
+        }
+
+//        handleResult(photos);
     }
 
     @Override
     public void changeChecked(Photo photo, boolean isSelected) {
         photo.isAlbumCheck = isSelected;
         photo.changeChecked(isSelected);
+
     }
 
     @Override
@@ -673,6 +685,22 @@ public class AlbumFragment extends BaseTabOptionFragment implements
         IAlbumView view = (IAlbumView) getParentFragment();
         if (view != null) {
             view.onSelectClick(count, mTransBean.sendText);
+        }
+        if (count <= 1) {
+            if (mLivePhotoFuctionHelper != null) {
+                mLivePhotoFuctionHelper.hide();
+            }
+        } else {
+            if (mLivePhotoFuctionHelper == null) {
+                mLivePhotoFuctionHelper = new LivePhotoFuctionHelper(getFragmentManager(), findViewById(R.id.fl_root), mPresenter);
+            }
+            if (!mLivePhotoFuctionHelper.isShowing()) {
+                mLivePhotoFuctionHelper.show();
+            }
+        }
+        mPresenter.updatePhotoList();
+        if (mLivePhotoFuctionHelper != null) {
+            mLivePhotoFuctionHelper.onPhotoChange();
         }
     }
 

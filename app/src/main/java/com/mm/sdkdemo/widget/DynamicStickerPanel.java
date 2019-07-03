@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Looper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -15,9 +16,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mm.mmutil.log.Log4Android;
-import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.mediasdk.utils.UIUtils;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.sdkdemo.R;
 import com.mm.sdkdemo.api.MoApi;
 import com.mm.sdkdemo.recorder.adapter.DynamicStickerListAdapter;
@@ -27,11 +29,11 @@ import com.mm.sdkdemo.widget.decoration.SpaceItemDecoration;
 
 import java.util.ArrayList;
 
+
 /**
  * Created by zhutao on 2017/6/14.
  */
 public class DynamicStickerPanel extends FrameLayout {
-    private static final String PREF_KEY_UPDATE_MOMENT_STICKER_TIME = "update_moment_sticker_time";
 
     private ArrayList<DynamicSticker> stickerList = new ArrayList<>();
     private IndeterminateDrawable progressDrawable;
@@ -67,17 +69,17 @@ public class DynamicStickerPanel extends FrameLayout {
     }
 
     private void init(Context context) {
-        setBackgroundColor(getResources().getColor(R.color.black_overlay));
+//        setBackgroundColor(getResources().getColor(R.color.black_overlay));
 
         ImageView iv = new ImageView(context);
         LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.LEFT;
         iv.setPadding(dp2px(13f), dp2px(16f), dp2px(6f), dp2px(6f));
         iv.setImageResource(R.drawable.ic_moment_close);
-        addView(iv, lp);
+//        addView(iv, lp);
 
         RecyclerView recyclerView = new RecyclerView(context);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 4);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 6);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addItemDecoration(new SpaceItemDecoration(dp2px(10), dp2px(20)));
         recyclerView.setVerticalFadingEdgeEnabled(false);
@@ -104,7 +106,7 @@ public class DynamicStickerPanel extends FrameLayout {
         });
         recyclerView.setAdapter(adapter);
         LayoutParams recyclerViewLP = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        recyclerViewLP.topMargin = dp2px(44f);
+//        recyclerViewLP.topMargin = dp2px(44f);
         int margin = dp2px(12f);
         recyclerViewLP.leftMargin = margin;
         recyclerViewLP.rightMargin = margin;
@@ -120,11 +122,12 @@ public class DynamicStickerPanel extends FrameLayout {
         addView(progressView, progressLP);
 
         topCoverView = new View(context);
-        topCoverView.setBackgroundResource(R.drawable.bg_gradient_top);
+//        topCoverView.setBackgroundResource(R.drawable.agora_bg_gradient_videochat_top);
         topCoverView.setVisibility(INVISIBLE);
         LayoutParams vp = new LayoutParams(LayoutParams.MATCH_PARENT, UIUtils.getPixels(120));
         lp.gravity = Gravity.TOP;
         addView(topCoverView, vp);
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -147,7 +150,7 @@ public class DynamicStickerPanel extends FrameLayout {
             @Override
             public void onClick(View v) {
                 if (null != mOnStickerPanelListener) {
-                    mOnStickerPanelListener.onCloseClicked();
+//                    mOnStickerPanelListener.onCloseClicked();
                 }
             }
         });
@@ -209,6 +212,7 @@ public class DynamicStickerPanel extends FrameLayout {
         showProgress(false);
     }
 
+
     private class LoadStickerTask extends MomoTaskExecutor.Task<Object, Object, ArrayList<DynamicSticker>> {
         @Override
         protected ArrayList<DynamicSticker> executeTask(Object... params) throws Exception {
@@ -232,8 +236,17 @@ public class DynamicStickerPanel extends FrameLayout {
         }
     }
 
-    public void notifyItem(int position) {
-        adapter.notifyItemChanged(position);
+    public void notifyItem(final int position) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            adapter.notifyItemChanged(position);
+        } else {
+            MomoMainThreadExecutor.post(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyItemChanged(position);
+                }
+            });
+        }
     }
 
     private OnStickerPanelListener mOnStickerPanelListener;
