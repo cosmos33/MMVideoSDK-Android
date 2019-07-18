@@ -30,7 +30,7 @@ public class MusicDirectoryAdapter extends BaseRecyclerAdapter<MusicDirectory, M
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MusicDirectoryAdapter.VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_music_picker_directory, parent, false));
+        return new VH(LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_music_picker_directory, parent, false));
     }
 
     static final class VH extends BaseRecyclerAdapter.BaseViewHolder {

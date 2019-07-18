@@ -546,7 +546,7 @@ public class VideoEditFragment extends BaseFragment
         imageParams = new ViewGroup.MarginLayoutParams(stickerWidth, stickerHeight);
         imageParams.setMargins(stickerMarginLeft, stickerMarginTop, 0, 0);
         videoRootView.setLayoutParams(new RelativeLayout.LayoutParams(imageParams));
-        stickerContainerView.setParams(stickerWidth, stickerHeight,0 ,0 );
+        stickerContainerView.setParams(stickerWidth, stickerHeight, 0, 0);
         stickerContainerView.showRect = new Rect(0, 0, stickerWidth, stickerHeight);
     }
 
@@ -676,7 +676,7 @@ public class VideoEditFragment extends BaseFragment
                         } else if (getAllStickerCount() >= MediaConstants.MAX_STICKER_COUNT) {
                             Toaster.showInvalidate("最多只能添加 " + MediaConstants.MAX_STICKER_COUNT + " 个贴纸");
                         } else {
-                            StickerView stickerView = stickerContainerView.addSticker(textBitmap, text, checkedIndex, getTextStickerPosX(textBitmap), textPosY);
+                            StickerView stickerView = stickerContainerView.addSticker(textBitmap, text, checkedIndex, getTextStickerPosX(textBitmap), getTextStickerPosY(textBitmap));
                             recordTextSticker(stickerView);
                         }
                     }
@@ -703,8 +703,14 @@ public class VideoEditFragment extends BaseFragment
 
     private int getTextStickerPosX(Bitmap bitmap) {
         final int w = bitmap.getWidth();
-        final int sw = UIUtils.getScreenWidth();
+        final int sw = stickerContainerView.getWidth();
         return (sw - w) >> 1;
+    }
+
+    private int getTextStickerPosY(Bitmap bitmap) {
+        final int h = bitmap.getHeight();
+        final int sh = stickerContainerView.getHeight();
+        return (sh - h) >> 1;
     }
 
     private void showToolsLayout() {
@@ -798,7 +804,7 @@ public class VideoEditFragment extends BaseFragment
         if (specialPanelViewHelper != null && specialPanelViewHelper.useSpecialFilter()) {
             Toaster.show("特效滤镜与变速不能叠加使用");
             return;
-        }else if(stickerContainerView.hasImageSticker()){
+        } else if (stickerContainerView.hasImageSticker()) {
             Toaster.show("先使用了贴纸不能使用变速");
             return;
         }

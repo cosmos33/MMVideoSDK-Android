@@ -135,20 +135,7 @@ public class VideoPlayItemFragment extends Fragment {
                 }
             }
         });
-        videoView.setOnStateChangedListener(new ICosPlayer.OnStateChangedListener() {
-            @Override
-            public void onStateChanged(final int state) {
-                if (state == ICosPlayer.STATE_BUFFERING) {
-                    progressBar.setVisibility(View.VISIBLE);
-                } else if (state == ICosPlayer.STATE_READY) {
-                    progressBar.setVisibility(View.GONE);
-                    if (currentPos > 0 && isForeground) {
-                        videoView.seekTo(currentPos);
-                        currentPos = -1;
-                    }
-                }
-            }
-        });
+
         frameLayout.addView(videoView);
 
         pauseImageView = new ImageView(getContext());
@@ -165,6 +152,21 @@ public class VideoPlayItemFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         frameLayout.addView(progressBar);
 
+        progressBar.setVisibility(View.VISIBLE);
+        videoView.setOnStateChangedListener(new ICosPlayer.OnStateChangedListener() {
+            @Override
+            public void onStateChanged(final int state) {
+                if (state == ICosPlayer.STATE_BUFFERING_START) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else if (state == ICosPlayer.STATE_BUFFERING_END || state == ICosPlayer.STATE_READY) {
+                    progressBar.setVisibility(View.GONE);
+                    if (currentPos > 0 && isForeground) {
+                        videoView.seekTo(currentPos);
+                        currentPos = -1;
+                    }
+                }
+            }
+        });
         return frameLayout;
     }
 }

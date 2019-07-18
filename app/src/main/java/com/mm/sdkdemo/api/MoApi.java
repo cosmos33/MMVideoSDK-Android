@@ -218,6 +218,36 @@ public class MoApi extends BaseApi {
         momentFace18.setVersion(30);
         momentFace18.setTitle("3D触屏点击");
 
+        MomentFace momentFace19 = new MomentFace(false);
+        momentFace19.setId("130");
+        momentFace19.setImage_url("http://img.momocdn.com/app/E4/69/E4698EF3-F91C-00E1-DB7D-E19758BFFC3920190613.png");
+        momentFace19.setZip_url("http://cdnst.momocdn.com/w/u/others/2019/06/26/1561532604534-freestyle.zip");
+        momentFace19.setVersion(30);
+        momentFace19.setCustomMaskModelType(true);
+        momentFace19.setTitle("礼物Test1");
+
+        MomentFace momentFace20 = new MomentFace(false);
+        momentFace20.setId("140");
+        momentFace20.setImage_url("http://img.momocdn.com/app/E4/69/E4698EF3-F91C-00E1-DB7D-E19758BFFC3920190613.png");
+        momentFace20.setZip_url("http://cdnst.momocdn.com/w/u/others/2019/06/26/1561532614579-huaguan.zip");
+        momentFace20.setVersion(30);
+        momentFace20.setCustomMaskModelType(true);
+        momentFace20.setTitle("礼物Test2");
+        MomentFace momentFace21 = new MomentFace(false);
+        momentFace21.setId("150");
+        momentFace21.setImage_url("http://img.momocdn.com/app/E4/69/E4698EF3-F91C-00E1-DB7D-E19758BFFC3920190613.png");
+        momentFace21.setZip_url("https://img.momocdn.com/liveapi/79/EC/79EC3728-EA55-A6F7-23A0-A2ADA578745720180427_L.zip");
+        momentFace21.setVersion(30);
+        momentFace21.setCustomMaskModelType(true);
+        momentFace21.setTitle("礼物Test3");
+
+        MomentFace momentFace22 = new MomentFace(false);
+        momentFace22.setId("160");
+        momentFace22.setImage_url("http://img.momocdn.com/app/E4/69/E4698EF3-F91C-00E1-DB7D-E19758BFFC3920190613.png");
+        momentFace22.setZip_url("https://img.momocdn.com/liveapi/CA/B4/CAB4CED2-0436-D5E9-C275-5F2CC7FA25FE20190226_L.zip");
+        momentFace22.setVersion(30);
+        momentFace22.setCustomMaskModelType(true);
+        momentFace22.setTitle("礼物Test4");
 
         MomentFace momentFace23 = new MomentFace(false);
         momentFace23.setId("170");
@@ -225,6 +255,13 @@ public class MoApi extends BaseApi {
         momentFace23.setZip_url("http://img.momocdn.com/momentlib/C2/4C/C24CD16D-457C-4420-980A-113AB785134320190627.zip");
         momentFace23.setVersion(30);
         momentFace23.setTitle("鹿角表情触发");
+
+        MomentFace momentFace24 = new MomentFace(false);
+        momentFace24.setId("180");
+        momentFace24.setImage_url("http://img.momocdn.com/app/E4/69/E4698EF3-F91C-00E1-DB7D-E19758BFFC3920190613.png");
+        momentFace24.setZip_url("http://cdnst.momocdn.com/w/u/others/2019/07/10/1562729177892-bear.zip");
+        momentFace24.setVersion(31);
+        momentFace24.setTitle("Facerig V3");
 
         stickers.add(emptyFace);
         stickers.add(momentFace1);
@@ -243,11 +280,12 @@ public class MoApi extends BaseApi {
         stickers.add(momentFace14);
         stickers.add(momentFace15);
         stickers.add(momentFace18);
-        /*stickers.add(momentFace19);
+        stickers.add(momentFace19);
         stickers.add(momentFace20);
         stickers.add(momentFace21);
-        stickers.add(momentFace22);*/
+        stickers.add(momentFace22);
         stickers.add(momentFace23);
+        stickers.add(momentFace24);
 
         sourceMap.put("sticker", stickers);
 

@@ -920,23 +920,23 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
             @Override
             public boolean onTouch(MotionEvent event) {
-                if (mIsArkit) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        if (isFacePanelShowing()) {
-                            hideFacePanel();
-                            showBottomVideoControlLayout();
-                            return true;
-                        }
-                        if (isFilterPanelShow()) {
-                            hideFilterPanel();
-                            showBottomVideoControlLayout();
-                            return true;
-                        }
-                        if (slideBar != null && slideBar.getVisibility() == View.VISIBLE) {
-                            showSpeedView(false);
-                            return true;
-                        }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (isFacePanelShowing()) {
+                        hideFacePanel();
+                        showBottomVideoControlLayout();
+                        return true;
                     }
+                    if (isFilterPanelShow()) {
+                        hideFilterPanel();
+                        showBottomVideoControlLayout();
+                        return true;
+                    }
+                    if (slideBar != null && slideBar.getVisibility() == View.VISIBLE) {
+                        showSpeedView(false);
+                        return true;
+                    }
+                }
+                if (mIsArkit) {
                     boolean consumed = XEngineEventHelper.touchHitTest(event.getX(), event.getY());
                     if (consumed) {
                         XEngineEventHelper.handEvent(event, changeFragmentViewpager);

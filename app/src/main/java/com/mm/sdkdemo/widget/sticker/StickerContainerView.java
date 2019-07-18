@@ -281,7 +281,7 @@ public class StickerContainerView extends RelativeLayout {
         float x = pointF.x;
         float y = pointF.y;
         //修复偶尔viewRect == null 的bug
-        if (null == view || null == view.rootRect) {
+        if (null == view || null == view.rootRect || view.getVisibility() != View.VISIBLE) {
             return false;
         }
 

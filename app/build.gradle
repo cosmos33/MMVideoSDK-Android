@@ -4,10 +4,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.mm.sdkdemo"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 26
-        versionCode 4001
-        versionName "2.0.1"
+        versionCode 4005
+        versionName "2.1.2"
         multiDexEnabled true
 
         /**
@@ -19,7 +19,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a","armeabi"
         }
     }
     buildTypes {

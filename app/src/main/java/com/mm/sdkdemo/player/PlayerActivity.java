@@ -81,20 +81,7 @@ public class PlayerActivity extends BaseFullScreenActivity {
             ImageLoaderX.load(cover).showDefault(R.drawable.ic_moment_theme_bg).into(videoView.getCoverView());
         }
         videoLoadingView = findViewById(R.id.player_loading);
-        videoView.setOnStateChangedListener(new ICosPlayer.OnStateChangedListener() {
-            @Override
-            public void onStateChanged(final int state) {
-                if (state == ICosPlayer.STATE_BUFFERING) {
-                    videoLoadingView.setVisibility(View.VISIBLE);
-                } else if (state == ICosPlayer.STATE_READY) {
-                    videoLoadingView.setVisibility(View.GONE);
-                    if (lastPos > 0 && isForeground) {
-                        videoView.seekTo(lastPos);
-                        lastPos = -1;
-                    }
-                }
-            }
-        });
+
         seekBar = findViewById(R.id.player_seeekbar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -118,6 +105,22 @@ public class PlayerActivity extends BaseFullScreenActivity {
         playControlLayout = findViewById(R.id.player_controller);
         playTime = findViewById(R.id.player_playTime);
         totalTime = findViewById(R.id.player_totalTime);
+
+        videoLoadingView.setVisibility(View.VISIBLE);
+        videoView.setOnStateChangedListener(new ICosPlayer.OnStateChangedListener() {
+            @Override
+            public void onStateChanged(final int state) {
+                if (state == ICosPlayer.STATE_BUFFERING_START) {
+                    videoLoadingView.setVisibility(View.VISIBLE);
+                } else if (state == ICosPlayer.STATE_BUFFERING_END || state == ICosPlayer.STATE_READY) {
+                    videoLoadingView.setVisibility(View.GONE);
+                    if (lastPos > 0 && isForeground) {
+                        videoView.seekTo(lastPos);
+                        lastPos = -1;
+                    }
+                }
+            }
+        });
     }
 
     private boolean isForeground;
