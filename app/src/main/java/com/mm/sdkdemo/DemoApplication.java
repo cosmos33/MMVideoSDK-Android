@@ -14,13 +14,24 @@ import com.immomo.performance.utils.PerformanceUtil;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mmutil.FileUtil;
 import com.mm.player.PlayerManager;
-import com.mm.sdkdemo.config.Configs;
+import com.mm.recorduisdk.IRecordResourceGetter;
+import com.mm.recorduisdk.RecordUISDK;
+import com.mm.recorduisdk.bean.CommonMomentFaceBean;
+import com.mm.recorduisdk.bean.MomentFace;
+import com.mm.recorduisdk.bean.MomentSticker;
+import com.mm.recorduisdk.config.Configs;
+import com.mm.recorduisdk.recorder.model.MusicContent;
+import com.mm.recorduisdk.recorder.sticker.DynamicSticker;
+import com.mm.rifle.Rifle;
+import com.mm.sdkdemo.api.DemoApi;
+import com.mm.sdkdemo.utils.FilterFileUtil;
 import com.mm.sdkdemo.utils.LivePhotoUtil;
-import com.mm.sdkdemo.utils.filter.FilterFileUtil;
 import com.momo.xeengine.XELogger;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DemoApplication extends MultiDexApplication {
     @Override
@@ -32,15 +43,18 @@ public class DemoApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Rifle.init(this, "9dac61837c9bc9eba14f8a32584bde1f", true);
+        RecordUISDK.init(this, "100cb616072fdc76c983460b8c2b470a", new DemoRecordResourceGetterImpl());
         MoMediaManager.init(this, "100cb616072fdc76c983460b8c2b470a");
         PlayerManager.init(this, "100cb616072fdc76c983460b8c2b470a");
         if (Configs.DEBUG) {
             MoMediaManager.openLog(new File(Environment.getExternalStorageDirectory(), "mmvideo_sdk_log").getAbsolutePath());
             PlayerManager.openDebugLog(true, null);
-            if(MediaModuleGlobalConfig.hasXE()){
+            if (MediaModuleGlobalConfig.hasXE()) {
                 XELogger.getInstance().setLogEnable(Configs.DEBUG);
             }
         }
+        MoMediaManager.openLogAnalyze(true);
         PlayerManager.openLogAnalyze(true);
         File filterDir = FilterFileUtil.getMomentFilterHomeDir();
         if (FilterFileUtil.needUpdateFilter(getApplicationContext()) || !filterDir.exists() || filterDir.list().length <= 0) {
@@ -70,7 +84,7 @@ public class DemoApplication extends MultiDexApplication {
         }
 
         //bugly
-        CrashReport.initCrashReport(getApplicationContext(), "1ce7b8c2d3", false);
+//        CrashReport.initCrashReport(getApplicationContext(), "1ce7b8c2d3", false);
 
         initPerformance();
     }
@@ -108,5 +122,64 @@ public class DemoApplication extends MultiDexApplication {
                 .setAppInfo(PerformanceUtil.getSimpleAppInfo(this))
                 .build());
 
+    }
+
+
+    static class DemoRecordResourceGetterImpl implements IRecordResourceGetter {
+        private DemoApi demoApi = new DemoApi();
+
+        @Override
+        public File getFiltersImgHomeDir() {
+            return FilterFileUtil.getMomentFilterImgHomeDir();
+        }
+
+        @Override
+        public File getLivePhotoHomeDir() {
+            return LivePhotoUtil.getLivePhotoHomeDir();
+        }
+
+        @Override
+        public File getMakeUpHomeDir() {
+            return FilterFileUtil.getDokiFilterHomeDir();
+        }
+
+        @Override
+        public List<DynamicSticker> getDynamicStickerList() {
+            ArrayList<DynamicSticker> dynamicStickers = new ArrayList<DynamicSticker>();
+            try {
+                demoApi.getDynamicStickerList(dynamicStickers);
+                return dynamicStickers;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        public List<MomentSticker> getStaticStickerList() {
+            ArrayList<MomentSticker> momentStickers = new ArrayList<MomentSticker>();
+            try {
+                demoApi.getStaticStickerList(momentStickers);
+                return momentStickers;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        public List<MusicContent> getRecommendMusic() {
+            return demoApi.getRecommendMusic();
+        }
+
+        @Override
+        public Map<String, List<MomentFace>> getFaceMomentData() {
+            return demoApi.getFaceData();
+        }
+
+        @Override
+        public CommonMomentFaceBean fetchMomentFaceData() throws Exception {
+            return demoApi.fetchCommonMomentFaceData();
+        }
     }
 }

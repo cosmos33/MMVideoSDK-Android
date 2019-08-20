@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="tabwidget" type="id"/>
+    <item name="pagertabcontent" type="id"/>
+    <item name="tabcontent" type="id"/>
+    <item name="layout_content" type="id"/>
+    <item name="glide_tag_id" type="id"/>
+    <item name="activities_bar_top" type="id"/>
+
+    <item name="wolf_toolbar_title_id" type="id"/>
+
+    <!--StatusBar 填充deView的ID -->
+    <item name="status_bar_view_id" type="id"/>
+
+    <item name="padding_info" type="id" />
+    <item name="item_padding_left" type="id" />
+    <item name="item_padding_right" type="id" />
+    <item name="item_padding_top" type="id" />
+    <item name="item_padding_bottom" type="id" />
+
+    <!--ShortenDividerItemDecoration-->
+    <item name="tag_divider_left_margin" type="id"/>
+    <item name="tag_divider_right_margin" type="id"/>
+
+    <item name="view_model_child_stub" type="id" />
+    <item name="view_model_state_saving_id" type="id" />
+
+</resources>

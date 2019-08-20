@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/setting_blank_background">
+
+        <include layout="@layout/toolbar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="12.5dp"
+                android:paddingRight="12.5dp"
+                android:paddingBottom="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="选择模式"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_choose_single_mode"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="单选" />
+
+
+                    <Button
+                        android:id="@+id/bt_choose_multi_mode"
+                        style="@style/record_btn_style"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="多选" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="选择展示的媒体类型"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_choose_mix_type"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="照片和视频" />
+
+
+                    <Button
+                        android:id="@+id/bt_choose_photo_type"
+                        style="@style/record_btn_style"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:text="照片" />
+
+                    <Button
+                        android:id="@+id/bt_choose_video_type"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="视频" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="是否显示相机图标"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/bt_show_camera_icon"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="显示" />
+
+
+                    <Button
+                        android:id="@+id/bt_hide_camera_icon"
+                        style="@style/record_btn_style"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="不显示" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="tab 展示"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/bt_show_all_tab"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="全部" />
+
+                    <Button
+                        android:id="@+id/bt_show_album_tab"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg"
+                        android:layout_marginLeft="1dp"
+                        android:text="相册" />
+
+                    <Button
+                        android:id="@+id/bt_show_video_tab"
+                        style="@style/record_btn_style"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="视频" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="操作完成后goto"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/bt_result_back"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="result back" />
+
+
+                    <Button
+                        android:id="@+id/bt_goto_activity"
+                        style="@style/record_btn_style"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="goto activity" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/bt_start_choose"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="12.5dp"
+            android:layout_marginRight="12.5dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/bg_start_goto_record"
+            android:text="去选择编辑"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </android.support.design.widget.AppBarLayout>
+</LinearLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="60dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <com.mm.recorduisdk.widget.RoundCornerFrameLayout
+        android:id="@+id/fragment_container"
+        app:radius="10dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/music_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             />
+
+
+        <TextView
+            android:id="@+id/music_select_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="11sp"
+            android:background="#cc009cff"
+            android:text="截取\n音乐" />
+
+
+    </com.mm.recorduisdk.widget.RoundCornerFrameLayout>
+
+
+    <TextView
+        android:id="@+id/music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="11sp"
+        tools:text="音乐库" />
+
+</LinearLayout>

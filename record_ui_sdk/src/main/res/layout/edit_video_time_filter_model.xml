@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="55dp"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.mm.recorduisdk.widget.CircleImageView
+        android:id="@+id/filter_img"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="@color/red" />
+
+
+    <TextView
+        android:id="@+id/fiter_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="68dp"
+        android:lineSpacingExtra="4sp"
+        android:textColor="@drawable/edit_video_special_filter_tab_selector"
+        android:textSize="12sp"
+        tools:text="炫目" />
+
+
+</FrameLayout>

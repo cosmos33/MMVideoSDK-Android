@@ -11,15 +11,15 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.cosmos.mdlog.MDLog;
+import com.mm.base_business.base.BaseFullScreenActivity;
+import com.mm.base_business.utils.DeviceUtils;
 import com.mm.mediasdk.IImageProcess;
 import com.mm.mediasdk.MoMediaManager;
-import com.mm.mmutil.log.Log4Android;
 import com.mm.mediasdk.utils.UIUtils;
+import com.mm.mmutil.log.Log4Android;
+import com.mm.recorduisdk.config.Configs;
+import com.mm.recorduisdk.utils.filter.FiltersManager;
 import com.mm.sdkdemo.R;
-import com.mm.sdkdemo.config.Configs;
-import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
-import com.mm.sdkdemo.utils.DeviceUtils;
-import com.mm.sdkdemo.utils.filter.FiltersManager;
 
 import java.io.File;
 

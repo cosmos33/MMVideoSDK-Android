@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <com.mm.recorduisdk.widget.RoundCornerImageView
+        android:id="@+id/order_image"
+        android:layout_height="60dp"
+        android:layout_width="60dp"
+        android:scaleType="centerCrop"
+        app:radius="12dp" />
+
+
+    <ImageView
+        android:id="@+id/delete_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/live_photo_fuction_delete_ic"
+
+        />
+
+</LinearLayout>

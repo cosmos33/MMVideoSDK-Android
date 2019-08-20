@@ -9,15 +9,15 @@ import android.view.View;
 
 import com.cosmos.mdlog.MDLog;
 import com.immomo.moment.config.MRecorderActions;
+import com.mm.base_business.base.BaseFullScreenActivity;
+import com.mm.base_business.utils.DeviceUtils;
 import com.mm.mediasdk.IVideoProcessor;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.utils.FilterUtils;
 import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.toast.Toaster;
+import com.mm.recorduisdk.utils.filter.FiltersManager;
 import com.mm.sdkdemo.R;
-import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
-import com.mm.sdkdemo.utils.DeviceUtils;
-import com.mm.sdkdemo.utils.filter.FiltersManager;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.mask.MaskModel;
 import com.momo.mcamera.mask.MaskStore;

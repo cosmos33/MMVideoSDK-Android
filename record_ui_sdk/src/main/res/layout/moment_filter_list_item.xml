@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="129dp"
+    android:clickable="true"
+    android:gravity="center_vertical">
+
+    <FrameLayout
+        android:id="@+id/moment_filter_item_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/moment_filter_item_bg"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:background="@drawable/bg_moment_filter_select"
+            android:visibility="invisible" />
+
+        <com.mm.recorduisdk.widget.CircleImageView
+            android:id="@+id/moment_filter_item_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src='@drawable/icon_filter_sample' />
+
+        <TextView
+            android:id="@+id/moment_filter_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_moment_filter_tag"
+            android:drawablePadding="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="NEW"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            tools:text="new"
+            tools:visibility="visible" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/moment_filter_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/moment_filter_item_layout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="5dp"
+        android:lineSpacingExtra="1sp"
+        android:text="原图"
+        android:textColor="@color/white"
+        android:textSize="11sp" />
+</RelativeLayout>

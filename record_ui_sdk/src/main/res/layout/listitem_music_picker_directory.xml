@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mm.recorduisdk.widget.DrawLineLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/style_single_line_cell_without_icon"
+    android:orientation="horizontal"
+    app:lineLeftMargin="12.5dp"
+    app:lineRightMargin="12.5dp">
+
+    <!--<ImageView
+        android:id="@+id/music_directory_cover"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/momo_logo_white" />-->
+
+    <TextView
+        android:id="@+id/music_directory_name"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center|left"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        tools:text="Bruno Mars (8)" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_common_arrow_right" />
+</com.mm.recorduisdk.widget.DrawLineLinearLayout>

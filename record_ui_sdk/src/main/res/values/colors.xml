@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="setting_blank_background">#cc010101</color>
+
+    <color name="white">#ffffffff</color>
+    <color name="whitewith30tran">#4cffffff</color>
+    <color name="whitewith40tran">#64ffffff</color>
+
+    <color name="black">#ff000000</color>
+    <color name="bg_speed_select">#0093ff</color>
+
+
+    <!--视频页面的背景色-->
+    <color name="video_dark_background">#1a1b1d</color>
+
+    <color name="toolbar_shadow_color">#e8e8eb</color>
+
+
+
+    <!--白色状态栏颜色-->
+    <color name="status_bar_color_light">#ffffff</color>
+    <!--黑色状态栏颜色-->
+    <color name="status_bar_color_dark">#1a1b1d</color>
+
+
+    <!--Slide Indicator Bar-->
+
+
+    <color name="tab_selected">#323333</color>
+
+
+    <color name="album_item_shadow_color">#33000000</color>
+
+
+    <color name="FC6">#AAAAAA</color>
+
+    <color name="translucent_color">#99000000</color>
+
+    <color name="filter_bg">#00575757</color>
+
+
+    <!--Video music panel-->
+    <color name="music_panel_text_color_gray">#66ffffff</color>
+
+
+    <color name="C03">#e8e8eb</color>
+    <color name="C07">#3462ff</color>
+
+    <color name="red">#ffff0000</color>
+
+
+    <color name="music_panle_music_range_green">#00fdd3</color>
+    <color name="music_panle_music_range_blue">#009cff</color>
+
+
+    <color name="black_overlay">#a0000000</color>
+
+    <color name="time_back_bg">#F247A9EE</color>
+
+
+    <color name="filter_shake">#F247a9ee</color>
+    <color name="filter_soul_out">#F26BF0E2</color>
+    <color name="filter_artifact">#F2272727</color>
+    <color name="filter_mirror_image">#F2FCEE7D</color>
+    <color name="filter_rainwindow">#F2F26499</color>
+
+    <color name="background_normal">#00000000</color>
+    <color name="background_normal_press">#33000000</color>
+    <color name="moment_color_black_cc000000">#cc000000</color>
+
+</resources>

@@ -1,1 +1,4 @@
-include ':app'
+gradle.ext.useLocalUI = true
+
+
+include ':app', ':base_business', ':player_business', ':record_ui_sdk'

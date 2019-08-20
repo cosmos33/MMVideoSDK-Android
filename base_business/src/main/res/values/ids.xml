@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tabwidget" type="id"/>
+    <item name="pagertabcontent" type="id"/>
+    <item name="tabcontent" type="id"/>
+    <item name="appbar_id" type="id"/>
+    <item name="toolbar_id" type="id"/>
+    <item name="tablayout_id" type="id"/>
+    <item name="status_bar_view_id" type="id"/>
+
+</resources>

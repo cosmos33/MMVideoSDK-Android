@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Toolbar容器-->
+    <declare-styleable name="CompatAppbarLayout">
+        <attr name="showShadow" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="RatioFrameLayout">
+        <attr name="ratio" format="reference|float"/>
+    </declare-styleable>
+
+    <declare-styleable name="ScrollMoreViewPager">
+        <attr name="smvp_style" format="reference"/>
+        <attr name="smvp_move_slop" format="dimension|reference"/>
+        <attr name="smvp_scroll_more_listener" format="string|reference"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="RecordPageIndicator">
+        <attr name="rpi_style" format="reference"/>
+        <attr name="rpi_text_size" format="dimension|reference"/>
+        <attr name="rpi_text_max_size" format="dimension|reference"/>
+        <attr name="rpi_text_color" format="color|reference"/>
+        <attr name="rpi_checked_text_color" format="color|reference"/>
+        <attr name="rpi_each_margin" format="dimension|reference"/>
+        <attr name="rpi_text_margin_bottom" format="dimension|reference"/>
+        <attr name="rpi_bottom_width" format="dimension|reference"/>
+        <attr name="rpi_bottom_height" format="dimension|reference"/>
+        <attr name="rpi_bottom_color" format="color|reference"/>
+        <attr name="rpi_back_color" format="color|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="MomentRecordProgressView">
+        <attr name="mrpv_style" format="reference"/>
+        <attr name="mrpv_color_not_reocrd" format="color|reference"/>
+        <attr name="mrpv_color_record" format="color|reference"/>
+        <attr name="mrpv_color_delete" format="color|reference"/>
+        <attr name="mrpv_color_empty" format="color|reference"/>
+        <attr name="mrpv_split_width" format="dimension|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="OrientationTextView">
+        <attr name="otv_vertical" format="boolean|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ProgressDrawable">
+        <attr name="prod_style" format="reference"/>
+        <attr name="prod_progress_width" format="dimension|reference"/>
+        <attr name="prod_start_angle" format="float|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="VideoDefaultRecordButton">
+        <attr name="vdrb_style" format="reference"/>
+        <attr name="vdrb_max_size" format="dimension|reference"/>
+        <attr name="vdrb_min_size" format="dimension|reference"/>
+        <attr name="vdrb_inner_size" format="dimension|reference"/>
+        <attr name="vdrb_progress_size" format="dimension|reference"/>
+        <attr name="vdrb_back_color" format="color|reference"/>
+        <attr name="vdrb_inner_color" format="color|reference"/>
+        <attr name="vdrb_record_duration" format="integer|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="VideoAdvancedRecordButton">
+        <attr name="varb_style" format="reference"/>
+        <attr name="varb_back_color" format="color|reference"/>
+        <attr name="varb_max_size" format="dimension|reference"/>
+        <attr name="varb_min_size" format="reference|dimension"/>
+        <attr name="varb_ring_min_size" format="dimension|reference"/>
+        <attr name="varb_switch_duration" format="integer|reference"/>
+        <attr name="varb_scale_duration" format="integer|reference"/>
+        <attr name="varb_init_ring_color" format="color|reference"/>
+        <attr name="varb_progress_speed" format="integer|reference"/>
+        <attr name="varb_min_ring_scale" format="float|reference"/>
+        <attr name="varb_max_ring_scale" format="float|reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShaderCircleDrawable">
+        <attr name="scd_style" format="reference"/>
+        <attr name="scd_ring_width" format="dimension|reference"/>
+    </declare-styleable>
+
+    <!-- MusicRangeBar 音乐选段控件 -->
+    <declare-styleable name="MusicRangeBar">
+        <attr name="mrb_lineColorNormal" format="color|reference" />
+        <attr name="mrb_lineColorPlayed" format="color|reference" />
+        <attr name="mrb_lineColorSelected" format="color|reference" />
+        <attr name="mrb_colorCover" format="color|reference" />
+        <attr name="mrb_touchBarColorNormal" format="color|reference" />
+        <attr name="mrb_touchBarColorDragging" format="color|reference" />
+        <attr name="mrb_touchBarWidth" format="color|reference" />
+        <attr name="mrb_lineHeightLong" format="dimension|reference" />
+        <attr name="mrb_lineHeightMiddle" format="dimension|reference" />
+        <attr name="mrb_lineHeightShort" format="dimension|reference" />
+        <attr name="mrb_lineWidth" format="dimension|reference" />
+        <attr name="mrb_lineMargin" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundCornerLayout">
+        <attr name="radius" format="dimension" />
+        <attr name="topLeftRadius" format="dimension" />
+        <attr name="topRightRadius" format="dimension" />
+        <attr name="bottomLeftRadius" format="dimension" />
+        <attr name="bottomRightRadius" format="dimension" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="borderColor" format="color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="FixedLineTextView">
+        <attr name="fltv_style" format="reference"/>
+        <attr name="fltv_max_lines" format="integer|reference"/>
+        <attr name="fltv_max_text_size" format="integer|reference"/>
+        <attr name="fltv_min_text_size" format="integer|reference"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="AnimCheckableGroupView">
+        <attr name="acgv_style" format="reference"/>
+        <attr name="acgv_orientation" format="enum">
+            <enum name="vertical_down" value="1"/>
+            <enum name="vertical_up" value="2"/>
+            <enum name="horizontal_right" value="3"/>
+            <enum name="horizontal_left" value="4"/>
+        </attr>
+        <attr name="acgv_show_anim_duration" format="integer|reference"/>
+        <attr name="acgv_show_anim_delay" format="integer|reference"/>
+        <attr name="acgv_check_anim_duration" format="integer|reference"/>
+
+        <attr name="acgv_padding" format="dimension|reference"/>
+        <attr name="acgv_padding_top" format="dimension|reference"/>
+        <attr name="acgv_padding_left" format="dimension|reference"/>
+        <attr name="acgv_padding_right" format="dimension|reference"/>
+        <attr name="acgv_padding_bottom" format="dimension|reference"/>
+        <attr name="acgv_outside_width" format="reference|dimension"/>
+        <attr name="acgv_radius" format="dimension|reference"/>
+        <attr name="acgv_checked_radius" format="dimension|reference"/>
+        <attr name="acgv_color" format="color|reference"/>
+        <attr name="acgv_outside_color" format="color|reference"/>
+        <attr name="acgv_pressed_color" format="reference|color"/>
+        <attr name="acgv_draw_outside" format="boolean|reference"/>
+        <attr name="acgv_fixed_outside" format="boolean|reference"/>
+        <attr name="acgv_colors" format="reference"/>
+        <attr name="acgv_drawables" format="reference"/>
+    </declare-styleable>
+
+    <!--圆形进度条的属性-->
+    <declare-styleable name="CircleProgressView">
+        <attr name="circle_progress_color" format="reference|color" />
+        <attr name="circle_progress_background_color" format="reference|color" />
+        <attr name="circle_progress_width" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="LineProgressView">
+        <attr name="line_progress_color" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" /> />
+    </declare-styleable>
+
+    <!-- VolumeSeekBar 音量调节控件 -->
+    <declare-styleable name="VolumeSeekBar">
+        <attr name="vsb_startColor" format="color|reference" />
+        <attr name="vsb_endColor" format="color|reference" />
+        <attr name="vsb_thumbDrawable" format="reference" />
+        <attr name="vsb_bgMinHeight" format="reference|dimension" />
+        <attr name="vsb_bgMaxHeight" format="reference|dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="DrawLineWidget">
+        <!--绘制的分割线颜色-->
+        <attr name="dlw_lineColor" format="reference|color" />
+        <!--绘制的分割线的宽度 整数值，代表像素-->
+        <attr name="dlw_lineWidth" format="integer"/>
+        <!--是否绘制顶部的分割线  默认false-->
+        <attr name="drawTopLine" format="boolean" />
+        <!--是否绘制底部的分割线 默认true-->
+        <attr name="drawBottomLine" format="boolean" />
+        <attr name="drawLeftLine" format="boolean" />
+        <attr name="drawRightLine" format="boolean" />
+
+        <!--是否忽略padding来绘制-->
+        <attr name="drawIncludePadding" format="boolean" />
+        <!--
+        分割线的边距: left,top,right,bottom
+        -->
+        <attr name="lineLeftMargin" format="dimension|reference" />
+        <attr name="lineTopMargin" format="dimension|reference" />
+        <attr name="lineRightMargin" format="dimension|reference" />
+        <attr name="lineBottomMargin" format="dimension|reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="TickSeekBar">
+        //seekBar
+        <attr name="tsb_max" format="float" /><!-- the max value of seekBar to seek, default 100-->
+        <attr name="tsb_min" format="float" /><!-- the min value of seekBar to seek, default 0 -->
+        <attr name="tsb_progress" format="float" /><!-- the current progress value of seekBar, default 0-->
+        <attr name="tsb_progress_value_float" format="boolean" /><!--set the value of seekBar to float type, default false-->
+        <attr name="tsb_clear_default_padding" format="boolean" /><!-- set seekBar's leftPadding&rightPadding to zero, default false, default padding is 16dp-->
+        <attr name="tsb_ticks_count" format="integer" /><!--seekBar's ticks count, default zero-->
+        <attr name="tsb_seek_smoothly" format="boolean" /><!--true to seek smoothly when tick count >0, default false-->
+        <attr name="tsb_r2l" format="boolean" /><!--compat make app local change,like arabic local> 2, default false-->
+        <attr name="tsb_user_seekable" format="boolean" /><!--prevent user from seeking,only can be seek by setProgress(), default false-->
+        <attr name="tsb_only_thumb_draggable" format="boolean" /><!--user change the thumb's location by touching thumb/touching track,true for touching track to seek. false for touching thumb; default true-->
+        //indicator
+        //track
+        <attr name="tsb_track_background_size" format="dimension|reference" /><!-- set indicatorSeekBar's track background bar size, default 2dp-->
+        <attr name="tsb_track_background_color" format="color|reference" /><!-- set indicatorSeekBar's track background bar color, default #D7D7D7-->
+        <attr name="tsb_track_progress_size" format="dimension|reference" /><!-- set indicatorSeekBar's track progress bar size, default 2dp-->
+        <attr name="tsb_track_progress_color" format="color|reference" /><!-- set indicatorSeekBar's track progress bar color, default #FF4081-->
+        <attr name="tsb_track_rounded_corners" format="boolean" /><!-- indicator is visible when SeekBar visible, gone when SeekBar gone-->
+        //thumb
+        <attr name="tsb_thumb_color" format="color|reference" /><!--set thumb's color, default #FF4081-->
+        <attr name="tsb_thumb_size" format="dimension|reference" /><!--set thumb's size, default 14dp, thumb size will be limited in 30dp-->
+        <attr name="tsb_thumb_drawable" format="reference" /><!--set custom thumb's drawable you want,thumb size will be limited in 30dp, if drawable less than 30dp ,will show in raw size -->
+        <attr name="tsb_thumb_adjust_auto" format="boolean" /><!--set the thumb move to the closed tick after touched up, default true-->
+        //thumb text
+        <attr name="tsb_thumb_text_color" format="color|reference" /><!--set thumb's color, default #FF4081-->
+        <attr name="tsb_show_thumb_text"><!--select the tick shape type, default rectangle/1-->
+            <enum name="none" value="0" />
+            <enum name="below" value="1" />
+            <enum name="above" value="2" />
+        </attr>
+        //tickMarks
+        <attr name="tsb_tick_marks_color" format="color|reference" /><!--set tick's color, default #FF4081-->
+        <attr name="tsb_tick_marks_size" format="dimension|reference" /><!--set the tick width, default 10dp,custom drawable will be limited in 30dp, if less than 30dp ,will show in raw size-->
+        <attr name="tsb_tick_marks_drawable" format="reference" /><!--set custom tick's drawable you want, custom drawable will be limited in 30dp, if less than 30dp ,will show in raw size-->
+        <attr name="tsb_tick_marks_ends_hide" format="boolean" /><!--hide 2 ticks on the seekBar's both ends, default false-->
+        <attr name="tsb_tick_marks_swept_hide" format="boolean" /><!--hide the ticks on the seekBar's thumb left, default false-->
+        <attr name="tsb_show_tick_marks_type"><!--select the tick shape type, default rectangle/1-->
+            <enum name="none" value="0" />
+            <enum name="oval" value="1" />
+            <enum name="square" value="2" />
+            <enum name="divider" value="3" /> <!--show tickMarks shape as vertical line , line'size is 1 dp.-->
+            <enum name="custom" value="4" />
+        </attr>
+        //tickTexts
+        <attr name="tsb_show_tick_texts"><!--select the tick shape type, default rectangle/1-->
+            <enum name="none" value="0" />
+            <enum name="below" value="1" />
+            <enum name="above" value="2" />
+        </attr>
+        <attr name="tsb_tick_texts_color" format="reference|color" />
+        <attr name="tsb_tick_texts_size" format="dimension|reference" /><!--set the text size of tick below text, default 13sp-->
+        <attr name="tsb_tick_texts_array" format="reference" /><!--set the texts below tick to replace default progress text, default string of progress, work on seekBar type :DISCRETE_TICKS_TEXTS-->
+        <attr name="tsb_tick_texts_typeface"><!--select the text typeface, default normal-->
+            <enum name="normal" value="0" />
+            <enum name="monospace" value="1" />
+            <enum name="sans" value="2" />
+            <enum name="serif" value="3" />
+        </attr>
+    </declare-styleable>
+</resources>

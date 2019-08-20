@@ -6,8 +6,8 @@ android {
         applicationId "com.mm.sdkdemo"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 4005
-        versionName "2.1.2"
+        versionCode 4006
+        versionName "2.2.0"
         multiDexEnabled true
 
         /**
@@ -19,7 +19,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         ndk {
-            abiFilters "armeabi-v7a","armeabi"
+            abiFilters "armeabi-v7a", "armeabi"
         }
     }
     buildTypes {
@@ -41,28 +41,42 @@ repositories {
     }
 }
 
+apply plugin: 'rifle.plugin'
+rifleConfig {
+    appId = "9dac61837c9bc9eba14f8a32584bde1f"          // 管理后台申请的应用APPID
+    appKey = "5cf82fbd40e4e983e2ce43793e86f7ef"         // 管理后台申请的应用APPKEY
+    versionName = android.defaultConfig.versionName
+    // enable = true                      // 打开/关闭插件（默认为true）
+    // symbolsDir = "src/main/obj"        // 带符号表SO文件所在目录（默认为"src/main/obj"）
+    // enableSymbolsUpload = true         // 打开/关闭提交带符号表SO的功能（默认为true）
+    // waitingSymbolsUpload = true      // 打包完成后需要确认符号表文件是否提交完成，未完成需要等待提交完成。默认true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha3'
     implementation "com.android.support:design:28.0.0"
 
 
-    api 'com.google.code.gson:gson:2.2.4'
-    api 'com.squareup.okhttp3:okhttp:3.0.1'
-    implementation "com.cosmos.mediax:$RECORDER_ARTIFACT_ID:$JCENTER_RECORDER_VERSION_NAME"
-    implementation "com.cosmos.mediax:$PLAYERSDK_ARTIFACT_ID:$JCENTER_PLAYERSDK_VERSION_NAME"
+    api 'com.cosmos.rifle:core:1.8.2'
+    api 'com.cosmos.rifle:native:1.1.1'
+    if (gradle.useLocalUI) {
+        implementation project(':record_ui_sdk')
+        implementation project(':player_business')
+    } else {
+        api "com.cosmos.mediax:$RECORDER_UISDK_ARTIFACT_ID:$JCENTER_RECORDER_UI_SDK_VERSION_NAME"
+        api "com.cosmos.mediax:$PLAYER_UI_ARTIFACT_ID:$JCENTER_PLAYER_UI_VERSION_NAME"
+    }
 
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor "com.github.bumptech.glide:compiler:4.8.0"
-
-    implementation 'com.tencent.bugly:crashreport:latest.release'
-    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
-    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+//    implementation 'com.tencent.bugly:crashreport:latest.release'
+//    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+//    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.github.yalantis:ucrop:2.2.3'
 
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    provided 'com.cosmos.baseutil:androidInjectorCore:1.0.0'
+//    compile project(path: ':imagecrop')
     implementation 'com.cosmos.baseutil:androidPerformanceEmpty:1.0.0'
 
 }

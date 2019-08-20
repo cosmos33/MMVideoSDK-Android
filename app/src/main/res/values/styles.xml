@@ -7,7 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="AppTheme.AppStartLoadTranslucent" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/bg_main_page</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
     <!--对部分页面，禁止掉滑动返回后，应该去掉windowIsTranslucent 设置，避免进入时，背景透明的情况，比如时刻录制-->
 
 
@@ -41,24 +45,6 @@
     </style>
 
 
-    <style name="CommonTabLayout" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="tabIndicatorColor">@color/tab_selected</item>
-        <item name="tabBackground">@null</item>
-        <item name="tabMinWidth">32dp</item>
-        <item name="tabPaddingStart">10dp</item>
-        <item name="tabPaddingEnd">10dp</item>
-        <!--标题中的Tab的游标高度稍微高一些-->
-        <item name="tabIndicatorHeight">2dp</item>
-        <!--高度与Toolbar保持一致-->
-        <item name="android:paddingLeft">10dp</item>
-    </style>
-    <!--背景色白色样式-->
-    <!--背景色透明样式-->
-    <style name="CommonTabLayout.Transparent" parent="CommonTabLayout">
-        <item name="android:background">@android:color/transparent</item>
-    </style>
 
     <style name="ShadowedText">
         <item name="android:shadowDx">0.0</item>
@@ -143,20 +129,6 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_height">44dp</item>
-    </style>
-
-    <style name="style_single_line_cell_without_icon">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="android:paddingLeft">15dp</item>
-        <item name="android:paddingRight">15dp</item>
-        <item name="android:background">@drawable/bglistitem_selector_white</item>
-        <item name="drawTopLine">false</item>
-        <item name="drawBottomLine">true</item>
-        <item name="lineLeftMargin">15dp</item>
-        <item name="dlw_lineColor">#33ffffff</item>
     </style>
 
     <style name="live_photo_tab_text">

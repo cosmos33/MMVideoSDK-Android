@@ -100,7 +100,41 @@
                     android:hint="最大时长默认60秒"
                     android:inputType="number" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
 
+                    android:paddingLeft="15dp"
+                    android:text="最终视频输出地址"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_video_output_path_edit"
+                    style="@style/record_line_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:hint="不能为null"
+                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+
+                    android:paddingLeft="15dp"
+                    android:text="最终照片输出地址"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_photo_output_path_edit"
+                    style="@style/record_line_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:hint="不能为null"
+                     />
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -187,7 +221,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:paddingLeft="15dp"
-                    android:text="美颜版本"
+                    android:text="磨皮类型"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
 
@@ -198,25 +232,86 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/bt_beauty_version1"
+                        android:id="@+id/bg_ai_lightweight_buffing"
                         style="@style/record_btn_style"
                         android:background="@drawable/record_btn_bg_left"
-                        android:text="V1" />
+                        android:text="AILightweight" />
 
 
                     <Button
-                        android:id="@+id/bt_beauty_version2"
+                        android:id="@+id/bt_ai_buffing"
                         style="@style/record_btn_style"
                         android:layout_gravity="center"
                         android:layout_marginLeft="1dp"
                         android:layout_marginRight="1dp"
-                        android:text="V2" />
+                        android:text="AIBuffing" />
 
                     <Button
-                        android:id="@+id/bt_beauty_version3"
+                        android:id="@+id/bt_old_buffing"
                         style="@style/record_btn_style"
                         android:background="@drawable/record_btn_bg_right"
-                        android:text="V3" />
+                        android:text="OldBuffing" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="美白类型"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_ai_whitening"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="AIWhitening" />
+
+
+                    <Button
+                        android:id="@+id/bt_old_whitening"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:layout_marginLeft="1dp"
+                        android:text="OldWhitening" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="大眼廋脸类型"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/bt_ai_big_eye_thin_face"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="AIBigEyeThinFace" />
+
+
+                    <Button
+                        android:id="@+id/bt_old_big_eye_thin_face"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:layout_marginLeft="1dp"
+                        android:text="OldBigEyeThinFace" />
 
                 </LinearLayout>
 
@@ -251,6 +346,138 @@
                         android:layout_marginLeft="1dp"
                         android:background="@drawable/record_btn_bg_right"
                         android:text="关闭" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="录制源视频开关"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/bt_open_source_video_record"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="开启" />
+
+
+                    <Button
+                        android:id="@+id/bt_close_source_video_record"
+                        style="@style/record_btn_style"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="关闭" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="默认摄像头"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/bt_front_camera"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="前置" />
+
+
+                    <Button
+                        android:id="@+id/bt_back_camera"
+                        style="@style/record_btn_style"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="后置" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="拍摄器默认tab"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/bt_take_photo"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="拍照" />
+
+
+                    <Button
+                        android:id="@+id/bt_record_video"
+                        style="@style/record_btn_style"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="录像" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="15dp"
+                    android:text="操作完成后goto"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <Button
+                        android:id="@+id/bt_result_back"
+                        style="@style/record_btn_style"
+                        android:background="@drawable/record_btn_bg_left"
+                        android:text="result back" />
+
+
+                    <Button
+                        android:id="@+id/bt_goto_activity"
+                        style="@style/record_btn_style"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/record_btn_bg_right"
+                        android:text="goto activity" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

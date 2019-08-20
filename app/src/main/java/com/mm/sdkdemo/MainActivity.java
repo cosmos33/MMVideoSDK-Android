@@ -10,13 +10,9 @@ import android.widget.TextView;
 
 import com.function.FunctionListActivity;
 import com.mm.base.MediaLogger;
+import com.mm.base_business.base.BaseFullScreenActivity;
 import com.mm.mmutil.toast.Toaster;
-import com.mm.sdkdemo.bean.VideoInfoTransBean;
-import com.mm.sdkdemo.player.PrePlayActivity;
-import com.mm.sdkdemo.recorder.activity.BaseFullScreenActivity;
-import com.mm.sdkdemo.recorder.activity.RecordParamSettingActivity;
-import com.mm.sdkdemo.recorder.activity.VideoRecordAndEditActivity;
-import com.mm.sdkdemo.recorder.view.AlbumHomeFragment;
+import com.mm.player_business.PrePlayActivity;
 
 /**
  * Created by wangduanqing on 2019/1/23.
@@ -35,7 +31,7 @@ public class MainActivity extends BaseFullScreenActivity {
 
     private void initView() {
         TextView tvVersionName = findViewById(R.id.tv_version_name);
-        tvVersionName.setText("V "+BuildConfig.VERSION_NAME);
+        tvVersionName.setText("V " + BuildConfig.VERSION_NAME);
     }
 
     public void onClick(View view) {
@@ -44,19 +40,10 @@ public class MainActivity extends BaseFullScreenActivity {
                 Intent intent = new Intent(this, RecordParamSettingActivity.class);
                 startActivity(intent);
             }
-
             break;
-
             case R.id.layout_edit: {
-                VideoInfoTransBean videoRecordInfo = new VideoInfoTransBean();
-                videoRecordInfo.state = VideoInfoTransBean.STATE_CHOOSE_MEDIA;
-                videoRecordInfo.showAlbumTabs = AlbumHomeFragment.STATE_ALL;
-                videoRecordInfo.mode = VideoInfoTransBean.MODE_MULTIPLE;
-                videoRecordInfo.initAlbumIndex = AlbumHomeFragment.STATE_ALBUM;
-                videoRecordInfo.sendText = VideoInfoTransBean.BTN_TEXT_COMPLETE;
-                videoRecordInfo.setShowCamera(true);
-                videoRecordInfo.hasLatLonPhotos = true;
-                VideoRecordAndEditActivity.startActivity(this, videoRecordInfo, -1);
+                Intent intent = new Intent(this, ChooseMediaParamSettingActivity.class);
+                startActivity(intent);
             }
             break;
             case R.id.layout_player: {

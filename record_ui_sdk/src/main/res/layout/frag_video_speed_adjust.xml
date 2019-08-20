@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/video_Speed_surface_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/moment_speed_btn_close"
+            style="@style/Title_LEFT_RIGHT"
+            android:text="取消" />
+
+        <TextView
+            style="@style/Title_LEFT_RIGHT"
+            android:layout_gravity="center"
+            android:text="调速" />
+
+        <TextView
+            android:id="@+id/moment_speed_btn_ok"
+            style="@style/Title_LEFT_RIGHT"
+            android:layout_gravity="right"
+            android:text="确认" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:id="@+id/video_speed_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_common_panel"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_dip_15"
+            android:text="变速"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <com.mm.recorduisdk.widget.seekbar.TickSeekBar
+            android:id="@+id/moment_speed_slideindicatorbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            app:tsb_max="4.0"
+            app:tsb_min="0.2"
+            app:tsb_progress="1"
+            app:tsb_show_thumb_text="above"
+            app:tsb_show_tick_texts="below"
+            app:tsb_thumb_color="@color/white"
+            app:tsb_thumb_size="18sp"
+            app:tsb_thumb_text_color="@color/white"
+            app:tsb_tick_texts_array="@array/speed_array"
+            app:tsb_tick_texts_color="@color/white"
+            app:tsb_tick_texts_size="15sp"
+            app:tsb_ticks_count="2"
+            app:tsb_track_background_color="@color/music_panel_text_color_gray"
+            app:tsb_track_progress_color="@color/music_panel_text_color_gray" />
+
+        <TextView
+            android:id="@+id/moment_speed_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_24px"
+            tools:text="00:12                 00:14" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.mm.recorduisdk.widget.videorangebar.VideoRangeBar
+                android:id="@+id/moment_speed_video_range_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                tools:background="#0f0"
+                tools:layout_height="120dp" />
+
+            <View
+                android:id="@+id/moment_speed_video_range_bar_line"
+                android:layout_width="1.5dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/white"
+                tools:layout_height="120dp" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/moment_speed_btn_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_moment_play"
+        android:visibility="invisible" />
+</FrameLayout>

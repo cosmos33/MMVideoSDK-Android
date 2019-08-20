@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <com.mm.recorduisdk.widget.RoundCornerImageView
+        android:id="@+id/diretory_cover"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:scaleType="centerCrop" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@+id/diretory_cover"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/diretory_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#323333"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="相册胶卷" />
+
+        <TextView
+            android:id="@+id/image_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#aaaaaa"
+            android:textSize="13sp"
+            tools:text="8726" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+

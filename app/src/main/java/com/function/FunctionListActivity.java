@@ -9,8 +9,8 @@ import com.function.imageprocess.ImageProcessTestActivity;
 import com.function.recordvideo.VideoRecordTestActivity;
 import com.function.takephoto.TakePhotoTestActivity;
 import com.function.videoprocess.VideoProcessTestActivity;
+import com.mm.base_business.base.BaseActivity;
 import com.mm.sdkdemo.R;
-import com.mm.sdkdemo.base.BaseActivity;
 
 public class FunctionListActivity extends BaseActivity {
 

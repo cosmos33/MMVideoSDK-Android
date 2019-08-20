@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">VideoSDK</string>
+
+    <string name="multpic_directory_count">%1$d张</string>
+
+    <!--视频已经截取文案-->
+    <string name="video_has_cut_title">你已经截取了%1$s</string>
+
+    <string name="moment_drag_cancel_tip">松手取消录制</string>
+
+
+
+    <!--Music Panel-->
+    <string name="music_panel_tip_no_music_2">无音乐</string>
+    <string name="music_panel_tip_no_music">音乐：无音乐</string>
+
+
+    <string name="moment_cut_failed">视频合成失败，请重试。</string>
+    <string name="moment_file_not_exists">视频文件不存在，请重新录制</string>
+    <string name="moment_cut_file_not_exists">裁剪视频不存在，请重试。</string>
+    <string name="moment_cancel_process">合成已取消</string>
+
+    <string name="moment_switch_filter">滤镜</string>
+    <string name="moment_edit_add_sticker">贴纸</string>
+    <string name="moment_edit_add_text">文字</string>
+    <string name="moment_edit_paint">涂鸦</string>
+    <string name="moment_edit_crop">剪裁</string>
+
+    <array name="speed_array">
+        <item>0.2x</item>
+        <item>4.0x</item>
+    </array>
+
+</resources>
