@@ -5,6 +5,9 @@
 * 注册应用 [https://cosmos.immomo.com](https://cosmos.immomo.com)
 * 开通短视频服务
 
+## 接入拍摄器UISDK
+[接入文档](https://github.com/cosmos33/MMVideoSDK-Android/blob/2.2.0/Android%E7%AB%AF%E6%8B%8D%E6%91%84%E5%99%A8UISDK%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.md)
+
 ## 接入拍摄器SDK
 
 [接入文档](https://github.com/cosmos33/MMVideoSDK-Android/blob/2.0/%E6%8B%8D%E6%91%84%E5%99%A8%E6%8E%A5%E5%85%A5%E6%96%87%E6%A1%A3.md)
