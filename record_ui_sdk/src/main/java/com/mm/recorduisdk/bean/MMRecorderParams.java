@@ -84,12 +84,15 @@ public class MMRecorderParams implements Parcelable {
     private final int whiteningType;
     private final int bigEyeThinFaceType;
 
+    private final boolean enableFaceAutoMetering;
+
     private MMRecorderParams(String photoOutputPath, String videoOutputPath, @CameraType int cameraType, @Resolution int resolutionMode,
                              int videoBitrate, int frameRate, long minDuration,
                              long maxDuration, @VideoRatio int videoRatio,
                              boolean enableAudioRecorder, boolean enableSourceVideoRecord,
                              String initFaceId, String initFaceClassId, int gotoTab,
-                             FinishGotoInfo finishGotoInfo, int speedIndex, MusicContent initMusic, int buffingType, int whiteningType, int bigEyeThinFaceType) {
+                             FinishGotoInfo finishGotoInfo, int speedIndex, MusicContent initMusic,
+                             int buffingType, int whiteningType, int bigEyeThinFaceType, boolean enableFaceAutoMetering) {
 
 
         this.photoOutputPath = photoOutputPath;
@@ -112,6 +115,7 @@ public class MMRecorderParams implements Parcelable {
         this.buffingType = buffingType;
         this.whiteningType = whiteningType;
         this.bigEyeThinFaceType = bigEyeThinFaceType;
+        this.enableFaceAutoMetering = enableFaceAutoMetering;
     }
 
 
@@ -136,6 +140,7 @@ public class MMRecorderParams implements Parcelable {
         buffingType = in.readInt();
         whiteningType = in.readInt();
         bigEyeThinFaceType = in.readInt();
+        enableFaceAutoMetering = in.readByte() != 0;
     }
 
     @Override
@@ -160,6 +165,7 @@ public class MMRecorderParams implements Parcelable {
         dest.writeInt(buffingType);
         dest.writeInt(whiteningType);
         dest.writeInt(bigEyeThinFaceType);
+        dest.writeByte((byte) (enableFaceAutoMetering ? 1 : 0));
     }
 
     @Override
@@ -178,6 +184,10 @@ public class MMRecorderParams implements Parcelable {
             return new MMRecorderParams[size];
         }
     };
+
+    public boolean isEnableFaceAutoMetering() {
+        return enableFaceAutoMetering;
+    }
 
     public MusicContent getInitMusic() {
         return initMusic;
@@ -331,6 +341,11 @@ public class MMRecorderParams implements Parcelable {
         private @BigEyeThinFaceTypeScope
         int bigEyeThinFaceType = RecorderConstants.BigEyeThinFaceType.AIBigEyeThinFace;
 
+        /**
+         * 是否使用根据人脸区域自动调光
+         */
+        private boolean enableFaceAutoMetering = true;
+
         public Builder() {
 
         }
@@ -355,7 +370,6 @@ public class MMRecorderParams implements Parcelable {
             setInitMusic(mmRecorderParams.getInitMusic());
             setBuffingType(mmRecorderParams.getBuffingType());
             setWhiteningType(mmRecorderParams.getWhiteningType());
-            setBigEyeThinFaceType(mmRecorderParams.getBigEyeThinFaceType());
         }
 
         /**
@@ -545,8 +559,8 @@ public class MMRecorderParams implements Parcelable {
             return this;
         }
 
-        public Builder setBigEyeThinFaceType(@BigEyeThinFaceTypeScope int bigEyeThinFaceType) {
-            this.bigEyeThinFaceType = bigEyeThinFaceType;
+        public Builder setEnableFaceAutoMetering(boolean enableFaceAutoMetering) {
+            this.enableFaceAutoMetering = enableFaceAutoMetering;
             return this;
         }
 
@@ -554,7 +568,7 @@ public class MMRecorderParams implements Parcelable {
             return new MMRecorderParams(photoOutputPath, videoOutputPath, cameraType, resolutionMode,
                     videoBitrate, frameRate, minDuration, maxDuration, videoRatio, enableAudioRecorder, enableSourceVideoRecord,
                     initFaceId, initFaceClassId, gotoTab, finishGotoInfo, speedIndex,
-                    initMusic, buffingType, whiteningType, bigEyeThinFaceType
+                    initMusic, buffingType, whiteningType, bigEyeThinFaceType, enableFaceAutoMetering
             );
         }
 

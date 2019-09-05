@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -34,7 +35,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
@@ -44,7 +44,7 @@ import android.widget.TextView;
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
 import com.cosmos.mdlog.MDLog;
-import com.immomo.doki.DokiContextHolder;
+import com.immomo.doki.DokiInitializer;
 import com.immomo.doki.filter.makeup.MakeupFilter;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.model.VideoFragment;
@@ -87,7 +87,6 @@ import com.mm.recorduisdk.recorder.presenter.IRecorder;
 import com.mm.recorduisdk.recorder.presenter.RecordPresenter;
 import com.mm.recorduisdk.utils.AnimUtils;
 import com.mm.recorduisdk.utils.MomentUtils;
-import com.mm.recorduisdk.utils.NewAnimUtils;
 import com.mm.recorduisdk.utils.RecordButtonTouchEventHelper;
 import com.mm.recorduisdk.utils.ScreenOrientationManager;
 import com.mm.recorduisdk.utils.VideoUtils;
@@ -96,6 +95,7 @@ import com.mm.recorduisdk.utils.album.AlbumConstant;
 import com.mm.recorduisdk.utils.filter.FiltersManager;
 import com.mm.recorduisdk.widget.FaceTipView;
 import com.mm.recorduisdk.widget.FilterScrollMoreViewPager;
+import com.mm.recorduisdk.widget.FocusView;
 import com.mm.recorduisdk.widget.MomentBeautyPanelLayout;
 import com.mm.recorduisdk.widget.MomentFilterPanelLayout;
 import com.mm.recorduisdk.widget.MomentFilterPanelTabLayout;
@@ -201,7 +201,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private TextView delayText;
     private TextView recordCancelTip;
     private TextView filterNameTip;
-    private View focusView;
 
     private SlideIndicatorBar slideBar;
     private TextView tvSlideIndicator;
@@ -284,6 +283,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
     private MakeupFilter filter;
     private MomentPropPanelHelper mMomentPropPanelHelper;
+    private FocusView mFocusView;
 
     @Override
     protected int getLayout() {
@@ -355,6 +355,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         videoRecordSurfaceView = findViewById(R.id.video_record_surfaceView);
         lastFrameView = findViewById(R.id.last_frame);
         changeFragmentViewpager = findViewById(R.id.change_fragment_viewpager);
+        mFocusView = findViewById(R.id.focus_view);
         recordPagerIndicator = findViewById(R.id.record_pager_indicator);
         videoAdvancedProgressView = findViewById(R.id.video_advanced_progress_view);
         btnClose = findViewById(R.id.record_btn_close);
@@ -378,7 +379,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         stubDeleteTip = findViewById(R.id.stub_delete_tip);
         mMakeUp = findViewById(R.id.video_beauty);
 
-        focusView = findViewById(R.id.record_focus_view);
         videoRecordControllerLayout = findViewById(R.id.video_record_btn_layout);
         // 变脸面板ViewStub对象
         mFacePannelViewStub = findViewById(R.id.record_face_viewstub);
@@ -886,6 +886,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
             @Override
             public boolean onTouch(MotionEvent event) {
+                mFocusView.feedEvent(event);
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (isFacePanelShowing()) {
                         hideFacePanel();
@@ -930,6 +931,9 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
             @Override
             public void onMoving(float offset) {
+                if (mFocusView.getVisibility() == View.VISIBLE) {
+                    return;
+                }
                 if (mIsArkit) {
                     return;
                 }
@@ -1132,43 +1136,20 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
         //        if (isFrontCamera())
         //            return;
-        focusView.setX(x - (focusView.getWidth() >> 1));
-        focusView.setY(y - (focusView.getHeight() >> 1));
-        focusView.setVisibility(View.VISIBLE);
-        focusView();
+
+        mFocusView.showFocusView(new Point((int) x, (int) y));
+
+
         //        Rect focusRect = calculateTapArea(videoRecordSurfaceView.getWidth(), videoRecordSurfaceView.getHeight(), x, y, 1f);
         //        if (mPresenter != null)
         //            mPresenter.focusOnRect(focusRect);
         if (mPresenter != null) {
-            mPresenter.focusOnTouch(x, y, videoRecordSurfaceView.getWidth(), videoRecordSurfaceView.getHeight());
+            mPresenter.focusOnTouch(x, y, videoRecordSurfaceView.getWidth(), videoRecordSurfaceView.getHeight(), true);
         }
     }
 
     private Animator focusAnim;
 
-    private void focusView() {
-        if (focusAnim != null)
-            focusAnim.cancel();
-        MomoMainThreadExecutor.cancelSpecificRunnable(getTaskTag(), hideFocusRunnable);
-        Animator animator = NewAnimUtils.Animators.newScaleAnimator(focusView, 1.5f, 0.8f, 300);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                MomoMainThreadExecutor.postDelayed(getTaskTag(), hideFocusRunnable, 800);
-            }
-        });
-        animator.start();
-        focusAnim = animator;
-    }
-
-    private Runnable hideFocusRunnable = new Runnable() {
-        @Override
-        public void run() {
-            AnimUtils.Default.fadeWeight(focusView, false);
-        }
-    };
 
     private int clamp(int x, int min, int max) {
         if (x > max) {
@@ -1198,7 +1179,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             @Override
             public void onSelect(File file) {
                 if (filter == null) {
-                    DokiContextHolder.init(AppContext.getContext());
+                    DokiInitializer.INSTANCE.init(AppContext.getContext());
                     filter = new MakeupFilter();
                     mPresenter.addFilter(filter);
                 }
@@ -1206,7 +1187,12 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 MakeupHelper.parseMakeupResources(file.getAbsolutePath());
             }
         });
-
+        mFocusView.setOnSlideListener(new FocusView.OnSlideListener() {
+            @Override
+            public void onSlide(float percentage) {
+                mPresenter.changeExposureLevel(percentage);
+            }
+        });
     }
 
     @Override
@@ -2456,7 +2442,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
                 if (mPresenter != null) {
                     mPresenter.setItemSelectSkinLevel(value);
-                    mPresenter.focusOnTouch(videoRecordSurfaceView.getWidth() / 2, videoRecordSurfaceView.getHeight() / 2, videoRecordSurfaceView.getWidth(), videoRecordSurfaceView.getHeight());
+//                    mPresenter.focusOnTouch(videoRecordSurfaceView.getWidth() / 2, videoRecordSurfaceView.getHeight() / 2, videoRecordSurfaceView.getWidth(), videoRecordSurfaceView.getHeight(),false);
                 }
 
             }

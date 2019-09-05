@@ -65,7 +65,7 @@ public interface IRecorder {
 
     int getAvgBitrate();
 
-    void focusOnTouch(double x, double y, int viewWidth, int viewHeight);
+    void focusOnTouch(double x, double y, int viewWidth, int viewHeight, boolean isUserClick);
 
     void setFlashMode(int mode);
 

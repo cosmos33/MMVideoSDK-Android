@@ -34,12 +34,12 @@ public class FaceClassTabAdapter extends RecyclerView.Adapter<FaceClassTabAdapte
     }
 
     @Override
-    public FaceClassTabAdapter.FaceClassTabHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FaceClassTabAdapter.FaceClassTabHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_face_tab, parent, false));
+    public FaceClassTabHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new FaceClassTabHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_face_tab, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final FaceClassTabAdapter.FaceClassTabHolder holder, int position) {
+    public void onBindViewHolder(final FaceClassTabHolder holder, int position) {
         FaceClass faceClass = datas.get(position);
         holder.itemView.setSelected(position == selectTab);
         setTab(holder, faceClass);

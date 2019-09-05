@@ -1,2 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mm.player_business" />
+    package="com.mm.player_business">
+
+    <application>
+        <activity android:name="com.mm.player_business.PrePlayActivity" />
+        <activity android:name="com.mm.player_business.PlayListActivity" />
+        <activity android:name="com.mm.player_business.PlayerActivity" />
+    </application>
+</manifest>

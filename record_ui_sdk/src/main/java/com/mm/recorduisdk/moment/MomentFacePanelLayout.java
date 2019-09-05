@@ -76,7 +76,7 @@ public class MomentFacePanelLayout extends FrameLayout implements View.OnClickLi
     // 当前选中的类别
     private FaceClass mSelectedFaceClass;
     // 辅助定位变脸项的类对象
-    private MomentFacePanelLayout.LocateHelper mLocateHelper;
+    private LocateHelper mLocateHelper;
     // 当前选中的所有models
     private List<MomentFaceItemModel> mSelectedModels;
     private int mSelectedClassIndex = -1;
@@ -268,7 +268,7 @@ public class MomentFacePanelLayout extends FrameLayout implements View.OnClickLi
      *
      *
      */
-    public void setLocateHelper(MomentFacePanelLayout.LocateHelper locateHelper) {
+    public void setLocateHelper(LocateHelper locateHelper) {
         mLocateHelper = locateHelper;
     }
 

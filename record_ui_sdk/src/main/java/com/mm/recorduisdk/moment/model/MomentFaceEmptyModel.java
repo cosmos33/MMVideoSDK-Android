@@ -22,12 +22,12 @@ public class MomentFaceEmptyModel extends CementModel<MomentFaceEmptyModel.ViewH
 
     @NonNull
     @Override
-    public CementAdapter.IViewHolderCreator<MomentFaceEmptyModel.ViewHolder> getViewHolderCreator() {
-        return new CementAdapter.IViewHolderCreator<MomentFaceEmptyModel.ViewHolder>() {
+    public CementAdapter.IViewHolderCreator<ViewHolder> getViewHolderCreator() {
+        return new CementAdapter.IViewHolderCreator<ViewHolder>() {
             @NonNull
             @Override
-            public MomentFaceEmptyModel.ViewHolder create(@NonNull View view) {
-                return new MomentFaceEmptyModel.ViewHolder(view);
+            public ViewHolder create(@NonNull View view) {
+                return new ViewHolder(view);
             }
         };
     }

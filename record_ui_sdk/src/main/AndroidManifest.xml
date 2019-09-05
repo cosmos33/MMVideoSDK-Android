@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mm.recorduisdk"
     xmlns:tools="http://schemas.android.com/tools"
-    >
+    package="com.mm.recorduisdk">
+
     <uses-sdk tools:overrideLibrary="com.mm.recordsdk, com.momo, com.immomo.moment, com.example.baseutil,com.core.glcore,project.android.imageprocessing,com.example.ffmpeg,com.imomo.momo.mediamuxer,com.imomo.momo.mediaencoder,com.momo.xeengine,com.immomo.mmopenssl" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,4 +14,23 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <application>
+        <activity android:name="com.mm.recorduisdk.recorder.activity.VideoCutActivity" />
+        <activity android:name="com.mm.recorduisdk.recorder.activity.VideoSpeedAdjustActivity" />
+        <activity android:name="com.mm.recorduisdk.recorder.activity.SelectMomentCoverActivity" />
+        <activity
+            android:name="com.mm.recorduisdk.recorder.activity.VideoRecordAndEditActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="com.mm.recorduisdk.recorder.activity.ImageEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mm.recorduisdk.imagecrop.ImageCropActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.mm.recorduisdk.local_music_picker.view.MusicPickerActivity" />
+
+
+    </application>
 </manifest>

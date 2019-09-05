@@ -127,13 +127,10 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         if (activity == null) {
             return false;
         }
-        //        createRecorder();
         getMRConfig();
-        //        mRecorder.setFaceBeautiful(0);
-        //        mRecorder.setUseCameraVersion2(true);
+        multiRecorder.setEnableFaceAutoMetering(mRecorderParams.isEnableFaceAutoMetering());
         MRSDKConfig recorderSdkConfig = fullMRSDKConfig();
         return multiRecorder.prepare(activity, recorderSdkConfig);
-        //        multiRecorder.setUseCameraVersion2(true);
     }
 
     private MRSDKConfig fullMRSDKConfig() {
@@ -141,7 +138,6 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
 
         build.setWhiteningType(mRecorderParams.getWhiteningType())
-                .setBigEyeThinFaceType(mRecorderParams.getBigEyeThinFaceType())
                 .setBuffingType(mRecorderParams.getBuffingType())
                 .setEnableAudioRecorder(mRecorderParams.isEnableAudioRecorder())
                 .setEnableSourceVideoRecord(mRecorderParams.isEnableSourceVideoRecord());
@@ -485,8 +481,8 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     }
 
     @Override
-    public void focusOnTouch(double x, double y, int viewWidth, int viewHeight) {
-        multiRecorder.focusOnTouch(x, y, viewWidth, viewHeight);
+    public void focusOnTouch(double x, double y, int viewWidth, int viewHeight, boolean isUserClick) {
+        multiRecorder.focusOnTouch(x, y, viewWidth, viewHeight, isUserClick);
     }
 
     private void stopPreview() {
@@ -685,6 +681,18 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     @Override
     public void feedCameraZoomEvent(MotionEvent motionEvent) {
         mCameraZoomChecker.feedEvent(motionEvent);
+    }
+
+    @Override
+    public void changeExposureLevel(float percentage) {
+        if (multiRecorder.isSupportExposureAdjust()) {
+            int maxExposureCompensation = multiRecorder.getMaxExposureCompensation()/3;
+            int minExposureCompensation = multiRecorder.getMinExposureCompensation()/3;
+
+            int targetLevel = (int) (maxExposureCompensation - (maxExposureCompensation - minExposureCompensation) * percentage);
+
+            multiRecorder.setExposureCompensation(targetLevel);
+        }
     }
 
     @Override

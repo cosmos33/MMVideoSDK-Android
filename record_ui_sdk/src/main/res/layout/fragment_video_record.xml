@@ -44,16 +44,6 @@
         tools:text="美白滤镜"
         tools:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/record_focus_view"
-        android:layout_width="48dip"
-        android:layout_height="48dip"
-        android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_moment_focus"
-        android:visibility="invisible"
-        tools:visibility="visible" />
-
     <!--调速-->
     <ViewStub
         android:id="@+id/video_speed_vs"
@@ -432,4 +422,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:layout="@layout/viewstub_edit_video_music_panel" />
+    <com.mm.recorduisdk.widget.FocusView
+        android:id="@+id/focus_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

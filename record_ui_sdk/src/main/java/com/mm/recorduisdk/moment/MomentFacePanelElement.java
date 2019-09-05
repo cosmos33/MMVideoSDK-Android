@@ -34,11 +34,11 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
     // 变脸列表数据 管理/加载 对象
     private MomentFaceDataManager mFaceDataManager;
     // 加载列表的回调对象
-    private MomentFacePanelElement.FaceDataLoadCallback mFaceDataLoadCallback = new MomentFacePanelElement.FaceDataLoadCallback(this);
+    private FaceDataLoadCallback mFaceDataLoadCallback = new FaceDataLoadCallback(this);
     // 资源下载结果回调对象
-    private MomentFacePanelElement.FaceDownloadCallback mFaceDownloadCallback = new MomentFacePanelElement.FaceDownloadCallback(this);
+    private FaceDownloadCallback mFaceDownloadCallback = new FaceDownloadCallback(this);
     // 变脸模型加载到内存回调对象
-    private MomentFacePanelElement.MyMaskLoadCallback mMaskLoadCallback = new MomentFacePanelElement.MyMaskLoadCallback(this);
+    private MyMaskLoadCallback mMaskLoadCallback = new MyMaskLoadCallback(this);
     // 一个用来配置面板的辅助类
     private MomentFacePanelHelper mMomentFacePanelHelper;
     // 用来懒加载变脸面板UI
@@ -54,7 +54,7 @@ public class MomentFacePanelElement extends Element<ViewStub> implements IMoment
     // 标记当前界面的变脸列表数据是否加载完成
     private boolean mIsFaceDataFetched;
     // 监听资源下载成功回调，包括其他界面发出的下载请求
-    private MomentFacePanelElement.MomentFaceDownloadObserver mMomentFaceDownloadObserver = new MomentFacePanelElement.MomentFaceDownloadObserver(this);
+    private MomentFaceDownloadObserver mMomentFaceDownloadObserver = new MomentFaceDownloadObserver(this);
 
     public MomentFacePanelElement(ViewStub view) {
         super(view);

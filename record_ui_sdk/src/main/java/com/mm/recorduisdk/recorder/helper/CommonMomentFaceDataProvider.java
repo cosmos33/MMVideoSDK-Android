@@ -39,14 +39,14 @@ public class CommonMomentFaceDataProvider extends MomentFaceDataProvider<CommonM
             builder.setLocalVersion(result.optInt("version", -1));
             JSONArray clsItems = result.getJSONArray("class");
             JSONObject faceItems = result.getJSONObject("items");
-            java.util.ArrayList<FaceClass> classList = new ArrayList<>();
+            ArrayList<FaceClass> classList = new ArrayList<>();
 
             for (int i = 0, len = clsItems.length(); i < len; i++) {
                 FaceClass bean = FaceClass.fromJson(clsItems.getJSONObject(i));
                 if (bean != null && !TextUtils.isEmpty(bean.getId()) && faceItems.has(bean.getId())) {
                     JSONArray items = faceItems.getJSONArray(bean.getId());
 
-                    java.util.ArrayList<MomentFace> list = new ArrayList<>();
+                    ArrayList<MomentFace> list = new ArrayList<>();
                     for (int j = 0, len2 = items.length(); j < len2; j++) {
                         MomentFace face = MomentFace.fromJson(items.getJSONObject(j));
                         if (face != null) {

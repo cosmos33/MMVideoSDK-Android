@@ -34,23 +34,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.mm.recorduisdk.recorder.activity.VideoCutActivity" />
-        <activity android:name="com.mm.recorduisdk.recorder.activity.VideoSpeedAdjustActivity" />
-        <activity android:name="com.mm.recorduisdk.recorder.activity.SelectMomentCoverActivity" />
-        <activity
-            android:name="com.mm.recorduisdk.recorder.activity.VideoRecordAndEditActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name="com.mm.recorduisdk.recorder.activity.ImageEditActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.mm.recorduisdk.imagecrop.ImageCropActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.mm.recorduisdk.local_music_picker.view.MusicPickerActivity" />
-
-
 
         <activity
             android:name=".RecordParamSettingActivity"
@@ -63,9 +46,7 @@
         <activity android:name="com.function.recordvideo.VideoRecordTestActivity" />
         <activity android:name="com.function.videoprocess.VideoProcessTestActivity" />
         <activity android:name="com.function.imageprocess.ImageProcessTestActivity" /> <!-- 播放器相关 -->
-        <activity android:name="com.mm.player_business.PrePlayActivity" />
-        <activity android:name="com.mm.player_business.PlayListActivity" />
-        <activity android:name="com.mm.player_business.PlayerActivity" />
+
     </application>
 
 </manifest>

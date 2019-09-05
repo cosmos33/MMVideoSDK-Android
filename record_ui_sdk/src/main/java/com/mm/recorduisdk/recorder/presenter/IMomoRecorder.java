@@ -49,4 +49,5 @@ public interface IMomoRecorder extends IRecorder {
 
     void feedCameraZoomEvent(MotionEvent motionEvent);
 
+    void changeExposureLevel(float percentage);
 }

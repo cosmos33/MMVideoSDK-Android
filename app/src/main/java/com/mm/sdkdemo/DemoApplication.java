@@ -45,7 +45,6 @@ public class DemoApplication extends MultiDexApplication {
         super.onCreate();
         Rifle.init(this, "9dac61837c9bc9eba14f8a32584bde1f", true);
         RecordUISDK.init(this, "100cb616072fdc76c983460b8c2b470a", new DemoRecordResourceGetterImpl());
-        MoMediaManager.init(this, "100cb616072fdc76c983460b8c2b470a");
         PlayerManager.init(this, "100cb616072fdc76c983460b8c2b470a");
         if (Configs.DEBUG) {
             MoMediaManager.openLog(new File(Environment.getExternalStorageDirectory(), "mmvideo_sdk_log").getAbsolutePath());

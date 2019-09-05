@@ -26,7 +26,7 @@ public class MomentFaceModelsManager {
      */
     private Map<String, List<MomentFaceItemModel>> mModels = new ArrayMap<>();
 
-    private MomentFaceModelsManager.OnItemChangedListener mOnItemChangedListener;
+    private OnItemChangedListener mOnItemChangedListener;
 
     public MomentFaceModelsManager(CommonMomentFaceBean data) {
         mData = data;
@@ -127,7 +127,7 @@ public class MomentFaceModelsManager {
         return null;
     }
 
-    public void setOnItemChangedListener(MomentFaceModelsManager.OnItemChangedListener onItemChangedListener) {
+    public void setOnItemChangedListener(OnItemChangedListener onItemChangedListener) {
         mOnItemChangedListener = onItemChangedListener;
     }
 

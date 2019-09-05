@@ -76,6 +76,8 @@ public class RecordParamSettingActivity extends BaseActivity {
     private int mWhiteningType;
     @BigEyeThinFaceTypeScope
     private int mBigEyeThinFaceType;
+    private View mBtOpenFaceAutoMetering;
+    private View mBtCloseFaceAutoMetering;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -240,6 +242,20 @@ public class RecordParamSettingActivity extends BaseActivity {
             }
         });
 
+        mBtOpenFaceAutoMetering.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectFaceAutoMeteringState(v);
+            }
+        });
+
+        mBtCloseFaceAutoMetering.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectFaceAutoMeteringState(v);
+            }
+        });
+
         mBtStartRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -318,8 +334,14 @@ public class RecordParamSettingActivity extends BaseActivity {
         mBtAIWhitening = findViewById(R.id.bt_ai_whitening);
         mBtOldWhitening = findViewById(R.id.bt_old_whitening);
 
+
         mBtAIBigEyeThinFace = findViewById(R.id.bt_ai_big_eye_thin_face);
         mBtOldBigEyeThinFace = findViewById(R.id.bt_old_big_eye_thin_face);
+
+
+        mBtOpenFaceAutoMetering = findViewById(R.id.bt_open_face_auto_metering);
+        mBtCloseFaceAutoMetering = findViewById(R.id.bt_close_face_auto_metering);
+
         mBtStartRecord = findViewById(R.id.bt_start_record);
 
         selectResolution(mBtRecordResolution720p);
@@ -332,11 +354,22 @@ public class RecordParamSettingActivity extends BaseActivity {
         selectBuffingType(mBtAILightweightBuffing);
         selectWhiteningType(mBtAIWhitening);
         selectBigEyeThinFaceType(mBtAIBigEyeThinFace);
+        selectFaceAutoMeteringState(mBtOpenFaceAutoMetering);
 
         mEtVideoOutputPathEdit.setText(new File(Configs.getDir("ProcessVideo"), System.currentTimeMillis() + ".mp4").toString());
         mEtPhotoOutputPathEdit.setText(new File(Configs.getDir("ProcessImage"), System.currentTimeMillis() + "_process.jpg").toString());
 
 
+    }
+
+    private void selectFaceAutoMeteringState(View view) {
+        mBtOpenFaceAutoMetering.setSelected(false);
+        mBtCloseFaceAutoMetering.setSelected(false);
+        if (mBtOpenFaceAutoMetering == view) {
+            mBtOpenFaceAutoMetering.setSelected(true);
+        } else if (mBtCloseFaceAutoMetering == view) {
+            mBtCloseFaceAutoMetering.setSelected(true);
+        }
     }
 
     private void selectBigEyeThinFaceType(View view) {
@@ -476,9 +509,9 @@ public class RecordParamSettingActivity extends BaseActivity {
                 .setCameraType(mBtFrontCamera.isSelected() ? Constants.CameraType.FRONT : Constants.CameraType.BACK)
                 .setGotoTab(mBtTakePhoto.isSelected() ? Constants.RecordTab.PHOTO : Constants.RecordTab.VIDEO)
                 .setEnableSourceVideoRecord(mBtOpenSourceVideoRecord.isSelected())
-                .setBigEyeThinFaceType(mBigEyeThinFaceType)
                 .setBuffingType(mBuffingType)
                 .setWhiteningType(mWhiteningType)
+                .setEnableFaceAutoMetering(mBtOpenFaceAutoMetering.isSelected())
                 .setFinishGotoInfo(mFinishGotoInfo)
         ;
 
