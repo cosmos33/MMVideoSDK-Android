@@ -33,7 +33,7 @@
 * 添加工程依赖
 
 ```java
-implementation 'com.cosmos.mediax:recorderuisdk:2.2.0'
+implementation 'com.cosmos.mediax:recorderuisdk:2.2.2'
 ```
 
 * so架构
@@ -87,26 +87,6 @@ native <methods>;
 -dontwarn com.momo.mcamera.mask.**
 -keep class com.google.gson.** {*;}
 
-```
-
-* 配置 Activity
-
-```HTML
-<activity android:name="com.mm.recorduisdk.recorder.activity.VideoCutActivity" />
-        <activity android:name="com.mm.recorduisdk.recorder.activity.VideoSpeedAdjustActivity" />
-        <activity android:name="com.mm.recorduisdk.recorder.activity.SelectMomentCoverActivity" />
-        <activity
-            android:name="com.mm.recorduisdk.recorder.activity.VideoRecordAndEditActivity"
-            android:hardwareAccelerated="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name="com.mm.recorduisdk.recorder.activity.ImageEditActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.mm.recorduisdk.imagecrop.ImageCropActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.mm.recorduisdk.local_music_picker.view.MusicPickerActivity" />
 ```
 
 ## 使用
