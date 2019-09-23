@@ -39,7 +39,6 @@ import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.mask.MaskModel;
 import com.momo.mcamera.mask.Sticker;
 import com.momo.mcamera.mask.StickerBlendFilter;
-import com.momo.xeengine.XE3DEngine;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,6 +77,8 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     private final CameraZoomChecker mCameraZoomChecker;
     private MaskModel mCurrentMaskModel;
+    private boolean mCurrentPageIsVideo;
+    private boolean mPrePageIsVideo;
 
     public RecordPresenter(MMRecorderParams recorderParams) {
         this.mRecorderParams = recorderParams;
@@ -105,6 +106,67 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
             isFirstCreateSurface = false;
             startPreview();
         }
+    }
+
+
+    public boolean switchPhotoOrVideo(boolean isVideo) {
+        this.mCurrentPageIsVideo = isVideo;
+        boolean prePageIsVideo = mPrePageIsVideo;
+        mPrePageIsVideo = mCurrentPageIsVideo;
+        if (mRecorderParams.isEnableTakePhotoMaxResolution()
+                && prePageIsVideo != mCurrentPageIsVideo
+                && UIUtils.getScreenWidth() > getSize4ResolutionMode().getHeight()
+        ) {
+            getMRConfig();
+            if (isVideo) {
+                Size preSize = mrConfig.getTargetVideoSize();
+                configTargetVideoSize();
+                Size currentSize = mrConfig.getTargetVideoSize();
+
+                if (checkTargetSizeEqual(preSize, currentSize)) {
+                    return false;
+                }
+            } else {
+                Size size = chooseStandardSize4Width(UIUtils.getScreenWidth());
+
+                if (checkTargetSizeEqual(mrConfig.getTargetVideoSize(), size)) {
+                    return false;
+                }
+                mrConfig.setTargetVideoSize(size);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void switchCameraResolution() {
+        multiRecorder.switchCameraResolution(mrConfig.getTargetVideoSize());
+    }
+
+    private Size chooseStandardSize4Width(int width) {
+        if (width <= 480) {
+            return new Size(640, 480);
+        } else if (width <= 540) {
+            return new Size(960, 540);
+        } else if (width <= 720) {
+            return new Size(1280, 720);
+        } else if (width <= 1080) {
+            return new Size(1920, 1080);
+        } else {
+            return new Size(2560, 1440);
+        }
+
+    }
+
+    private boolean checkTargetSizeEqual(Size preSize, Size currentSize) {
+        Size selectSize = CameraSizeUtil.selectMatchSize(AppContext.getContext(), preSize, 16.0f / 9);
+
+        Size preSelectSize = CameraSizeUtil.selectMatchSize(AppContext.getContext(), currentSize, 16.0f / 9);
+        if (preSelectSize.equals(selectSize)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -387,20 +449,16 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
             mrConfig.setEncoderGopMode(1);
             mrConfig.setVideoFPS(mRecorderParams.getFrameRate());
             mrConfig.setRatioType(mRecorderParams.getVideoRatio());
-            switch (mRecorderParams.getResolutionMode()) {
-                case MRConfig.VideoResolution.RESOLUTION_1920:
-                    mrConfig.setTargetVideoSize(new Size(1920, 1080));
-                    break;
-                case MRConfig.VideoResolution.RESOLUTION_1280:
-                    mrConfig.setTargetVideoSize(new Size(1280, 720));
-                    break;
-                case MRConfig.VideoResolution.RESOLUTION_960:
-                    mrConfig.setTargetVideoSize(new Size(960, 540));
-                    break;
-                default:
-                    mrConfig.setTargetVideoSize(new Size(640, 480));
-                    break;
+            configTargetVideoSize();
+
+            if (mRecorderParams.isEnableTakePhotoMaxResolution()
+                    && mRecorderParams.getGotoTab() == Constants.RecordTab.PHOTO
+                    && UIUtils.getScreenWidth() > getSize4ResolutionMode().getHeight()
+
+            ) {
+                mrConfig.setTargetVideoSize(chooseStandardSize4Width(UIUtils.getScreenWidth()));
             }
+
             if (mRecorderParams.getVideoBitrate() > 0) {
                 mrConfig.setVideoEncodeBitRate(mRecorderParams.getVideoBitrate());
             } else {
@@ -409,6 +467,24 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
         }
         return mrConfig;
+    }
+
+
+    private void configTargetVideoSize() {
+        mrConfig.setTargetVideoSize(getSize4ResolutionMode());
+    }
+
+    private Size getSize4ResolutionMode() {
+        switch (mRecorderParams.getResolutionMode()) {
+            case MRConfig.VideoResolution.RESOLUTION_1920:
+                return new Size(1920, 1080);
+            case MRConfig.VideoResolution.RESOLUTION_1280:
+                return new Size(1280, 720);
+            case MRConfig.VideoResolution.RESOLUTION_960:
+                return new Size(960, 540);
+            default:
+                return new Size(640, 480);
+        }
     }
 
     @Override
@@ -601,7 +677,6 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         MomoMainThreadExecutor.cancelAllRunnables(getTaskTag());
         activity = null;
         mView = null;
-        XE3DEngine.getInstance().clearEvent();
     }
 
     @Override
@@ -686,8 +761,8 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     @Override
     public void changeExposureLevel(float percentage) {
         if (multiRecorder.isSupportExposureAdjust()) {
-            int maxExposureCompensation = multiRecorder.getMaxExposureCompensation()/3;
-            int minExposureCompensation = multiRecorder.getMinExposureCompensation()/3;
+            int maxExposureCompensation = multiRecorder.getMaxExposureCompensation() / 2;
+            int minExposureCompensation = multiRecorder.getMinExposureCompensation() / 2;
 
             int targetLevel = (int) (maxExposureCompensation - (maxExposureCompensation - minExposureCompensation) * percentage);
 

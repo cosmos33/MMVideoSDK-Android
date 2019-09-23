@@ -867,7 +867,7 @@ public class VideoEditFragment extends BaseFragment
             processPresenter.pause();
             //processPresenter.clearAllCodec();
             VideoCompressUtil.compressVideo(video
-                    , VideoUtils.getMaxVideoSize(), !video.hasTranscoding
+                    , VideoUtils.getMaxVideoSize(), true
                     , this);
             return true;
         }

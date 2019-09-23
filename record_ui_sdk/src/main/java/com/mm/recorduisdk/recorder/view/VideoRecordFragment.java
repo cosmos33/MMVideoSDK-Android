@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
+import com.core.glcore.util.XEEngineHelper;
 import com.cosmos.mdlog.MDLog;
 import com.immomo.doki.DokiInitializer;
 import com.immomo.doki.filter.makeup.MakeupFilter;
@@ -832,22 +833,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         final GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDown(MotionEvent e) {
-                if (isFacePanelShowing()) {
-                    hideFacePanel();
-                    showBottomVideoControlLayout();
-                }
-                if (isFilterPanelShow()) {
-                    hideFilterPanel();
-                    showBottomVideoControlLayout();
-                }
-
-                if (slideBar != null && slideBar.getVisibility() == View.VISIBLE) {
-                    showSpeedView(false);
-                }
-                if (beautyPanelLayout.getVisibility() == View.VISIBLE) {
-                    beautyPanelLayout.setVisibility(View.GONE);
-                    showBottomVideoControlLayout();
-                }
                 return true;
             }
 
@@ -887,22 +872,10 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             @Override
             public boolean onTouch(MotionEvent event) {
                 mFocusView.feedEvent(event);
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (isFacePanelShowing()) {
-                        hideFacePanel();
-                        showBottomVideoControlLayout();
-                        return true;
-                    }
-                    if (isFilterPanelShow()) {
-                        hideFilterPanel();
-                        showBottomVideoControlLayout();
-                        return true;
-                    }
-                    if (slideBar != null && slideBar.getVisibility() == View.VISIBLE) {
-                        showSpeedView(false);
-                        return true;
-                    }
+                if (hintPanel(event)) {
+                    return true;
                 }
+
                 if (mIsArkit) {
                     boolean consumed = XEngineEventHelper.touchHitTest(event.getX(), event.getY());
                     if (consumed) {
@@ -923,6 +896,33 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                     }
                     return gestureDetector.onTouchEvent(event);
                 }
+            }
+
+            private boolean hintPanel(MotionEvent event) {
+                if (event.getAction() != MotionEvent.ACTION_DOWN) {
+                    return false;
+                }
+                if (isFacePanelShowing()) {
+                    hideFacePanel();
+                    showBottomVideoControlLayout();
+                    return true;
+                }
+                if (isFilterPanelShow()) {
+                    hideFilterPanel();
+                    showBottomVideoControlLayout();
+                    return true;
+                }
+
+                if (slideBar != null && slideBar.getVisibility() == View.VISIBLE) {
+                    showSpeedView(false);
+                    return true;
+                }
+                if (beautyPanelLayout.getVisibility() == View.VISIBLE) {
+                    beautyPanelLayout.setVisibility(View.GONE);
+                    showBottomVideoControlLayout();
+                    return true;
+                }
+                return false;
             }
         });
         initTabText();
@@ -1521,8 +1521,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 initFlashAndSwitchButton();
                 mPresenter.startPreview();
                 mPresenter.initFilter(filters);
-                onBeautyTabSelect(Configs.DEFAULT_BEAUTY, MomentFilterPanelLayout.TYPE_BEAUTY);
-                onBeautyTabSelect(Configs.DEFAULT_BIG_EYE, MomentFilterPanelLayout.TYPE_EYE_AND_THIN);
+                onBeautyTabSelect(mCurFilterBeautyPos, MomentFilterPanelLayout.TYPE_BEAUTY);
+                onBeautyTabSelect(mCurFilterEyeThinPos, MomentFilterPanelLayout.TYPE_EYE_AND_THIN);
                 if (filter != null) {
                     mPresenter.addFilter(filter);
                     beautyPanelLayout.clickCurrentTab();
@@ -1617,7 +1617,12 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         MomoMainThreadExecutor.cancelAllRunnables(getTaskTag());
         //8.7.3版本去掉新3d引擎代码，后续版本开放.
         //        XE3DEngine.getInstance().endEngine();
-        XE3DEngine.getInstance().clearEvent();
+
+        XE3DEngine xe3DEngine = XEEngineHelper.get();
+        if (xe3DEngine != null) {
+            xe3DEngine.clearEvent();
+        }
+
     }
 
     @Override
@@ -1747,8 +1752,12 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                         videoSlimmingContainer.setVisibility(View.VISIBLE);
                     }
                 }
+
                 if (isResumed) {
                     startPreview();
+                }
+                if (mPresenter.switchPhotoOrVideo(false)) {
+                    mPresenter.switchCameraResolution();
                 }
                 if (!anim) {
                     btnClose.setVisibility(View.VISIBLE);
@@ -1775,8 +1784,12 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                         videoSlimmingContainer.setVisibility(View.VISIBLE);
                     }
                 }
+
                 if (isResumed) {
                     startPreview();
+                }
+                if (mPresenter.switchPhotoOrVideo(true)) {
+                    mPresenter.switchCameraResolution();
                 }
                 if (!anim) {
                     videoRecordControllerLayout.setVisibility(View.GONE);
@@ -2730,23 +2743,11 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
         @Override
         public void onStartRecording() {
-            XE3DEngine.getInstance().queueEvent(new Runnable() {
-                @Override
-                public void run() {
-                    XE3DEngine.getInstance().enableRecording(true);
-                }
-            });
             startRecording(true);
         }
 
         @Override
         public void onStopRecording() {
-            XE3DEngine.getInstance().queueEvent(new Runnable() {
-                @Override
-                public void run() {
-                    XE3DEngine.getInstance().enableRecording(true);
-                }
-            });
             if (!canRecordVideo(false)) {
                 return;
             }

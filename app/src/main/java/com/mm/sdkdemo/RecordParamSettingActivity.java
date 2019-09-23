@@ -78,6 +78,8 @@ public class RecordParamSettingActivity extends BaseActivity {
     private int mBigEyeThinFaceType;
     private View mBtOpenFaceAutoMetering;
     private View mBtCloseFaceAutoMetering;
+    private View mBtOpenTakePhotoMaxResolution;
+    private View mBtCloseTakePhotoMaxResolution;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -256,6 +258,20 @@ public class RecordParamSettingActivity extends BaseActivity {
             }
         });
 
+        mBtOpenTakePhotoMaxResolution.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectTakePhotoMaxResolutionState(v);
+            }
+        });
+
+        mBtCloseTakePhotoMaxResolution.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectTakePhotoMaxResolutionState(v);
+            }
+        });
+
         mBtStartRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -342,6 +358,9 @@ public class RecordParamSettingActivity extends BaseActivity {
         mBtOpenFaceAutoMetering = findViewById(R.id.bt_open_face_auto_metering);
         mBtCloseFaceAutoMetering = findViewById(R.id.bt_close_face_auto_metering);
 
+        mBtOpenTakePhotoMaxResolution = findViewById(R.id.bt_open_takephoto_max_resolution);
+        mBtCloseTakePhotoMaxResolution = findViewById(R.id.bt_close_takephoto_max_resolution);
+
         mBtStartRecord = findViewById(R.id.bt_start_record);
 
         selectResolution(mBtRecordResolution720p);
@@ -355,11 +374,22 @@ public class RecordParamSettingActivity extends BaseActivity {
         selectWhiteningType(mBtAIWhitening);
         selectBigEyeThinFaceType(mBtAIBigEyeThinFace);
         selectFaceAutoMeteringState(mBtOpenFaceAutoMetering);
+        selectTakePhotoMaxResolutionState(mBtOpenTakePhotoMaxResolution);
 
         mEtVideoOutputPathEdit.setText(new File(Configs.getDir("ProcessVideo"), System.currentTimeMillis() + ".mp4").toString());
         mEtPhotoOutputPathEdit.setText(new File(Configs.getDir("ProcessImage"), System.currentTimeMillis() + "_process.jpg").toString());
 
 
+    }
+
+    private void selectTakePhotoMaxResolutionState(View view) {
+        mBtOpenTakePhotoMaxResolution.setSelected(false);
+        mBtCloseTakePhotoMaxResolution.setSelected(false);
+        if (mBtOpenTakePhotoMaxResolution == view) {
+            mBtOpenTakePhotoMaxResolution.setSelected(true);
+        } else if (mBtCloseTakePhotoMaxResolution == view) {
+            mBtCloseTakePhotoMaxResolution.setSelected(true);
+        }
     }
 
     private void selectFaceAutoMeteringState(View view) {
@@ -513,6 +543,7 @@ public class RecordParamSettingActivity extends BaseActivity {
                 .setWhiteningType(mWhiteningType)
                 .setEnableFaceAutoMetering(mBtOpenFaceAutoMetering.isSelected())
                 .setFinishGotoInfo(mFinishGotoInfo)
+                .setEnableTakePhotoMaxResolution(mBtOpenTakePhotoMaxResolution.isSelected())
         ;
 
         String bitrate = mEtBitrateEdit.getText().toString().trim();

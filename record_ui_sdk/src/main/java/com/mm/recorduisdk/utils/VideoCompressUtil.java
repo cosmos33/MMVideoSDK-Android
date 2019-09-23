@@ -52,7 +52,7 @@ public class VideoCompressUtil {
         }
         compressProcess = MoMediaManager.createVideoProcessor();
         //压成全I帧
-        compressProcess.setIFrameOnly(false);
+        compressProcess.setIFrameOnly(true);
 
         String tempVideoDir = tempDir.getAbsolutePath();
         String fileName = String.valueOf(System.currentTimeMillis());

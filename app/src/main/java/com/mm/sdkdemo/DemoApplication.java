@@ -6,13 +6,13 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.core.glcore.config.MediaModuleGlobalConfig;
+import com.mm.mmutil.FileUtil;
 import com.immomo.performance.core.BlockConfiguration;
 import com.immomo.performance.core.CaptureConfiguration;
 import com.immomo.performance.core.Configuration;
 import com.immomo.performance.core.PerformanceMonitor;
 import com.immomo.performance.utils.PerformanceUtil;
 import com.mm.mediasdk.MoMediaManager;
-import com.mm.mmutil.FileUtil;
 import com.mm.player.PlayerManager;
 import com.mm.recorduisdk.IRecordResourceGetter;
 import com.mm.recorduisdk.RecordUISDK;
@@ -26,7 +26,6 @@ import com.mm.rifle.Rifle;
 import com.mm.sdkdemo.api.DemoApi;
 import com.mm.sdkdemo.utils.FilterFileUtil;
 import com.mm.sdkdemo.utils.LivePhotoUtil;
-import com.momo.xeengine.XELogger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,9 +48,6 @@ public class DemoApplication extends MultiDexApplication {
         if (Configs.DEBUG) {
             MoMediaManager.openLog(new File(Environment.getExternalStorageDirectory(), "mmvideo_sdk_log").getAbsolutePath());
             PlayerManager.openDebugLog(true, null);
-            if (MediaModuleGlobalConfig.hasXE()) {
-                XELogger.getInstance().setLogEnable(Configs.DEBUG);
-            }
         }
         MoMediaManager.openLogAnalyze(true);
         PlayerManager.openLogAnalyze(true);

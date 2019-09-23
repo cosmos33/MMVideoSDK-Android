@@ -33,7 +33,7 @@
 * 添加工程依赖
 
 ```java
-implementation 'com.cosmos.mediax:recorderuisdk:2.2.2'
+implementation 'com.cosmos.mediax:recorderuisdk:2.2.3'
 ```
 
 * so架构
@@ -264,8 +264,22 @@ VideoRecordAndEditActivity.startRecord(this, new MMRecorderParams.Builder().buil
         public Builder setFinishGotoInfo(FinishGotoInfo finishGotoInfo)
 ```
 
+* 是否使用根据人脸区域自动调光
 
+```java
+        /**
+         * 是否使用根据人脸区域自动调光
+         */
+        public Builder setEnableFaceAutoMetering(boolean enableFaceAutoMetering)
+```
 
+* 拍照的时候是否使用大分辨率
+```java
+        /**
+         * 拍照的时候是否使用大分辨率
+         */
+        public Builder setEnableTakePhotoMaxResolution(boolean enableTakePhotoMaxResolutionMode)
+``` 
 
 
 

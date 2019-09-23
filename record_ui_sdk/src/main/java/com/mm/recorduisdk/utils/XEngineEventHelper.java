@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.core.glcore.config.MediaModuleGlobalConfig;
+import com.core.glcore.util.XEEngineHelper;
 import com.mm.mediasdk.utils.UIUtils;
 import com.momo.xeengine.XE3DEngine;
 import com.momo.xeengine.xnative.XEWindow;
@@ -20,7 +21,12 @@ public class XEngineEventHelper {
         if (!MediaModuleGlobalConfig.hasXE()) {
             return false;
         }
-        XEWindow window = XE3DEngine.getInstance().getWindow();
+        XE3DEngine xe3DEngine = XEEngineHelper.get();
+        if (xe3DEngine == null) {
+            return false;
+        }
+
+        XEWindow window = xe3DEngine.getWindow();
         if (window == null) {
             return false;
         }
@@ -35,11 +41,16 @@ public class XEngineEventHelper {
         if (!MediaModuleGlobalConfig.hasXE()) {
             return;
         }
-        XEWindow window = XE3DEngine.getInstance().getWindow();
+        XE3DEngine xe3DEngine = XEEngineHelper.get();
+        if (xe3DEngine == null) {
+            return;
+        }
+
+        XEWindow window = xe3DEngine.getWindow();
         if (window == null || event == null) {
             return;
         }
 
-        window.handleTouchEvent(event,view);
+        window.handleTouchEvent(event, view);
     }
 }

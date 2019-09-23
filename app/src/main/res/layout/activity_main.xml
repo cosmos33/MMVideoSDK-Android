@@ -114,7 +114,8 @@
             android:background="@drawable/bg_record"
             android:gravity="center_horizontal"
             android:onClick="onClick"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
