@@ -9,8 +9,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
+import com.mm.recorduisdk.RecordUISDK;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -56,6 +59,16 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
         super(context, attrs);
         mContext = context;
         initViews();
+        checkHide();
+    }
+
+    private void checkHide() {
+        IRecordResourceConfig<File> filtersImgHomeDirConfig = RecordUISDK.getResourceGetter().getFiltersImgHomeDirConfig();
+        if (filtersImgHomeDirConfig == null || !filtersImgHomeDirConfig.isOpen()) {
+            filterTv.setVisibility(GONE);
+        } else {
+            filterTv.setVisibility(VISIBLE);
+        }
     }
 
     private void initViews() {
@@ -85,6 +98,7 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
             }
         });
 
+
     }
 
     public void hideOtherTab() {
@@ -108,19 +122,19 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
         lastView.setSelected(true);
         lastView.setDrawline(true);
 
-        if(view==filterTv){
+        if (view == filterTv) {
             selectType.set(ON_CLICK_FILTER);
             listener.onTabClick(ON_CLICK_FILTER, CLICK_INNER);
-        }else if(view==beautyTv){
+        } else if (view == beautyTv) {
             selectType.set(ON_CLICK_SKIN);
             listener.onTabClick(ON_CLICK_SKIN, CLICK_INNER);
-        }else if(view==bigeyeTv){
+        } else if (view == bigeyeTv) {
             selectType.set(ON_CLICK_FACE);
             listener.onTabClick(ON_CLICK_FACE, CLICK_INNER);
-        }else if(view==slimmingTv){
+        } else if (view == slimmingTv) {
             selectType.set(ON_CLICK_SLIMMING);
             listener.onTabClick(ON_CLICK_SLIMMING, CLICK_INNER);
-        }else if(view==legsTv){
+        } else if (view == legsTv) {
             selectType.set(ON_CLICK_LONG_LEGS);
             listener.onTabClick(ON_CLICK_LONG_LEGS, CLICK_INNER);
         }

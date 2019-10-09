@@ -386,13 +386,19 @@
         app:rpi_text_margin_bottom="3dp"
         app:rpi_text_size="15sp" />
 
+    <com.mm.recorduisdk.widget.FocusView
+        android:id="@+id/focus_view"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.mm.recorduisdk.widget.MomentBeautyPanelLayout
         android:visibility="invisible"
         android:id="@+id/record_beauty"
         android:layout_width="match_parent"
         android:layout_height="@dimen/moment_common_panel_height"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/moment_face_panel_margin_bottom"/>
+        android:layout_marginBottom="@dimen/moment_face_panel_margin_bottom" />
 
     <ViewStub
         android:id="@+id/record_face_viewstub"
@@ -400,6 +406,7 @@
         android:layout_height="320dp"
         android:layout_gravity="bottom"
         android:layout="@layout/layout_moment_prop_panel" />
+
     <ViewStub
         android:id="@+id/moment_record_filter_viewstub"
         android:layout_width="match_parent"
@@ -422,9 +429,5 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:layout="@layout/viewstub_edit_video_music_panel" />
-    <com.mm.recorduisdk.widget.FocusView
-        android:id="@+id/focus_view"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
 </FrameLayout>

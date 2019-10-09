@@ -208,6 +208,9 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     @Override
     public void takePhoto() {
+//        BasicFilter gaussianBlurFilter = FilterInstanceGetter.getGaussianBlurFilter(8);
+//        BasicFilter segmentWithBgFiltersFilter = FilterInstanceGetter.getSegmentWithBgFiltersFilter(gaussianBlurFilter);
+//        multiRecorder.getRecorderFilterGroupGetter().getRootFilterOperator().addEndFilter(segmentWithBgFiltersFilter);
         if (takingPhoto)
             return;
         if (multiRecorder != null) {
@@ -646,20 +649,11 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     @Override
     public void startRecording() {
-        multiRecorder.startRecording();
-//        multiRecorder.startRecording(new MRecorderActions.OnRecordStartListener() {
-//            @Override
-//            public void onRecordStarted(final boolean isSuccessed) {
-//                if (isSuccessed) {
-//                    MomoMainThreadExecutor.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mPresenter.onRecordStarted();
-//                        }
-//                    });
-//                }
-//            }
-//        });
+        multiRecorder.startRecording(new MRecorderActions.OnRecordStartListener() {
+            @Override
+            public void onRecordStarted(boolean isSuccessed) {
+            }
+        });
     }
 
     @Override

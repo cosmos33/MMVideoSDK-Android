@@ -5,19 +5,18 @@ import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
-import com.core.glcore.config.MediaModuleGlobalConfig;
-import com.mm.mmutil.FileUtil;
 import com.immomo.performance.core.BlockConfiguration;
 import com.immomo.performance.core.CaptureConfiguration;
 import com.immomo.performance.core.Configuration;
 import com.immomo.performance.core.PerformanceMonitor;
 import com.immomo.performance.utils.PerformanceUtil;
 import com.mm.mediasdk.MoMediaManager;
+import com.mm.mmutil.FileUtil;
 import com.mm.player.PlayerManager;
 import com.mm.recorduisdk.IRecordResourceGetter;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.bean.CommonMomentFaceBean;
-import com.mm.recorduisdk.bean.MomentFace;
 import com.mm.recorduisdk.bean.MomentSticker;
 import com.mm.recorduisdk.config.Configs;
 import com.mm.recorduisdk.recorder.model.MusicContent;
@@ -30,7 +29,6 @@ import com.mm.sdkdemo.utils.LivePhotoUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DemoApplication extends MultiDexApplication {
     @Override
@@ -44,6 +42,7 @@ public class DemoApplication extends MultiDexApplication {
         super.onCreate();
         Rifle.init(this, "9dac61837c9bc9eba14f8a32584bde1f", true);
         RecordUISDK.init(this, "100cb616072fdc76c983460b8c2b470a", new DemoRecordResourceGetterImpl());
+
         PlayerManager.init(this, "100cb616072fdc76c983460b8c2b470a");
         if (Configs.DEBUG) {
             MoMediaManager.openLog(new File(Environment.getExternalStorageDirectory(), "mmvideo_sdk_log").getAbsolutePath());
@@ -119,62 +118,131 @@ public class DemoApplication extends MultiDexApplication {
 
     }
 
-
     static class DemoRecordResourceGetterImpl implements IRecordResourceGetter {
         private DemoApi demoApi = new DemoApi();
 
         @Override
-        public File getFiltersImgHomeDir() {
-            return FilterFileUtil.getMomentFilterImgHomeDir();
+        public IRecordResourceConfig<File> getFiltersImgHomeDirConfig() {
+            return new IRecordResourceConfig<File>() {
+                @Override
+                public boolean isOpen() {
+                    return true;
+                }
+
+                @Override
+                public File getResource() {
+                    return FilterFileUtil.getMomentFilterImgHomeDir();
+                }
+            };
         }
 
         @Override
-        public File getLivePhotoHomeDir() {
-            return LivePhotoUtil.getLivePhotoHomeDir();
+        public IRecordResourceConfig<File> getLivePhotoHomeDirConfig() {
+            return new IRecordResourceConfig<File>() {
+                @Override
+                public boolean isOpen() {
+                    return true;
+                }
+
+                @Override
+                public File getResource() {
+                    return LivePhotoUtil.getLivePhotoHomeDir();
+                }
+            };
         }
 
         @Override
-        public File getMakeUpHomeDir() {
-            return FilterFileUtil.getDokiFilterHomeDir();
+        public IRecordResourceConfig<File> getMakeUpHomeDirConfig() {
+            return new IRecordResourceConfig<File>() {
+                @Override
+                public boolean isOpen() {
+                    return true;
+                }
+
+                @Override
+                public File getResource() {
+                    return FilterFileUtil.getDokiFilterHomeDir();
+                }
+            };
         }
 
         @Override
-        public List<DynamicSticker> getDynamicStickerList() {
-            ArrayList<DynamicSticker> dynamicStickers = new ArrayList<DynamicSticker>();
-            try {
-                demoApi.getDynamicStickerList(dynamicStickers);
-                return dynamicStickers;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
+        public IRecordResourceConfig<List<DynamicSticker>> getDynamicStickerListConfig() {
+            return new IRecordResourceConfig<List<DynamicSticker>>() {
+                @Override
+                public boolean isOpen() {
+                    return true;
+                }
+
+                @Override
+                public List<DynamicSticker> getResource() {
+                    ArrayList<DynamicSticker> dynamicStickers = new ArrayList<DynamicSticker>();
+                    try {
+                        demoApi.getDynamicStickerList(dynamicStickers);
+                        return dynamicStickers;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
         }
 
         @Override
-        public List<MomentSticker> getStaticStickerList() {
-            ArrayList<MomentSticker> momentStickers = new ArrayList<MomentSticker>();
-            try {
-                demoApi.getStaticStickerList(momentStickers);
-                return momentStickers;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
+        public IRecordResourceConfig<List<MomentSticker>> getStaticStickerListConfig() {
+            return new IRecordResourceConfig<List<MomentSticker>>() {
+                @Override
+                public boolean isOpen() {
+                    return true;
+                }
+
+                @Override
+                public List<MomentSticker> getResource() {
+                    ArrayList<MomentSticker> momentStickers = new ArrayList<MomentSticker>();
+                    try {
+                        demoApi.getStaticStickerList(momentStickers);
+                        return momentStickers;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
         }
 
         @Override
-        public List<MusicContent> getRecommendMusic() {
-            return demoApi.getRecommendMusic();
+        public IRecordResourceConfig<List<MusicContent>> getRecommendMusicConfig() {
+            return new IRecordResourceConfig<List<MusicContent>>() {
+                @Override
+                public boolean isOpen() {
+                    return true;
+                }
+
+                @Override
+                public List<MusicContent> getResource() {
+                    return demoApi.getRecommendMusic();
+                }
+            };
         }
 
         @Override
-        public Map<String, List<MomentFace>> getFaceMomentData() {
-            return demoApi.getFaceData();
-        }
+        public IRecordResourceConfig<CommonMomentFaceBean> getMomentFaceDataConfig() {
+            return new IRecordResourceConfig<CommonMomentFaceBean>() {
+                @Override
+                public boolean isOpen() {
+                    return true;
+                }
 
-        @Override
-        public CommonMomentFaceBean fetchMomentFaceData() throws Exception {
-            return demoApi.fetchCommonMomentFaceData();
+                @Override
+                public CommonMomentFaceBean getResource() {
+                    try {
+                        return demoApi.fetchCommonMomentFaceData();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
         }
     }
 }

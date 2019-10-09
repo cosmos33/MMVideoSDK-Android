@@ -1,16 +1,12 @@
 package com.mm.recorduisdk;
 
-import android.support.annotation.WorkerThread;
-
 import com.mm.recorduisdk.bean.CommonMomentFaceBean;
-import com.mm.recorduisdk.bean.MomentFace;
 import com.mm.recorduisdk.bean.MomentSticker;
 import com.mm.recorduisdk.recorder.model.MusicContent;
 import com.mm.recorduisdk.recorder.sticker.DynamicSticker;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created on 2019/7/19.
@@ -19,22 +15,38 @@ import java.util.Map;
  */
 public interface IRecordResourceGetter {
 
-    File getFiltersImgHomeDir();
+    /**
+     * @return 滤镜资源配置
+     */
+    IRecordResourceConfig<File> getFiltersImgHomeDirConfig();
 
-    File getLivePhotoHomeDir();
+    /**
+     * @return 相册中图片合成视频时秀动效果资源配置
+     */
+    IRecordResourceConfig<File> getLivePhotoHomeDirConfig();
 
-    File getMakeUpHomeDir();
+    /**
+     * @return 美妆资源配置
+     */
+    IRecordResourceConfig<File> getMakeUpHomeDirConfig();
 
-    @WorkerThread
-    List<DynamicSticker> getDynamicStickerList();
+    /**
+     * @return 视频编辑中贴纸资源配置
+     */
+    IRecordResourceConfig<List<DynamicSticker>> getDynamicStickerListConfig();
 
-    @WorkerThread
-    List<MomentSticker> getStaticStickerList();
+    /**
+     * @return 图片编辑中贴纸资源配置
+     */
+    IRecordResourceConfig<List<MomentSticker>> getStaticStickerListConfig();
 
-    @WorkerThread
-    List<MusicContent> getRecommendMusic();
+    /**
+     * @return 拍摄器与视频编辑中网络音乐资源配置
+     */
+    IRecordResourceConfig<List<MusicContent>> getRecommendMusicConfig();
 
-    Map<String, List<MomentFace>> getFaceMomentData();
-
-    CommonMomentFaceBean fetchMomentFaceData() throws Exception;
+    /**
+     * @return 道具资源配置
+     */
+    IRecordResourceConfig<CommonMomentFaceBean> getMomentFaceDataConfig();
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.immomo.moment.ImageMovieManager;
 import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.base.cement.CementModel;
@@ -322,7 +323,12 @@ public class AlbumFragmentPresenter extends BaseAlbumPresenter implements ILiveP
                 break;
             }
             case LiveAnimate.AnimateType.ANIMATE_SHOW: {
-                mFieldGroupFilterChooser.setLookupPath(RecordUISDK.getResourceGetter().getLivePhotoHomeDir() + "/show/Lookup");
+                IRecordResourceConfig<File> livePhotoHomeDirConfig = RecordUISDK.getResourceGetter().getLivePhotoHomeDirConfig();
+                if (livePhotoHomeDirConfig != null && livePhotoHomeDirConfig.isOpen()) {
+                    if (livePhotoHomeDirConfig.getResource() != null && livePhotoHomeDirConfig.getResource().exists()) {
+                        mFieldGroupFilterChooser.setLookupPath(livePhotoHomeDirConfig.getResource() + "/show/Lookup");
+                    }
+                }
                 mFieldGroupFilterChooser.setEffectSeries();
                 break;
             }

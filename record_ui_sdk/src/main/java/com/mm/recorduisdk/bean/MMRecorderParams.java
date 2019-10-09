@@ -357,9 +357,6 @@ public class MMRecorderParams implements Parcelable {
          * 是否使用根据人脸区域自动调光
          */
         private boolean enableFaceAutoMetering = true;
-        /**
-         * 拍照的时候是否使用大分辨率
-         */
         private boolean enableTakePhotoMaxResolutionMode;
 
         public Builder() {
@@ -575,16 +572,12 @@ public class MMRecorderParams implements Parcelable {
             this.whiteningType = whiteningType;
             return this;
         }
-        /**
-         * 是否使用根据人脸区域自动调光
-         */
+
         public Builder setEnableFaceAutoMetering(boolean enableFaceAutoMetering) {
             this.enableFaceAutoMetering = enableFaceAutoMetering;
             return this;
         }
-        /**
-         * 拍照的时候是否使用大分辨率
-         */
+
         public Builder setEnableTakePhotoMaxResolution(boolean enableTakePhotoMaxResolutionMode) {
             this.enableTakePhotoMaxResolutionMode = enableTakePhotoMaxResolutionMode;
             return this;

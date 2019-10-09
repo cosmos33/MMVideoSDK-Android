@@ -56,7 +56,10 @@ import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.toast.Toaster;
 import com.mm.recorduisdk.Constants;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
+import com.mm.recorduisdk.RecordUISDK;
+import com.mm.recorduisdk.bean.CommonMomentFaceBean;
 import com.mm.recorduisdk.bean.MMImageEditParams;
 import com.mm.recorduisdk.bean.MMRecorderParams;
 import com.mm.recorduisdk.bean.MMVideoEditParams;
@@ -406,11 +409,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         initMarginBottom();
         onPageChange(false);
         processInitMusic();
-        tvFilterName.setVisibility(canUseFilterOrFace() ? View.VISIBLE : View.GONE);
-        videoFaceContainer.setVisibility(canUseFilterOrFace() ? View.VISIBLE : View.GONE);
-        videoSpeed.setVisibility(state == Constants.RecordTab.VIDEO ? View.VISIBLE : View.INVISIBLE);
-        videoSlimmingContainer.setVisibility(canUseFilterOrFace() ? View.VISIBLE : View.GONE);
-        recordPagerIndicator.setVisibility(View.VISIBLE);
+
+        setupHideIfNeed();
 
         // 检查变脸模板是否展示
         checkFacePanelInit();
@@ -426,6 +426,55 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             }
         });
         checkSurfaceSize();
+    }
+
+    private void setupHideIfNeed() {
+
+        IRecordResourceConfig<File> filtersImgHomeDirConfig = RecordUISDK.getResourceGetter().getFiltersImgHomeDirConfig();
+        IRecordResourceConfig<CommonMomentFaceBean> momentFaceDataConfig = RecordUISDK.getResourceGetter().getMomentFaceDataConfig();
+        IRecordResourceConfig<File> makeUpHomeDirConfig = RecordUISDK.getResourceGetter().getMakeUpHomeDirConfig();
+        IRecordResourceConfig<List<MusicContent>> recommendMusicConfig = RecordUISDK.getResourceGetter().getRecommendMusicConfig();
+
+        tvFilterName.setVisibility((filtersImgHomeDirConfig != null && filtersImgHomeDirConfig.isOpen()) ? View.VISIBLE : View.GONE);
+        videoFaceContainer.setVisibility((momentFaceDataConfig != null && momentFaceDataConfig.isOpen()) ? View.VISIBLE : View.GONE);
+        mMakeUp.setVisibility((makeUpHomeDirConfig != null && makeUpHomeDirConfig.isOpen()) ? View.VISIBLE : View.GONE);
+        videoSelectMusicTv.setVisibility((recommendMusicConfig != null && recommendMusicConfig.isOpen()) ? View.VISIBLE : View.GONE);
+
+
+        videoSpeed.setVisibility(state == Constants.RecordTab.VIDEO ? View.VISIBLE : View.INVISIBLE);
+
+    }
+
+    private void setMusicIconVisibility(int visibility) {
+        IRecordResourceConfig<List<MusicContent>> recommendMusicConfig = RecordUISDK.getResourceGetter().getRecommendMusicConfig();
+        if (recommendMusicConfig == null || !recommendMusicConfig.isOpen()) {
+            return;
+        }
+        videoSelectMusicTv.setVisibility(visibility);
+    }
+
+    private void setMakeUpIconVisibility(int visibility) {
+        IRecordResourceConfig<File> makeUpHomeDirConfig = RecordUISDK.getResourceGetter().getMakeUpHomeDirConfig();
+        if (makeUpHomeDirConfig == null || !makeUpHomeDirConfig.isOpen()) {
+            return;
+        }
+        mMakeUp.setVisibility(visibility);
+    }
+
+    private void setMomentFaceIconVisibility(int visibility) {
+        IRecordResourceConfig<CommonMomentFaceBean> momentFaceDataConfig = RecordUISDK.getResourceGetter().getMomentFaceDataConfig();
+        if (momentFaceDataConfig == null || !momentFaceDataConfig.isOpen()) {
+            return;
+        }
+        videoFaceContainer.setVisibility(visibility);
+    }
+
+    private void setFilterIconVisibility(int visibility) {
+        IRecordResourceConfig<File> filtersImgHomeDirConfig = RecordUISDK.getResourceGetter().getFiltersImgHomeDirConfig();
+        if (filtersImgHomeDirConfig == null || !filtersImgHomeDirConfig.isOpen()) {
+            return;
+        }
+        tvFilterName.setVisibility(visibility);
     }
 
     private void checkSurfaceSize() {
@@ -1112,7 +1161,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private final String showFilterTag = "showFilterTag";
 
     private void showFilterName() {
-        if (filters == null || filters.size() <= mCurFilterPos) {
+        if (filters == null || mCurFilterPos < 0 || filters.size() <= mCurFilterPos) {
             return;
         }
         final String filterName = filters.get(mCurFilterPos).getName();
@@ -1178,6 +1227,9 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         beautyPanelLayout.setBeautySelectListener(new MomentBeautyPanelLayout.BeautySelectListener() {
             @Override
             public void onSelect(File file) {
+                if (file == null || !file.exists()) {
+                    return;
+                }
                 if (filter == null) {
                     DokiInitializer.INSTANCE.init(AppContext.getContext());
                     filter = new MakeupFilter();
@@ -1735,10 +1787,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         showRecordTip();
         switch (state) {
             case Constants.RecordTab.PHOTO:
-                videoSelectMusicTv.setVisibility(View.GONE);
+                setMusicIconVisibility(View.GONE);
                 videoSpeed.setVisibility(View.INVISIBLE);
-                //                videoAdvancedBtnDelay.setVisibility(View.INVISIBLE);
-                //                videoSelectMusicTv.setVisibility(View.GONE);
                 videoDefaultBtnSwitchCamera.setVisibility(View.VISIBLE);
                 if (!isFrontCamera()) {
                     videoDefaultBtnFlash.setVisibility(View.VISIBLE);
@@ -1747,8 +1797,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 if (!isFilterPanelShow()) {
                     videoControlLayout.setVisibility(View.VISIBLE);
                     if (canUseFilterOrFace()) {
-                        videoFaceContainer.setVisibility(View.VISIBLE);
-                        tvFilterName.setVisibility(View.VISIBLE);
+                        setMomentFaceIconVisibility(View.VISIBLE);
+                        setFilterIconVisibility(View.VISIBLE);
                         videoSlimmingContainer.setVisibility(View.VISIBLE);
                     }
                 }
@@ -1766,9 +1816,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 }
                 break;
             case Constants.RecordTab.VIDEO:
-                //                videoAdvancedBtnDelay.setVisibility(View.VISIBLE);
-                //                videoSelectMusicTv.setVisibility(View.VISIBLE);
-                videoSelectMusicTv.setVisibility(View.VISIBLE);
+                setMusicIconVisibility(View.VISIBLE);
                 videoDefaultBtnSwitchCamera.setVisibility(View.VISIBLE);
                 videoAdvancedProgressView.setVisibility(View.VISIBLE);
                 videoSpeed.setVisibility(View.VISIBLE);
@@ -1779,8 +1827,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 if (!isFilterPanelShow()) {
                     videoControlLayout.setVisibility(View.VISIBLE);
                     if (canUseFilterOrFace()) {
-                        videoFaceContainer.setVisibility(View.VISIBLE);
-                        tvFilterName.setVisibility(View.VISIBLE);
+                        setMomentFaceIconVisibility(View.VISIBLE);
+                        setFilterIconVisibility(View.VISIBLE);
                         videoSlimmingContainer.setVisibility(View.VISIBLE);
                     }
                 }
@@ -1811,9 +1859,9 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private void showVideoToolsLayout(boolean visiable) {
         if (visiable) {
             if (canUseFilterOrFace()) {
-                tvFilterName.setVisibility(View.VISIBLE);
-                mMakeUp.setVisibility(View.VISIBLE);
-                videoFaceContainer.setVisibility(View.VISIBLE);
+                setFilterIconVisibility(View.VISIBLE);
+                setMakeUpIconVisibility(View.VISIBLE);
+                setMomentFaceIconVisibility(View.VISIBLE);
                 videoSpeed.setVisibility(state == Constants.RecordTab.PHOTO ? View.INVISIBLE : View.VISIBLE);
                 videoSlimmingContainer.setVisibility(View.VISIBLE);
             }
@@ -1822,14 +1870,14 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
             }
             //            if (state == Constants.RecordTab.VIDEO) {
             videoAdvancedBtnDelay.setVisibility(View.VISIBLE);
-            videoSelectMusicTv.setVisibility(View.VISIBLE);
+            setMusicIconVisibility(View.VISIBLE);
             //            }
             videoDefaultBtnSwitchCamera.setVisibility(View.VISIBLE);
         } else {
-            videoSelectMusicTv.setVisibility(View.INVISIBLE);
-            tvFilterName.setVisibility(View.INVISIBLE);
-            mMakeUp.setVisibility(View.INVISIBLE);
-            videoFaceContainer.setVisibility(View.INVISIBLE);
+            setMusicIconVisibility(View.INVISIBLE);
+            setFilterIconVisibility(View.INVISIBLE);
+            setMakeUpIconVisibility(View.INVISIBLE);
+            setMomentFaceIconVisibility(View.INVISIBLE);
             videoSpeed.setVisibility(View.INVISIBLE);
             videoDefaultBtnFlash.setVisibility(View.INVISIBLE);
             videoAdvancedBtnDelay.setVisibility(View.INVISIBLE);
@@ -2445,35 +2493,6 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     }
 
     public void faceDetected(boolean hasFace) {
-        if (!isFrontCamera()) {
-            noFaceTimes = hasFace ? 0 : noFaceTimes + 1;
-
-            float value[] = {0.0f, 0.0f};
-
-            if (noFaceTimes == 5) {
-                noFaceSwitch = true;
-
-                if (mPresenter != null) {
-                    mPresenter.setItemSelectSkinLevel(value);
-//                    mPresenter.focusOnTouch(videoRecordSurfaceView.getWidth() / 2, videoRecordSurfaceView.getHeight() / 2, videoRecordSurfaceView.getWidth(), videoRecordSurfaceView.getHeight(),false);
-                }
-
-            }
-
-            if (noFaceTimes > 100) {
-                noFaceTimes = 100;
-            }
-
-            if (hasFace && noFaceSwitch) {
-                noFaceSwitch = false;
-                int selectPos = 0;
-                value = VideoPanelFaceAndSkinManager.getInstance().getFaceSkinLevel(selectPos, MomentFilterPanelLayout.TYPE_BEAUTY);
-                if (mPresenter != null) {
-                    mPresenter.setItemSelectSkinLevel(value);
-                }
-            }
-        }
-
         if (recordTipManager != null) {
             recordTipManager.onFaceDetected(hasFace);
         }

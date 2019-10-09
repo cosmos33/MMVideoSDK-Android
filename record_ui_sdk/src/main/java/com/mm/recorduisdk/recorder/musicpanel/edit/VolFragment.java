@@ -16,6 +16,7 @@ import com.cosmos.mdlog.MDLog;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.mmutil.task.ThreadUtils;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.base.cement.CementModel;
@@ -267,7 +268,11 @@ public class VolFragment extends BaseEditMusicFragment {
 
         @Override
         protected List<MusicContent> executeTask(String... strings) {
-            return RecordUISDK.getResourceGetter().getRecommendMusic();
+            IRecordResourceConfig<List<MusicContent>> recommendMusicConfig = RecordUISDK.getResourceGetter().getRecommendMusicConfig();
+            if(recommendMusicConfig!=null&&recommendMusicConfig.isOpen()){
+                return recommendMusicConfig.getResource();
+            }
+            return null;
         }
 
         @Override

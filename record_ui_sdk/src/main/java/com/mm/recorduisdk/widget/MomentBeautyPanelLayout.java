@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.RecordUISDK;
 //import com.mm.recorduisdk.bean.MomentFacePanelElement;
@@ -21,7 +22,6 @@ import java.io.File;
 /**
  * 美妆面板         <br/>
  * <br/>
- * 该类只处理和UI相关的逻辑，其他逻辑不放在这，需要使用，请用{@link MomentFacePanelElement}
  * 配合{@link android.view.ViewStub}进行懒加载使用，因为该类比较重       <br/>
  * <br/>
  * Created by momo on 2017/5/10.
@@ -82,7 +82,9 @@ public class MomentBeautyPanelLayout extends FrameLayout implements View.OnClick
                             lastTantanProgress = progress;
                             break;
                     }
-                    MakeupHelper.setMakeUpStrength(progress);
+                    if (dokiRes != null) {
+                        MakeupHelper.setMakeUpStrength(progress);
+                    }
                 }
             }
 
@@ -96,7 +98,11 @@ public class MomentBeautyPanelLayout extends FrameLayout implements View.OnClick
 
             }
         });
-        dokiRes = RecordUISDK.getResourceGetter().getMakeUpHomeDir().listFiles();
+
+        IRecordResourceConfig<File> makeUpHomeDirConfig = RecordUISDK.getResourceGetter().getMakeUpHomeDirConfig();
+        if (makeUpHomeDirConfig != null && makeUpHomeDirConfig.isOpen() && makeUpHomeDirConfig.getResource() != null) {
+            dokiRes = RecordUISDK.getResourceGetter().getMakeUpHomeDirConfig().getResource().listFiles();
+        }
     }
 
     public void clickCurrentTab() {
@@ -144,26 +150,32 @@ public class MomentBeautyPanelLayout extends FrameLayout implements View.OnClick
     public void onClick(View v) {
         String key = null;
         int currentProgress = 0;
-        if(v==findViewById(R.id.richang)){
+        int currentId = v.getId();
+        
+        if (currentId == R.id.richang) {
             key = "日常";
             currentProgress = lastRichangProgress;
-        }else if(v==findViewById(R.id.shaoniangan)){
+        } else if (currentId == R.id.shaoniangan) {
             key = "少年";
             currentProgress = lastShaonianProgress;
-        }else if(v==findViewById(R.id.xiaoqueban)){
+        } else if (currentId == R.id.xiaoqueban) {
             key = "雀斑";
             currentProgress = lastQuebanProgress;
-        }else if(v==findViewById(R.id.yuanqi)){
+        } else if (currentId == R.id.yuanqi) {
             key = "元气";
             currentProgress = lastYuanqiProgress;
-        }else if(v==findViewById(R.id.tt)){
+        } else if (currentId == R.id.tt) {
             key = "探探";
             currentProgress = lastTantanProgress;
         }
 
         currentKey = key;
+        File file = getFileByName(key);
+        if (file == null) {
+            return;
+        }
         if (mListener != null) {
-            mListener.onSelect(getFileByName(key));
+            mListener.onSelect(file);
         }
         seekbar.setProgress(currentProgress);
         MakeupHelper.setMakeUpStrength(currentProgress);

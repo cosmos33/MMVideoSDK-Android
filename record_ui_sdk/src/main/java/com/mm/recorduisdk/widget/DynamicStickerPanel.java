@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.task.MomoTaskExecutor;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.recorder.adapter.DynamicStickerListAdapter;
@@ -216,7 +217,14 @@ public class DynamicStickerPanel extends FrameLayout {
     private class LoadStickerTask extends MomoTaskExecutor.Task<Object, Object, List<DynamicSticker>> {
         @Override
         protected List<DynamicSticker> executeTask(Object... params) throws Exception {
-            List<DynamicSticker> dynamicStickerList = RecordUISDK.getResourceGetter().getDynamicStickerList();
+            IRecordResourceConfig<List<DynamicSticker>> dynamicStickerListConfig = RecordUISDK.getResourceGetter().getDynamicStickerListConfig();
+            List<DynamicSticker> dynamicStickerList = null;
+            if (dynamicStickerListConfig != null && dynamicStickerListConfig.isOpen()) {
+                dynamicStickerList = dynamicStickerListConfig.getResource();
+            }
+            if (dynamicStickerList == null) {
+                throw new IllegalArgumentException();
+            }
             return dynamicStickerList;
         }
 

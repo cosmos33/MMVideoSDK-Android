@@ -3,6 +3,7 @@ package com.mm.recorduisdk.utils.filter;
 import android.text.TextUtils;
 
 import com.mm.mmutil.app.AppContext;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.RecordUISDK;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.filtermanager.MMPresetFilterStore;
@@ -16,14 +17,18 @@ import java.util.List;
  * NOTE
  * 1. 使用滤镜的页面oncreate时addRefrence
  * 2. 页面销毁时调用subRefrence
- *
+ * <p>
  * 注意使用后调用resetFilter，
  * Created by zhoukai on 7/7/16.
  */
 public class FiltersManager {
     public static List<MMPresetFilter> getAllFilters() {
         List<MMPresetFilter> list = new ArrayList<>();
-        File[] folders = RecordUISDK.getResourceGetter().getFiltersImgHomeDir().listFiles();
+        IRecordResourceConfig<File> filtersImgHomeDirConfig = RecordUISDK.getResourceGetter().getFiltersImgHomeDirConfig();
+        if (filtersImgHomeDirConfig == null || !filtersImgHomeDirConfig.isOpen() || filtersImgHomeDirConfig.getResource() == null || !filtersImgHomeDirConfig.getResource().exists()) {
+            return list;
+        }
+        File[] folders = filtersImgHomeDirConfig.getResource().listFiles();
         if (folders == null) {
             return list;
         }

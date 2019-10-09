@@ -9,7 +9,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.mm.mediasdk.utils.UIUtils;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
+import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.base.cement.CementModel;
 import com.mm.recorduisdk.base.cement.CementViewHolder;
 import com.mm.recorduisdk.base.cement.SimpleCementAdapter;
@@ -22,6 +24,7 @@ import com.mm.recorduisdk.widget.seekbar.SeekParams;
 import com.mm.recorduisdk.widget.seekbar.TickSeekBar;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,6 +193,11 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
     }
 
     protected void initFilterData(List mmPresetFilters) {
+        IRecordResourceConfig<File> filtersImgHomeDirConfig = RecordUISDK.getResourceGetter().getFiltersImgHomeDirConfig();
+        if (filtersImgHomeDirConfig == null || !filtersImgHomeDirConfig.isOpen()) {
+            return;
+        }
+
         if (mmPresetFilters != null && mmPresetFilters.size() > 0) {
             mPresetModels = transFilter2Models(mmPresetFilters);
             panelFilterAdapter.updateDataList(mPresetModels);

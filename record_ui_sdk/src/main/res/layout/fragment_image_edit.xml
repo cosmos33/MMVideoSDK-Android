@@ -83,72 +83,30 @@
         android:clipChildren="false"
         android:orientation="horizontal">
 
-        <FrameLayout
+        <TextView
+            android:id="@+id/media_edit_filter_tv"
+            style="@style/media_function_text_new"
+            android:drawableTop="@drawable/ic_media_switch_filter"
+            android:text="@string/moment_switch_filter"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/media_edit_filter_tv"
-                style="@style/media_function_text_new"
-                android:drawableTop="@drawable/ic_media_switch_filter"
-                android:text="@string/moment_switch_filter" />
-
-            <View
-                android:id="@+id/edit_filter_red_point"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="18dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/ic_moment_face_new"
-                android:visibility="gone" />
-        </FrameLayout>
-
-        <FrameLayout
+        <TextView
+            android:id="@+id/media_edit_slimming_tv"
+            style="@style/media_function_text_new"
+            android:drawableTop="@drawable/ic_media_slimming_filter"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:text="美颜" />
 
-            <TextView
-                android:id="@+id/media_edit_slimming_tv"
-                style="@style/media_function_text_new"
-                android:drawableTop="@drawable/ic_media_slimming_filter"
-                android:text="美颜" />
-
-            <View
-                android:id="@+id/edit_slimming_red_point"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="18dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/ic_moment_face_new"
-                android:visibility="gone"
-                tools:visibility="visible"/>
-        </FrameLayout>
-
-        <FrameLayout
+        <TextView
+            android:id="@+id/media_edit_sticker_tv"
+            style="@style/media_function_text_new"
+            android:drawableTop="@drawable/ic_moment_edit_add_sticker"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:text="@string/moment_edit_add_sticker" />
 
-            <TextView
-                android:id="@+id/media_edit_sticker_tv"
-                style="@style/media_function_text_new"
-                android:drawableTop="@drawable/ic_moment_edit_add_sticker"
-                android:text="@string/moment_edit_add_sticker" />
-
-            <View
-                android:id="@+id/edit_sticker_red_point"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="18dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/ic_moment_face_new"
-                android:visibility="gone" />
-        </FrameLayout>
 
         <TextView
             android:id="@+id/media_edit_text_tv"
@@ -165,6 +123,7 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_moment_edit_paint"
             android:text="@string/moment_edit_paint" />
+
         <TextView
             android:id="@+id/tv_crop_image"
             style="@style/media_function_text_new"
@@ -248,6 +207,7 @@
         android:layout_height="match_parent"
         android:layout="@layout/moment_sticker_panel"
         android:paddingLeft="10dp" />
+
     <ViewStub
         android:id="@+id/vs_media_quality_info"
         android:layout_width="wrap_content"

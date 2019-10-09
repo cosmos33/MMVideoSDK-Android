@@ -43,7 +43,9 @@ import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.mmutil.task.ThreadUtils;
 import com.mm.mmutil.toast.Toaster;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
+import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.bean.FinishGotoInfo;
 import com.mm.recorduisdk.bean.MMChooseMediaParams;
 import com.mm.recorduisdk.bean.MMVideoEditParams;
@@ -191,6 +193,7 @@ public class VideoEditFragment extends BaseFragment
     private View mStickerPanelContentView;
     private DynamicStickerPanelContainerHelper mDynamicStickerPanelContainerHelper;
     private MMVideoEditParams mVideoEditParams;
+    private String mSourceVideoPath;
 
     public void setFragmentChangeListener(FragmentChangeListener fragmentChangeListener) {
         this.fragmentChangeListener = fragmentChangeListener;
@@ -227,6 +230,7 @@ public class VideoEditFragment extends BaseFragment
                     v.psPercent = 0;
                 }
                 musicFromAuto = v.playingMusic != null;
+                mSourceVideoPath = v.path;
             }
             File file = null;
             if (v != null)
@@ -289,11 +293,7 @@ public class VideoEditFragment extends BaseFragment
         specialViewBtn = findViewById(R.id.special_fiter_layout);
 
         sendBtn = findViewById(R.id.moment_edit_btn_send);
-        if (!showSticker()) {
-            addStickerLayout.setVisibility(View.GONE);
-        } else {
-            addStickerLayout.setVisibility(View.VISIBLE);
-        }
+
         initListener();
         initParams();
 
@@ -303,6 +303,18 @@ public class VideoEditFragment extends BaseFragment
 
         musicLayout.setActivated(chooseMusicInRecord != null);
         titleView.setText(UIUtils.formatTime((int) video.length));
+
+        setupHideIfNeed();
+    }
+
+    private void setupHideIfNeed() {
+        IRecordResourceConfig<List<DynamicSticker>> dynamicStickerListConfig = RecordUISDK.getResourceGetter().getDynamicStickerListConfig();
+        IRecordResourceConfig<List<MusicContent>> recommendMusicConfig = RecordUISDK.getResourceGetter().getRecommendMusicConfig();
+
+        addStickerLayout.setVisibility((dynamicStickerListConfig!=null&&dynamicStickerListConfig.isOpen())?View.VISIBLE:View.GONE);
+        musicLayout.setVisibility((recommendMusicConfig!=null&&recommendMusicConfig.isOpen())?View.VISIBLE:View.GONE);
+
+
     }
 
     private void initNormal() {
@@ -515,10 +527,6 @@ public class VideoEditFragment extends BaseFragment
         stickerContainerView.showRect = new Rect(0, 0, stickerWidth, stickerHeight);
     }
 
-    private boolean showSticker() {
-        //等于0 表示不使用动态贴纸，其它情况都要使用
-        return true;
-    }
 
     private void initListener() {
 
@@ -779,7 +787,11 @@ public class VideoEditFragment extends BaseFragment
                     VideoCompressUtil.stopCompress();
                     progressDialog.dismiss();
                     if (processPresenter != null) {
-                        processPresenter.onResume();
+                        if (video != null && TextUtils.equals(mSourceVideoPath, video.path)) {
+                            processPresenter.onResume();
+                        } else {
+                            processPresenter.updateEffectModelAndPlay(0);
+                        }
                     }
                     progressDialog = null;
                 }
@@ -1464,8 +1476,8 @@ public class VideoEditFragment extends BaseFragment
             }
             hideViews();
             bundle.putString(GOTO_WHERE, BACK_TO_OLD);
-            if (video != null && !TextUtils.isEmpty(video.path)) {
-                bundle.putString(MediaConstants.KEY_RESTORE_VIDEO_PATH, video.path);
+            if (!TextUtils.isEmpty(mSourceVideoPath)) {
+                bundle.putString(MediaConstants.KEY_RESTORE_VIDEO_PATH, mSourceVideoPath);
             }
             fragmentChangeListener.change(this, bundle);
         }

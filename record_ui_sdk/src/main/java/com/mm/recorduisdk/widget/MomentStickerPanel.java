@@ -21,6 +21,7 @@ import com.mm.base_business.glide.ImageLoaderX;
 import com.mm.mmutil.log.Log4Android;
 import com.mm.mmutil.task.MomoTaskExecutor;
 import com.mm.mmutil.task.ThreadUtils;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.bean.MomentSticker;
@@ -208,7 +209,14 @@ public class MomentStickerPanel extends FrameLayout {
     private class LoadStickerTask extends MomoTaskExecutor.Task<Object, Object, List<MomentSticker>> {
         @Override
         protected List<MomentSticker> executeTask(Object... params) throws Exception {
-            List<MomentSticker> staticStickerList = RecordUISDK.getResourceGetter().getStaticStickerList();
+            IRecordResourceConfig<List<MomentSticker>> staticStickerListConfig = RecordUISDK.getResourceGetter().getStaticStickerListConfig();
+            List<MomentSticker> staticStickerList = null;
+            if (staticStickerListConfig != null && staticStickerListConfig.isOpen()) {
+                staticStickerList = staticStickerListConfig.getResource();
+            }
+            if (staticStickerList == null) {
+                throw new IllegalArgumentException();
+            }
             return staticStickerList;
         }
 

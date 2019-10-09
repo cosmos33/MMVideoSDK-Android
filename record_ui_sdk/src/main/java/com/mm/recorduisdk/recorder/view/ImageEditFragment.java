@@ -37,7 +37,9 @@ import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.log.Log4Android;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.toast.Toaster;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
+import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.bean.MMImageEditParams;
 import com.mm.recorduisdk.bean.MomentSticker;
 import com.mm.recorduisdk.config.Configs;
@@ -284,6 +286,18 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
             sendBtn.setText(finishText);
         }
 
+        setupHideIfNeed();
+
+    }
+
+    private void setupHideIfNeed() {
+        IRecordResourceConfig<List<MomentSticker>> staticStickerListConfig = RecordUISDK.getResourceGetter().getStaticStickerListConfig();
+        IRecordResourceConfig<File> filtersImgHomeDirConfig = RecordUISDK.getResourceGetter().getFiltersImgHomeDirConfig();
+
+
+        editStickerTv.setVisibility((staticStickerListConfig != null && staticStickerListConfig.isOpen()) ? View.VISIBLE : View.GONE);
+        editFilterTv.setVisibility((filtersImgHomeDirConfig != null && filtersImgHomeDirConfig.isOpen()) ? View.VISIBLE : View.GONE);
+
     }
 
     private void initLayoutParam() {
@@ -418,30 +432,30 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
         isClicking = true;
 
 
-        if(v==editTextTv){
+        if (v == editTextTv) {
             showEditPanel(null, 0);
-        }else if(v==editPaintTv){
+        } else if (v == editPaintTv) {
             showPaintPanel();
-        }else if(v==editStickerTv){
+        } else if (v == editStickerTv) {
             showStickerPanel();
-        }else if(v==sendBtn){
+        } else if (v == sendBtn) {
             if (image.isTakePhoto || isEdited()) {
                 send();
             } else {
                 finishEdit(isFromCrop ? originPath : null);
             }
-        }else if(v==closeBtn){
+        } else if (v == closeBtn) {
             if (image.isTakePhoto || isEdited()) {
                 showCloseDialog();
             } else {
                 getActivity().finish();
                 deleteTempFile();
             }
-        }else if(v==editFilterTv){
+        } else if (v == editFilterTv) {
             showFilterPanel(MomentFilterPanelTabLayout.ON_CLICK_FILTER);
-        }else if(v==editSlimmingTv){
+        } else if (v == editSlimmingTv) {
             showFilterPanel(MomentFilterPanelTabLayout.ON_CLICK_FACE);
-        }else if(v==mTvCropImage){
+        } else if (v == mTvCropImage) {
             File targetFile = new File(Configs.getDir("ProcessImage"), System.currentTimeMillis() + ".jpg");
             if (!TextUtils.isEmpty(originPath)) {
                 ImageCropActivity.startImageCrop(this, originPath, targetFile.toString(), sCropImageRequestCode);

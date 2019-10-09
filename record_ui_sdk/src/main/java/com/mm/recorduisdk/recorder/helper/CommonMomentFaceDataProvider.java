@@ -6,6 +6,7 @@ import com.mm.base.PreferenceUtils;
 import com.mm.mmutil.FileUtil;
 import com.mm.mmutil.StringUtils;
 import com.mm.recorduisdk.Constants;
+import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.bean.CommonMomentFaceBean;
 import com.mm.recorduisdk.bean.FaceClass;
@@ -79,7 +80,12 @@ public class CommonMomentFaceDataProvider extends MomentFaceDataProvider<CommonM
     @Override
     protected CommonMomentFaceBean getFromServer() {
         try {
-            return RecordUISDK.getResourceGetter().fetchMomentFaceData();
+            IRecordResourceConfig<CommonMomentFaceBean> commonMomentFaceBeanIRecordResourceConfig = RecordUISDK.getResourceGetter().getMomentFaceDataConfig();
+            if (commonMomentFaceBeanIRecordResourceConfig != null && commonMomentFaceBeanIRecordResourceConfig.isOpen()) {
+                return commonMomentFaceBeanIRecordResourceConfig.getResource();
+            } else {
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
