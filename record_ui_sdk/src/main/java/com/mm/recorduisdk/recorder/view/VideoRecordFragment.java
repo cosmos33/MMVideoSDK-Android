@@ -49,6 +49,7 @@ import com.immomo.doki.DokiInitializer;
 import com.immomo.doki.filter.makeup.MakeupFilter;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.model.VideoFragment;
+import com.immomo.moment.recorder.MultiRecorder;
 import com.mm.base_business.base.BaseFragment;
 import com.mm.base_business.utils.DeviceUtils;
 import com.mm.mediasdk.utils.UIUtils;
@@ -93,6 +94,7 @@ import com.mm.recorduisdk.utils.AnimUtils;
 import com.mm.recorduisdk.utils.MomentUtils;
 import com.mm.recorduisdk.utils.RecordButtonTouchEventHelper;
 import com.mm.recorduisdk.utils.ScreenOrientationManager;
+import com.mm.recorduisdk.utils.TestTextHelper;
 import com.mm.recorduisdk.utils.VideoUtils;
 import com.mm.recorduisdk.utils.XEngineEventHelper;
 import com.mm.recorduisdk.utils.album.AlbumConstant;
@@ -288,6 +290,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private MakeupFilter filter;
     private MomentPropPanelHelper mMomentPropPanelHelper;
     private FocusView mFocusView;
+    private TestTextHelper testTextHelper;
 
     @Override
     protected int getLayout() {
@@ -2438,8 +2441,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         if (mRecorderParams == null || mRecorderParams.isEnableAudioRecorder() && mPresenter.getCurrentMaskModel() != null) {
             v.soundPitchMode = mPresenter.getCurrentMaskModel().getSoundPitchMode();
         }
-        // 内置拍摄器拍摄的视频  默认是已经转码视频
-        v.hasTranscoding = true;
+        // 内置拍摄器拍摄的视频  默认未转码，进入特效必须转码，否则时间特效-倒放播放卡顿
+        v.hasTranscoding = false;
 
         recorderParamsBuilder.setGotoTab(state);
         recorderParamsBuilder.setCameraType(mPresenter.isFrontCamera() ? Constants.CameraType.FRONT : Constants.CameraType.BACK);
@@ -3025,6 +3028,20 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         }
     }
 
+    @Override
+    public void refreshPreviewInfo(MultiRecorder.PreviewInfo previewInfo) {
+        if (testTextHelper == null) {
+            View v = findViewById(R.id.record_preview_info_stub);
+            ViewStub viewStub = null;
+            if (v != null) {
+                viewStub = (ViewStub) v;
+                testTextHelper = new TestTextHelper(viewStub);
+            }
+        }
+        if (testTextHelper != null) {
+            testTextHelper.setCameraPreviewInfo(previewInfo);
+        }
+    }
 
     private MRecorderActions.OnRecordFinishedListener onRecordFinishedListener = new MRecorderActions.OnRecordFinishedListener() {
         @Override

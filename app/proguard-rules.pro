@@ -19,6 +19,10 @@
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 
+#refle
+-dontwarn com.mm.rifle.**
+-keep class com.mm.rifle.**{*;}
+
 #mmfile
 -keep class com.cosmos.mmfile.**{*;}
 
@@ -51,6 +55,8 @@ native <methods>;
 -keep class * extends com.immomo.moment.mediautils.MediaUtils {*;}
 -keep class com.immomo.moment.mediautils.FFVideoDecoder* {*;}
 -keep class com.momoap.pitchshift.** {*;}
+-keep class com.momo.xeengine.audio.AudioEngine* {*;}
+
 
 -keep class com.immomo.doki.media.entity.** {*;}
 -keep class com.momo.mcamera.** {*;}
@@ -70,6 +76,16 @@ native <methods>;
 
 -keep @android.support.annotation.Keep class * {*;}
 
+
+
+# 内存泄露检测库
+-keep class squareup.haha.** {*;}
+-keep class com.squareup.haha.** {*;}
+-dontwarn com.squareup.haha.**
+
+# radar相关
+-dontwarn com.cosmos.radar.**
+-keep class com.cosmos.radar.**{*;}
 
 
 -keep class * implements android.os.Parcelable {

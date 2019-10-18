@@ -11,7 +11,6 @@ import java.io.IOException;
  * @author wangduanqing
  */
 public abstract class Configs {
-    public static final boolean DEBUG = true;
 
     // 默认档位
     public static final int DEFAULT_BEAUTY = 3;

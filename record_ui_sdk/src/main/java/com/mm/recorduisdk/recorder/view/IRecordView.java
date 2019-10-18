@@ -2,6 +2,7 @@ package com.mm.recorduisdk.recorder.view;
 
 import android.view.SurfaceHolder;
 
+import com.immomo.moment.recorder.MultiRecorder;
 import com.momo.mcamera.mask.MaskModel;
 
 /**
@@ -43,4 +44,6 @@ public interface IRecordView {
     void onRecordStarted();
 
     void onRecordPaused();
+
+    void refreshPreviewInfo(MultiRecorder.PreviewInfo previewInfo);
 }

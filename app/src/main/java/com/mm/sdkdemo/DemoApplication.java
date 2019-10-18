@@ -5,6 +5,13 @@ import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.cosmos.radar.core.Radar;
+import com.cosmos.radar.core.RadarConfig;
+import com.cosmos.radar.lag.anr.ANRKit;
+import com.cosmos.radar.lag.lag.LagKit;
+import com.cosmos.radar.memory.alert.MemoryAlertKit;
+import com.cosmos.radar.memory.leak.MemoryLeakKit;
+import com.cosmos.radar.pagespeed.PageLaunchTimeKit;
 import com.immomo.performance.core.BlockConfiguration;
 import com.immomo.performance.core.CaptureConfiguration;
 import com.immomo.performance.core.Configuration;
@@ -13,12 +20,11 @@ import com.immomo.performance.utils.PerformanceUtil;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mmutil.FileUtil;
 import com.mm.player.PlayerManager;
-import com.mm.recorduisdk.IRecordResourceGetter;
 import com.mm.recorduisdk.IRecordResourceConfig;
+import com.mm.recorduisdk.IRecordResourceGetter;
 import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.bean.CommonMomentFaceBean;
 import com.mm.recorduisdk.bean.MomentSticker;
-import com.mm.recorduisdk.config.Configs;
 import com.mm.recorduisdk.recorder.model.MusicContent;
 import com.mm.recorduisdk.recorder.sticker.DynamicSticker;
 import com.mm.rifle.Rifle;
@@ -40,14 +46,17 @@ public class DemoApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Rifle.init(this, "9dac61837c9bc9eba14f8a32584bde1f", true);
-        RecordUISDK.init(this, "100cb616072fdc76c983460b8c2b470a", new DemoRecordResourceGetterImpl());
-
-        PlayerManager.init(this, "100cb616072fdc76c983460b8c2b470a");
-        if (Configs.DEBUG) {
+        RecordUISDK.openDebug(true);
+        if (RecordUISDK.isDebug()) {
             MoMediaManager.openLog(new File(Environment.getExternalStorageDirectory(), "mmvideo_sdk_log").getAbsolutePath());
             PlayerManager.openDebugLog(true, null);
         }
+        
+        Rifle.init(this, "9dac61837c9bc9eba14f8a32584bde1f", true);
+        RecordUISDK.init(this, "9dac61837c9bc9eba14f8a32584bde1f", new DemoRecordResourceGetterImpl());
+
+        PlayerManager.init(this, "9dac61837c9bc9eba14f8a32584bde1f");
+
         MoMediaManager.openLogAnalyze(true);
         PlayerManager.openLogAnalyze(true);
         File filterDir = FilterFileUtil.getMomentFilterHomeDir();
@@ -81,6 +90,25 @@ public class DemoApplication extends MultiDexApplication {
 //        CrashReport.initCrashReport(getApplicationContext(), "1ce7b8c2d3", false);
 
         initPerformance();
+        initRader();
+    }
+
+    // demo性能统计
+    private void initRader() {
+        RadarConfig.Builder builder =
+                new RadarConfig.Builder(this, "9dac61837c9bc9eba14f8a32584bde1f")
+                        .kits(
+                                new ANRKit(),                    // ANR
+                                new LagKit(),                    // 卡顿
+                                new PageLaunchTimeKit(),         // 页面启动时间
+                                new MemoryLeakKit(),             // 内存泄露
+                                new MemoryAlertKit()             // 内存峰值报警
+                        );
+        builder.forceTurnOnANR(true)
+                .forceTurnOn(true)
+                .analyzeLeakForeground(true)
+                .analyzeLagForeground(true);
+        Radar.with(builder.build());
     }
 
     private void initPerformance() {

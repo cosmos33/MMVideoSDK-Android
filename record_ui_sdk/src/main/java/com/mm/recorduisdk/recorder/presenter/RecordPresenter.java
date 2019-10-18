@@ -17,6 +17,7 @@ import com.core.glcore.config.Size;
 import com.cosmos.mdlog.MDLog;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.model.VideoFragment;
+import com.immomo.moment.recorder.MultiRecorder;
 import com.mm.mediasdk.IMultiRecorder;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.RecorderConstants;
@@ -28,6 +29,7 @@ import com.mm.mmutil.log.Log4Android;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.toast.Toaster;
 import com.mm.recorduisdk.Constants;
+import com.mm.recorduisdk.RecordUISDK;
 import com.mm.recorduisdk.bean.MMRecorderParams;
 import com.mm.recorduisdk.config.Configs;
 import com.mm.recorduisdk.log.LogTag;
@@ -637,6 +639,22 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     public void startPreview() {
         if (!isSurfaceCreated) {
             return;
+        }
+
+        if (RecordUISDK.isDebug()) {
+            multiRecorder.setPreviewInfoListener(new MultiRecorder.cameraPreviewInfo() {
+                @Override
+                public void onCameraInfo(final MultiRecorder.PreviewInfo previewInfo) {
+                    MomoMainThreadExecutor.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mView != null) {
+                                mView.refreshPreviewInfo(previewInfo);
+                            }
+                        }
+                    });
+                }
+            });
         }
         multiRecorder.startPreview();
 

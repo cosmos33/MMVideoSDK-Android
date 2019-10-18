@@ -6,8 +6,8 @@ android {
         applicationId "com.mm.sdkdemo"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 4010
-        versionName "2.2.4"
+        versionCode 4011
+        versionName "2.2.5"
         multiDexEnabled true
 
         /**
@@ -22,15 +22,25 @@ android {
             abiFilters "armeabi-v7a", "armeabi"
         }
     }
-    buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            storeFile file("demo.keystore")
+            storePassword "momo1234"
+            keyAlias "momo_sdk"
+            keyPassword "momo1234"
+            v2SigningEnabled true
+            v1SigningEnabled true
         }
     }
-    android {
-        lintOptions {
-            abortOnError false
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -60,6 +70,7 @@ dependencies {
 
     api 'com.cosmos.rifle:core:1.8.2'
     api 'com.cosmos.rifle:native:1.1.1'
+    api "com.cosmos.radar:core:2.5.7"
     if (gradle.useLocalUI) {
         implementation project(':record_ui_sdk')
         implementation project(':player_business')
