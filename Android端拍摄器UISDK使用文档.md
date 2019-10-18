@@ -33,7 +33,7 @@
 * 添加工程依赖
 
 ```java
-implementation 'com.cosmos.mediax:recorderuisdk:2.2.3'
+implementation 'com.cosmos.mediax:recorderuisdk:2.2.5'
 ```
 
 * so架构
