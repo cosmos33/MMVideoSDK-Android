@@ -2,6 +2,8 @@
 
 #### 拍摄器UI
 
+[拍摄器UISDK 2.2.5](https://github.com/cosmos33/MMVideoSDK-Android/tree/recorder_2.2.5)
+
 [拍摄器UISDK 2.2.4](https://github.com/cosmos33/MMVideoSDK-Android/tree/recorder_2.2.4)
 
 [拍摄器UISDK 2.2.3](https://github.com/cosmos33/MMVideoSDK-Android/tree/recorder_2.2.3)
@@ -11,6 +13,8 @@
 [拍摄器UISDK 2.2.0](https://github.com/cosmos33/MMVideoSDK-Android/tree/recorder_2.2.0)
 
 #### 拍摄器
+
+[拍摄器UISDK 2.2.5](https://github.com/cosmos33/MMVideoSDK-Android/tree/recorder_2.2.5)
 
 [拍摄器SDK 2.2.4](https://github.com/cosmos33/MMVideoSDK-Android/tree/recorder_2.2.4)
 
@@ -31,6 +35,8 @@
 
 
 #### 播放器
+
+[播放器SDK 1.2.2](https://github.com/cosmos33/MMVideoSDK-Android/tree/player_1.2.2)
 
 [播放器SDK 1.2.1](https://github.com/cosmos33/MMVideoSDK-Android/tree/player_1.2.1)
 
