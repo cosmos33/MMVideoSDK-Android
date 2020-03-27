@@ -6,11 +6,12 @@ import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.TextUtils;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.TextureView;
 
+import com.core.glcore.config.Size;
 import com.cosmos.mdlog.MDLog;
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.cmds.EffectModel;
@@ -53,6 +54,7 @@ public class VideoEditPresenter implements IProcessPresenter {
     @NonNull
     private final IProcessPlayerView view;
     private final MMVideoEditParams videoEditParams;
+    private final Size mCustomPreviewSize;
     @NonNull
     private Video video;
 
@@ -79,6 +81,10 @@ public class VideoEditPresenter implements IProcessPresenter {
     private OnProcessListener mListener;
 
     public VideoEditPresenter(@NonNull IProcessPlayerView view, @NonNull MMVideoEditParams videoEditParams) {
+        this(view, videoEditParams, null);
+    }
+
+    public VideoEditPresenter(@NonNull IProcessPlayerView view, @NonNull MMVideoEditParams videoEditParams, Size customPreviewSize) {
         this.view = view;
         this.videoEditParams = videoEditParams;
         this.video = videoEditParams.getVideo();
@@ -87,11 +93,15 @@ public class VideoEditPresenter implements IProcessPresenter {
         //        editFilterGroupWapper.addEndFilter(FiltersManager.getInstance().getFilterGroupByIndex(0, AppContext.getContext()));
 
         momentExtraInfo = new MomentExtraInfo(video);
-        int size[] = momentExtraInfo.getTargetSize();
+        int size[] = customPreviewSize == null ? momentExtraInfo.getTargetSize() : new int[]{customPreviewSize.getWidth(), customPreviewSize.getHeight()};
         int fps = momentExtraInfo.getVideoFPS();
         int bitrate = momentExtraInfo.getVideoBitRate();
         boolean isUseCQ = momentExtraInfo.getUseCQ();
         videoProcessor.setOutVideoInfo(size[0], size[1], fps, bitrate);
+        if(customPreviewSize!=null){
+            videoProcessor.setCustomPreviewSizeAndOpenFixSizeMode(customPreviewSize);
+        }
+        mCustomPreviewSize = customPreviewSize;
     }
 
     @Override
@@ -102,7 +112,15 @@ public class VideoEditPresenter implements IProcessPresenter {
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            surface.setDefaultBufferSize(video.getWidth(), video.height);
+            int bufferWidth = video.getWidth();
+            int bufferHeight = video.getHeight();
+
+            if (mCustomPreviewSize != null) {
+                bufferWidth = mCustomPreviewSize.getWidth();
+                bufferHeight = mCustomPreviewSize.getHeight();
+            }
+
+            surface.setDefaultBufferSize(bufferWidth, bufferHeight);
         }
         if (isFirstCreate) {
             // 只有第一次需要初始化
@@ -118,7 +136,15 @@ public class VideoEditPresenter implements IProcessPresenter {
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-        surface.setDefaultBufferSize(video.getWidth(), video.height);
+        int bufferWidth = video.getWidth();
+        int bufferHeight = video.getHeight();
+
+        if (mCustomPreviewSize != null) {
+            bufferWidth = mCustomPreviewSize.getWidth();
+            bufferHeight = mCustomPreviewSize.getHeight();
+        }
+
+        surface.setDefaultBufferSize(bufferWidth, bufferHeight);
     }
 
     @Override
@@ -131,7 +157,15 @@ public class VideoEditPresenter implements IProcessPresenter {
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-        surface.setDefaultBufferSize(video.getWidth(), video.height);
+        int bufferWidth = video.getWidth();
+        int bufferHeight = video.getHeight();
+
+        if (mCustomPreviewSize != null) {
+            bufferWidth = mCustomPreviewSize.getWidth();
+            bufferHeight = mCustomPreviewSize.getHeight();
+        }
+
+        surface.setDefaultBufferSize(bufferWidth, bufferHeight);
     }
 
     private void initForVideo(@Nullable SurfaceTexture surfaceTexture) {
@@ -318,6 +352,7 @@ public class VideoEditPresenter implements IProcessPresenter {
     }
 
     private boolean alreadyRelease;
+
     @Override
     public void releaseProcess() {
         videoProcessor.release();

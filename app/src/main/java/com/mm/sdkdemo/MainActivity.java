@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.function.FunctionListActivity;
-import com.mm.base.MediaLogger;
 import com.mm.base_business.base.BaseFullScreenActivity;
+import com.mm.mediasdk.log.RecorderMMFile;
 import com.mm.mmutil.toast.Toaster;
+import com.mm.player.log.PlayerMMFile;
 import com.mm.player_business.PrePlayActivity;
 
 /**
@@ -72,6 +73,7 @@ public class MainActivity extends BaseFullScreenActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MediaLogger.forceUploadMMFile();
+        PlayerMMFile.forceUploadMMFile();
+        RecorderMMFile.forceUploadMMFile();
     }
 }

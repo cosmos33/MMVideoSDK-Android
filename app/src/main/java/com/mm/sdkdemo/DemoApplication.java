@@ -18,8 +18,10 @@ import com.immomo.performance.core.Configuration;
 import com.immomo.performance.core.PerformanceMonitor;
 import com.immomo.performance.utils.PerformanceUtil;
 import com.mm.mediasdk.MoMediaManager;
+import com.mm.mediasdk.bean.RecorderInitConfig;
 import com.mm.mmutil.FileUtil;
 import com.mm.player.PlayerManager;
+import com.mm.player.config.PlayerInitConfig;
 import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.IRecordResourceGetter;
 import com.mm.recorduisdk.RecordUISDK;
@@ -28,7 +30,7 @@ import com.mm.recorduisdk.bean.MomentSticker;
 import com.mm.recorduisdk.recorder.model.MusicContent;
 import com.mm.recorduisdk.recorder.sticker.DynamicSticker;
 import com.mm.rifle.Rifle;
-import com.mm.sdkdemo.api.DemoApi;
+import com.mm.sdkdemo.api.RecorderDemoApi;
 import com.mm.sdkdemo.utils.FilterFileUtil;
 import com.mm.sdkdemo.utils.LivePhotoUtil;
 
@@ -51,14 +53,24 @@ public class DemoApplication extends MultiDexApplication {
             MoMediaManager.openLog(new File(Environment.getExternalStorageDirectory(), "mmvideo_sdk_log").getAbsolutePath());
             PlayerManager.openDebugLog(true, null);
         }
-        
-        Rifle.init(this, "9dac61837c9bc9eba14f8a32584bde1f", true);
-        RecordUISDK.init(this, "9dac61837c9bc9eba14f8a32584bde1f", new DemoRecordResourceGetterImpl());
 
-        PlayerManager.init(this, "9dac61837c9bc9eba14f8a32584bde1f");
+        Rifle.init(this, 你的appid, true);
+
+        RecorderInitConfig recorderInitConfig = new RecorderInitConfig.Builder(你的appid)
+                .setUserVersionCode(BuildConfig.VERSION_CODE)
+                .setUserVersionName("demo:" + BuildConfig.VERSION_NAME)
+                .build();
+
+        PlayerInitConfig playerConfig = new PlayerInitConfig.Builder(你的appid)
+                .setUserVersionCode(BuildConfig.VERSION_CODE)
+                .setUserVersionName("demo:" + BuildConfig.VERSION_NAME)
+                .build();
 
         MoMediaManager.openLogAnalyze(true);
         PlayerManager.openLogAnalyze(true);
+        PlayerManager.init(this, playerConfig);
+        RecordUISDK.init(this, recorderInitConfig, new DemoRecordResourceGetterImpl());
+
         File filterDir = FilterFileUtil.getMomentFilterHomeDir();
         if (FilterFileUtil.needUpdateFilter(getApplicationContext()) || !filterDir.exists() || filterDir.list().length <= 0) {
             if (filterDir.exists()) {
@@ -96,7 +108,7 @@ public class DemoApplication extends MultiDexApplication {
     // demo性能统计
     private void initRader() {
         RadarConfig.Builder builder =
-                new RadarConfig.Builder(this, "9dac61837c9bc9eba14f8a32584bde1f")
+                new RadarConfig.Builder(this, 你的appid)
                         .kits(
                                 new ANRKit(),                    // ANR
                                 new LagKit(),                    // 卡顿
@@ -147,7 +159,7 @@ public class DemoApplication extends MultiDexApplication {
     }
 
     static class DemoRecordResourceGetterImpl implements IRecordResourceGetter {
-        private DemoApi demoApi = new DemoApi();
+        private RecorderDemoApi demoApi = new RecorderDemoApi();
 
         @Override
         public IRecordResourceConfig<File> getFiltersImgHomeDirConfig() {

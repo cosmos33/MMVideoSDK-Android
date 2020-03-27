@@ -667,11 +667,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     @Override
     public void startRecording() {
-        multiRecorder.startRecording(new MRecorderActions.OnRecordStartListener() {
-            @Override
-            public void onRecordStarted(boolean isSuccessed) {
-            }
-        });
+        multiRecorder.startRecording();
     }
 
     @Override

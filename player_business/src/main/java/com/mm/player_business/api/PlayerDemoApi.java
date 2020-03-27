@@ -3,14 +3,14 @@ package com.mm.player_business.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mm.base.BaseApi;
+import com.mm.player.api.PlayerBaseApi;
 import com.mm.player_business.PlayVideo;
 
 import org.json.JSONObject;
 
 import java.util.List;
 
-public class PlayerDemoApi  extends BaseApi {
+public class PlayerDemoApi extends PlayerBaseApi {
 
     private static String[] coverList = {
             "http://img.momocdn.com/feedvideo/66/50/6650822D-1E33-3CF1-7ED4-0477CE5D39BB20190407_L.jpg",

@@ -6,8 +6,8 @@ android {
         applicationId "com.mm.sdkdemo"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 4011
-        versionName "2.2.5"
+        versionCode 4100
+        versionName "2.2.8"
         multiDexEnabled true
 
         /**
@@ -19,28 +19,11 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         ndk {
-            abiFilters "armeabi-v7a", "armeabi"
+            abiFilters "armeabi-v7a", "armeabi", "arm64-v8a"
         }
-    }
-    signingConfigs {
-        release {
-            storeFile file("demo.keystore")
-            storePassword "momo1234"
-            keyAlias "momo_sdk"
-            keyPassword "momo1234"
-            v2SigningEnabled true
-            v1SigningEnabled true
-        }
-    }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            minifyEnabled true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            signingConfig signingConfigs.release
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
         }
     }
 }
