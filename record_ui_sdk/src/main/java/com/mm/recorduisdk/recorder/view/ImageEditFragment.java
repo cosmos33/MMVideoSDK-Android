@@ -62,6 +62,7 @@ import com.mm.recorduisdk.widget.paint.PaintPanelView;
 import com.mm.recorduisdk.widget.sticker.StickerContainerView;
 import com.mm.recorduisdk.widget.sticker.StickerView;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
+import com.momo.mcamera.mask.facewarp.FaceBeautyID;
 import com.momo.xeengine.lightningrender.ILightningRender;
 
 import java.io.File;
@@ -519,20 +520,23 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                             break;
                         case MomentFilterPanelLayout.TYPE_EYE_AND_THIN: //  大眼 瘦脸
                             value = VideoPanelFaceAndSkinManager.getInstance().getFaceSkinLevel(selectPosition, type);
-                            imageProcess.updateBigEyeAndThin(value[0], value[1]);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.BIG_EYE, value[0]);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.THIN_FACE, value[0]);
 //                            imageProcess.setFaceDetectLoopCount(0);
                             mCurrentBigEyeSelectPosition = selectPosition;
                             break;
                         case MomentFilterPanelLayout.TYPE_SLIMMING:    // 瘦身
 //                            imageProcess.setFaceDetectLoopCount(0);
                             bodyWrapWidth = VideoPanelFaceAndSkinManager.getInstance().getSlimmingAndLongLegsLevel(selectPosition, type);
-                            imageProcess.updateBodyWarpAndLegLen(bodyWrapWidth, bodyWrapLegWidth);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.SLIMMING, bodyWrapWidth);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.LONG_LEG, bodyWrapLegWidth);
                             mCurrentSlimmingSelectPosition = selectPosition;
                             break;
                         case MomentSkinAndFacePanelLayout.TYPE_LONG_LEGS:  // 长腿                            imageProcess.setFaceDetectLoopCount(0);
 //                            imageProcess.setFaceDetectLoopCount(0);
                             bodyWrapLegWidth = VideoPanelFaceAndSkinManager.getInstance().getSlimmingAndLongLegsLevel(selectPosition, type);
-                            imageProcess.updateBodyWarpAndLegLen(bodyWrapWidth, bodyWrapLegWidth);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.SLIMMING, bodyWrapWidth);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.LONG_LEG, bodyWrapLegWidth);
                             mCurrentLongLegsSelectPosition = selectPosition;
                             break;
                         case MomentSkinAndFacePanelLayout.TYPE_MICROBEAUTY:
@@ -556,7 +560,8 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                             imageProcess.setSkinAndLightingLevel(value[0], value[1]);
                             break;
                         case MomentFilterPanelLayout.TYPE_EYE_AND_THIN: //  大眼 瘦脸
-                            imageProcess.updateBigEyeAndThin(value[0], value[1]);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.BIG_EYE, value[0]);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.THIN_FACE, value[0]);
                             break;
                         case MomentSkinAndFacePanelLayout.TYPE_MAKEUP:
                             imageProcess.setMakeupIntensity(currentData.beautyInnerType, value[0]);

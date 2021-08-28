@@ -42,6 +42,7 @@ import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.mask.MaskModel;
 import com.momo.mcamera.mask.Sticker;
 import com.momo.mcamera.mask.StickerBlendFilter;
+import com.momo.mcamera.mask.facewarp.FaceBeautyID;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -622,27 +623,28 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
 
     @Override
     public void setItemSelectSkinLevel(float[] value) {
-        multiRecorder.setSkinAndLightingLevel(value[0], value[1]);
+        multiRecorder.setFaceBeautyValue(FaceBeautyID.SKIN_SMOOTH, value[0]);
+        multiRecorder.setFaceBeautyValue(FaceBeautyID.SKIN_WHITENING, value[1]);
     }
 
     @Override
     public void setFaceEyeScale(float eyeScale) {
-        multiRecorder.setFaceEyeScale(eyeScale);
+        multiRecorder.setFaceBeautyValue(FaceBeautyID.BIG_EYE, eyeScale);
     }
 
     @Override
     public void setFaceThinScale(float thinFaceScale) {
-        multiRecorder.setFaceThinScale(thinFaceScale);
+        multiRecorder.setFaceBeautyValue(FaceBeautyID.THIN_FACE, thinFaceScale);
     }
 
     @Override
     public void setSlimmingScale(float value) {
-        multiRecorder.setSlimmingScale(value);
+        multiRecorder.setFaceBeautyValue(FaceBeautyID.SLIMMING, value);
     }
 
     @Override
     public void setLongLegScale(float value) {
-        multiRecorder.setLongLegScale(value);
+        multiRecorder.setFaceBeautyValue(FaceBeautyID.LONG_LEG, value);
     }
 
     @Override
