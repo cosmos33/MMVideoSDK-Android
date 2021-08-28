@@ -2,15 +2,17 @@ package com.mm.base_business.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.MMTabLayout;
 import com.mm.base_business.R;
 import com.mm.base_business.base.tabinfo.DefaultSlidingIndicator;
 import com.mm.base_business.base.tabinfo.FragmentTabInfo;
@@ -20,8 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.android.material.tabs.MMTabLayout;
 
 /**
  * 带滚动效果的Tab容器Fragment, 作为{@link BaseActivity}的Tab

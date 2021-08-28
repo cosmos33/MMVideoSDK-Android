@@ -7,7 +7,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.IntRange;
+
+import androidx.annotation.IntRange;
 
 /**
  * Created by XiongFangyu on 2017/4/5.

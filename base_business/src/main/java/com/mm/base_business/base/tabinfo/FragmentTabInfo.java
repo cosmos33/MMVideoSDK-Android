@@ -1,12 +1,12 @@
 package com.mm.base_business.base.tabinfo;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.mm.base_business.base.BaseTabOptionFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.material.tabs.MMTabLayout;
+import com.mm.base_business.base.BaseTabOptionFragment;
 
 
 public abstract class FragmentTabInfo extends MMTabLayout.TabInfo {

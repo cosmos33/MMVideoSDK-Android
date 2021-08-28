@@ -2,9 +2,10 @@ package com.mm.base_business.base;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by ruanlei on 12/4/16.
@@ -12,8 +13,11 @@ import android.view.ViewGroup;
 public interface BaseFragmentLifecycleCallback {
 
     void onFragmentAttach(Fragment fragment, Activity activity);
+
     void onFragmentCreate(Fragment fragment, Bundle bundle);
+
     void onFragmentCreateView(Fragment fragment, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+
     void onFragmentActivityCreated(Fragment fragment, Bundle savedInstanceState);
     void onFragmentStart(Fragment fragment);
     void onFragmentResume(Fragment fragment);

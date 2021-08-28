@@ -9,9 +9,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Window;
+
+import androidx.annotation.Nullable;
 
 import com.cosmos.mdlog.MDLog;
 import com.mm.base_business.log.LogTag;

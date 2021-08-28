@@ -2,9 +2,10 @@ package com.mm.base_business.base;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 

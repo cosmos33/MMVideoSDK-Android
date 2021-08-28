@@ -16,8 +16,9 @@
 
 package com.google.android.material.tabs;
 
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.animation.Interpolator;
+
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 class AnimationUtils {
 

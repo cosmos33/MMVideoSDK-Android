@@ -29,19 +29,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.TabItem;
-import android.support.v4.util.Pools;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.content.res.AppCompatResources;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -56,6 +43,19 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.util.Pools;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.mm.base_business.R;
 
 import java.lang.annotation.Retention;
@@ -64,9 +64,9 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_IDLE;
+import static androidx.viewpager.widget.ViewPager.SCROLL_STATE_SETTLING;
 
 /**
  * TabLayout provides a horizontal layout to display tabs.
@@ -519,7 +519,7 @@ public class MMTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Add a {@link OnTabSelectedListener} that will be invoked when tab selection
+     * Add a {@link MMTabLayout.OnTabSelectedListener} that will be invoked when tab selection
      * changes.
      * <p>
      * <p>Components that add a listener should take care to remove it when finished via
@@ -534,7 +534,7 @@ public class MMTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Remove the given {@link OnTabSelectedListener} that was previously added via
+     * Remove the given {@link MMTabLayout.OnTabSelectedListener} that was previously added via
      * {@link #addOnTabSelectedListener(OnTabSelectedListener)}.
      *
      * @param listener listener to remove
@@ -544,7 +544,7 @@ public class MMTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Remove all previously added {@link OnTabSelectedListener}s.
+     * Remove all previously added {@link MMTabLayout.OnTabSelectedListener}s.
      */
     public void clearOnTabSelectedListeners() {
         mSelectedListeners.clear();
@@ -1989,10 +1989,10 @@ public class MMTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * A {@link OnTabSelectedListener} class which contains the necessary calls back
+     * A {@link MMTabLayout.OnTabSelectedListener} class which contains the necessary calls back
      * to the provided {@link ViewPager} so that the tab position is kept in sync.
      */
-    public static class ViewPagerOnTabSelectedListener implements OnTabSelectedListener {
+    public static class ViewPagerOnTabSelectedListener implements MMTabLayout.OnTabSelectedListener {
         private final ViewPager mViewPager;
 
         public ViewPagerOnTabSelectedListener(ViewPager viewPager) {
@@ -2000,17 +2000,17 @@ public class MMTabLayout extends HorizontalScrollView {
         }
 
         @Override
-        public void onTabSelected(Tab tab) {
+        public void onTabSelected(MMTabLayout.Tab tab) {
             mViewPager.setCurrentItem(tab.getPosition());
         }
 
         @Override
-        public void onTabUnselected(Tab tab) {
+        public void onTabUnselected(MMTabLayout.Tab tab) {
             // No-op
         }
 
         @Override
-        public void onTabReselected(Tab tab) {
+        public void onTabReselected(MMTabLayout.Tab tab) {
             // No-op
         }
     }
