@@ -28,11 +28,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     api project(':base_business')
-    api "com.cosmos.mediax:$PLAYERSDK_ARTIFACT_ID:$JCENTER_PLAYERSDK_VERSION_NAME"
+    api "com.immomo.cosmos.mediax:$PLAYERSDK_ARTIFACT_ID:$JCENTER_PLAYERSDK_VERSION_NAME"
 }

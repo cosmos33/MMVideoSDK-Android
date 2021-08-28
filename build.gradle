@@ -17,9 +17,11 @@ buildscript {
 allprojects {
     repositories {
         mavenCentral()
+        maven{
+            url "https://s01.oss.sonatype.org/content/groups/releases/"
+        }
         google()
         jcenter()
-        maven { url 'https://cosmos1602.bintray.com/mediax/' }//陌陌对外仓库
         maven { url "https://jitpack.io" }
     }
 }
