@@ -4,7 +4,8 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.mm.sdkdemo"
+        //TODO 配置cosmos后台配置的applicationid
+        applicationId ""
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 4400
@@ -26,6 +27,27 @@ android {
         compileOptions {
             sourceCompatibility 1.8
             targetCompatibility 1.8
+        }
+    }
+    signingConfigs {
+        release {//TODO 配置cosmos后台配置的keystore
+            storeFile file("")
+            storePassword ""
+            keyAlias ""
+            keyPassword ""
+            v2SigningEnabled true
+            v1SigningEnabled true
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 }

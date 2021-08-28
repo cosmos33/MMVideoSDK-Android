@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DemoApplication extends MultiDexApplication {
+    private final String APPID = ""; //TODO 配置cosmos后台的appid
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -43,12 +44,12 @@ public class DemoApplication extends MultiDexApplication {
         }
 
 
-        RecorderInitConfig recorderInitConfig = new RecorderInitConfig.Builder("9dac61837c9bc9eba14f8a32584bde1f")
+        RecorderInitConfig recorderInitConfig = new RecorderInitConfig.Builder(APPID)
                 .setUserVersionCode(BuildConfig.VERSION_CODE)
                 .setUserVersionName("demo:" + BuildConfig.VERSION_NAME)
                 .build();
 
-        PlayerInitConfig playerConfig = new PlayerInitConfig.Builder("9dac61837c9bc9eba14f8a32584bde1f")
+        PlayerInitConfig playerConfig = new PlayerInitConfig.Builder(APPID)
                 .setUserVersionCode(BuildConfig.VERSION_CODE)
                 .setUserVersionName("demo:" + BuildConfig.VERSION_NAME)
                 .build();
