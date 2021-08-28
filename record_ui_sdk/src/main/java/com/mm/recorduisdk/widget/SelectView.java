@@ -3,11 +3,12 @@ package com.mm.recorduisdk.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.recorduisdk.R;

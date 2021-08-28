@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.bean;
 
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 
 import java.io.File;
 

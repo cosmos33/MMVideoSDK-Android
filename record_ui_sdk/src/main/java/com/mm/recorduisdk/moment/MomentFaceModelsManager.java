@@ -1,7 +1,7 @@
 package com.mm.recorduisdk.moment;
 
 
-import android.support.v4.util.ArrayMap;
+import androidx.collection.ArrayMap;
 
 import com.mm.mmutil.StringUtils;
 import com.mm.recorduisdk.bean.CommonMomentFaceBean;
@@ -26,7 +26,7 @@ public class MomentFaceModelsManager {
      */
     private Map<String, List<MomentFaceItemModel>> mModels = new ArrayMap<>();
 
-    private OnItemChangedListener mOnItemChangedListener;
+    private MomentFaceModelsManager.OnItemChangedListener mOnItemChangedListener;
 
     public MomentFaceModelsManager(CommonMomentFaceBean data) {
         mData = data;
@@ -127,7 +127,7 @@ public class MomentFaceModelsManager {
         return null;
     }
 
-    public void setOnItemChangedListener(OnItemChangedListener onItemChangedListener) {
+    public void setOnItemChangedListener(MomentFaceModelsManager.OnItemChangedListener onItemChangedListener) {
         mOnItemChangedListener = onItemChangedListener;
     }
 

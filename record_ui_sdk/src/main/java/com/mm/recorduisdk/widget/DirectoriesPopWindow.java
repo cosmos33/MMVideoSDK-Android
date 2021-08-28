@@ -3,10 +3,6 @@ package com.mm.recorduisdk.widget;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.PopupWindowCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+
+import androidx.annotation.NonNull;
+import androidx.core.widget.PopupWindowCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.recorduisdk.R;

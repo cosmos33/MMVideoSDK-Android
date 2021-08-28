@@ -6,11 +6,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
 
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.recorduisdk.R;

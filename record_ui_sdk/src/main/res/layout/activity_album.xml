@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@id/appbar_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,7 +13,7 @@
         app:elevation="0dp">
 
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@id/toolbar_id"
             style="@style/ToolBarStyle"
             android:layout_height="?attr/actionBarSize"
@@ -36,12 +36,12 @@
                 android:id="@id/tablayout_id"
                 style="@style/CommonTabLayout.Transparent" />
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@id/pagertabcontent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

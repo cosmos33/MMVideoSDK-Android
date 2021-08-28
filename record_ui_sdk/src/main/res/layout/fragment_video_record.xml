@@ -211,21 +211,6 @@
             android:textColor="@color/white"
             android:textSize="11sp" />
 
-        <TextView
-            android:id="@+id/video_beauty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:drawableTop="@drawable/ic_media_slimming_filter"
-            android:gravity="center"
-            android:shadowColor="@color/translucent_color"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="2"
-            android:text="美妆"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
 
 
         <TextView
@@ -248,6 +233,13 @@
             android:text="变速"
             android:textColor="@color/white"
             android:textSize="11sp" />
+
+        <com.mm.recorduisdk.widget.CompareImageView
+            android:id="@+id/ivCompare"
+            android:layout_width="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_height="30dp"
+            android:src="@drawable/video_compare" />
 
     </LinearLayout>
 

@@ -2,18 +2,19 @@ package com.mm.recorduisdk.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IdRes;
-import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
+import androidx.appcompat.content.res.AppCompatResources;
+
 import com.bumptech.glide.request.RequestOptions;
+import com.mm.base_business.glide.ImageLoaderX;
 import com.mm.mmutil.StringUtils;
 import com.mm.mmutil.app.AppContext;
 import com.mm.recorduisdk.R;
-import com.mm.base_business.glide.ImageLoaderX;
 import com.mm.recorduisdk.utils.album.ItemConstant;
 
 /**

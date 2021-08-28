@@ -6,11 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Shader;
 import android.os.Build;
-import android.support.annotation.FloatRange;
 import android.text.Editable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.EditText;
+
+import androidx.annotation.FloatRange;
 
 /**
  * Created by XiongFangyu on 17/2/10.

@@ -1,96 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?><!-- @see com.mm.momo.moment.widget.MomentFilterPanelTabLayout -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal">
 
-    <com.mm.recorduisdk.widget.DrawLineTextView
-        android:id="@+id/filter_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:paddingTop="@dimen/dimen_dip_15"
-        android:paddingBottom="@dimen/dimen_dip_15"
-        android:text="滤镜"
-        android:textColor="@drawable/edit_video_special_filter_tab_selector"
-        android:textSize="16sp"
-        app:dlw_lineColor="@color/white"
-        app:dlw_lineWidth="10"
-        app:lineLeftMargin="20dp"
-        app:lineRightMargin="20dp" />
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_marginRight="86dp"
+        android:layout_marginLeft="16dp"
+        android:layout_height="wrap_content">
 
-    <com.mm.recorduisdk.widget.DrawLineTextView
-        android:id="@+id/filter_beauty_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:paddingTop="@dimen/dimen_dip_15"
-        android:paddingBottom="15dp"
-        android:text="美肌"
-        android:textColor="@drawable/edit_video_special_filter_tab_selector"
-        android:textSize="16sp"
-        app:dlw_lineColor="@color/white"
-        app:dlw_lineWidth="10"
-        app:lineLeftMargin="20dp"
-        app:lineRightMargin="20dp" />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <com.mm.recorduisdk.widget.DrawLineTextView
-        android:id="@+id/filter_bigeye_thin_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:paddingTop="@dimen/dimen_dip_15"
-        android:paddingBottom="15dp"
-        android:text="美颜"
-        android:textColor="@drawable/edit_video_special_filter_tab_selector"
-        android:textSize="16sp"
-        app:dlw_lineColor="@color/white"
-        app:dlw_lineWidth="10"
-        app:lineLeftMargin="20dp"
-        app:lineRightMargin="20dp"
+            <com.mm.recorduisdk.widget.DrawLineTextView
+                android:id="@+id/filter_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dimen_dip_15"
+                android:paddingBottom="@dimen/dimen_dip_15"
+                android:text="滤镜"
+                android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                android:textSize="16sp"
+                android:layout_marginRight="8dp"
+                app:dlw_lineColor="@color/white"
+                app:dlw_lineWidth="10"
+                app:lineLeftMargin="20dp"
+                app:lineRightMargin="20dp" />
 
-        />
+            <com.mm.recorduisdk.widget.DrawLineTextView
+                android:id="@+id/filter_beauty_text"
+                android:layout_width="0dp"
+                android:layout_marginRight="8dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dimen_dip_15"
+                android:paddingBottom="15dp"
+                android:text="美肌"
+                android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                android:textSize="16sp"
+                app:dlw_lineColor="@color/white"
+                app:dlw_lineWidth="10"
+                app:lineLeftMargin="20dp"
+                app:lineRightMargin="20dp" />
 
-    <com.mm.recorduisdk.widget.DrawLineTextView
-        android:id="@+id/filter_slimming_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:paddingTop="@dimen/dimen_dip_15"
-        android:paddingBottom="15dp"
-        android:text="瘦身"
-        android:textColor="@drawable/edit_video_special_filter_tab_selector"
-        android:textSize="16sp"
-        app:dlw_lineColor="@color/white"
-        app:dlw_lineWidth="10"
-        app:lineLeftMargin="20dp"
-        app:lineRightMargin="20dp" />
+            <com.mm.recorduisdk.widget.DrawLineTextView
+                android:id="@+id/filter_bigeye_thin_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="8dp"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dimen_dip_15"
+                android:paddingBottom="15dp"
+                android:text="美颜"
+                android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                android:textSize="16sp"
+                app:dlw_lineColor="@color/white"
+                app:dlw_lineWidth="10"
+                app:lineLeftMargin="20dp"
+                app:lineRightMargin="20dp"
 
-    <com.mm.recorduisdk.widget.DrawLineTextView
-        android:id="@+id/filter_long_legs_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:paddingTop="@dimen/dimen_dip_15"
-        android:paddingBottom="15dp"
-        android:text="长腿"
-        android:textColor="@drawable/edit_video_special_filter_tab_selector"
-        android:textSize="16sp"
-        app:dlw_lineColor="@color/white"
-        app:dlw_lineWidth="10"
-        app:lineLeftMargin="20dp"
-        app:lineRightMargin="20dp" />
+                />
+
+            <com.mm.recorduisdk.widget.DrawLineTextView
+                android:id="@+id/filter_slimming_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dimen_dip_15"
+                android:layout_marginRight="8dp"
+                android:paddingBottom="15dp"
+                android:text="瘦身"
+                android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                android:textSize="16sp"
+                app:dlw_lineColor="@color/white"
+                app:dlw_lineWidth="10"
+                app:lineLeftMargin="20dp"
+                app:lineRightMargin="20dp" />
+
+            <com.mm.recorduisdk.widget.DrawLineTextView
+                android:id="@+id/filter_long_legs_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="8dp"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dimen_dip_15"
+                android:paddingBottom="15dp"
+                android:text="长腿"
+                android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                android:textSize="16sp"
+                app:dlw_lineColor="@color/white"
+                app:dlw_lineWidth="10"
+                app:lineLeftMargin="20dp"
+                app:lineRightMargin="20dp" />
+
+            <com.mm.recorduisdk.widget.DrawLineTextView
+                android:id="@+id/tvMicroBeauty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dimen_dip_15"
+                android:layout_marginRight="8dp"
+                android:paddingBottom="15dp"
+                android:singleLine="true"
+                android:text="微整形"
+                android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                android:textSize="16sp"
+                app:dlw_lineColor="@color/white"
+                app:dlw_lineWidth="20"
+                app:lineLeftMargin="2dp"
+                app:lineRightMargin="2dp" />
+
+            <com.mm.recorduisdk.widget.DrawLineTextView
+                android:id="@+id/tvMakeup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dimen_dip_15"
+                android:paddingBottom="15dp"
+                android:text="美妆"
+                android:textColor="@drawable/edit_video_special_filter_tab_selector"
+                android:textSize="16sp"
+                app:dlw_lineColor="@color/white"
+                app:dlw_lineWidth="10"
+                app:lineLeftMargin="20dp"
+                app:lineRightMargin="20dp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </HorizontalScrollView>
 
     <ImageView
         android:id="@+id/tab_more_btn"
         android:layout_width="41dp"
+        android:layout_gravity="right|center_vertical"
         android:layout_height="41dp"
         android:layout_below="@id/tab_layout"
         android:layout_marginLeft="@dimen/dimen_dip_30"
@@ -98,4 +151,4 @@
         android:scaleType="center"
         android:src="@drawable/icon_more"
         android:visibility="invisible" />
-</LinearLayout>
+</FrameLayout>

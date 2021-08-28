@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.annotation.IntRange;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.annotation.IntRange;
 
 import com.mm.mmutil.log.Log4Android;
 import com.mm.recorduisdk.R;

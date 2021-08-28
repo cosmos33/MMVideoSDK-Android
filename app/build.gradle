@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.mm.sdkdemo"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
-        versionCode 4100
-        versionName "2.2.8"
+        versionCode 4400
+        versionName "2.4.0_082800"
         multiDexEnabled true
 
         /**
@@ -19,8 +20,9 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         ndk {
-            abiFilters "armeabi-v7a", "armeabi", "arm64-v8a"
+            abiFilters "armeabi-v7a", "armeabi","arm64-v8a"
         }
+
         compileOptions {
             sourceCompatibility 1.8
             targetCompatibility 1.8
@@ -33,33 +35,16 @@ repositories {
         dirs 'libs'
     }
 }
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 
+    implementation project(':record_ui_sdk')
+    implementation project(':player_business')
 
-    if (gradle.useLocalUI) {
-        implementation project(':record_ui_sdk')
-        implementation project(':player_business')
-    } else {
-        api "com.immomo.cosmos.mediax:$RECORDER_UISDK_ARTIFACT_ID:$JCENTER_RECORDER_UI_SDK_VERSION_NAME"
-        api "com.immomo.cosmos.mediax:$PLAYER_UI_ARTIFACT_ID:$JCENTER_PLAYER_UI_VERSION_NAME"
-    }
-
-//    implementation 'com.tencent.bugly:crashreport:latest.release'
-//    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
-//    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
-    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
     implementation 'androidx.multidex:multidex:2.0.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-//    provided 'com.cosmos.baseutil:androidInjectorCore:1.0.0'
-//    compile project(path: ':imagecrop')
-//    if (gradle.openDebug) {
-//        implementation 'com.cosmos.baseutil:androidPerformance:1.0.0'
-//    } else {
-//        implementation 'com.cosmos.baseutil:androidPerformanceEmpty:1.0.0'
-//    }
 }

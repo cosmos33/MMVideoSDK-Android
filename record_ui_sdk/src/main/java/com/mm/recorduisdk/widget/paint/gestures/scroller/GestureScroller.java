@@ -1,8 +1,9 @@
 package com.mm.recorduisdk.widget.paint.gestures.scroller;
 
 import android.graphics.RectF;
-import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
+
+import androidx.core.view.MotionEventCompat;
 
 public class GestureScroller implements GestureScrollListener.OnGestureScrollListener {
 

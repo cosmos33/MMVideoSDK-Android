@@ -1,7 +1,8 @@
 package com.mm.recorduisdk.moment.utils;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.bean.FaceClass;
 import com.mm.recorduisdk.bean.MomentFace;

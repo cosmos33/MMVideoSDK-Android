@@ -20,12 +20,13 @@ import android.graphics.Xfermode;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.IntDef;
-import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Interpolator;
+
+import androidx.annotation.IntDef;
+import androidx.core.view.MotionEventCompat;
 
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.utils.SuperOvershootInterpolator;

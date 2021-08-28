@@ -7,9 +7,10 @@ import android.graphics.SurfaceTexture;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.TextureView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.core.glcore.config.Size;
 import com.cosmos.mdlog.MDLog;
@@ -18,10 +19,12 @@ import com.immomo.moment.mediautils.cmds.EffectModel;
 import com.immomo.moment.mediautils.cmds.TimeRangeScale;
 import com.immomo.moment.mediautils.cmds.VideoCut;
 import com.immomo.moment.mediautils.cmds.VideoEffects;
+import com.mm.mediasdk.IVideoEffectFilterModule;
 import com.mm.mediasdk.IVideoProcessor;
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.utils.ImageUtil;
 import com.mm.mediasdk.utils.UIUtils;
+import com.mm.mediasdk.videoeffectmodule.BlurSideRatioAdapterEffectModule;
 import com.mm.mmutil.app.AppContext;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.recorduisdk.R;
@@ -100,6 +103,7 @@ public class VideoEditPresenter implements IProcessPresenter {
         videoProcessor.setOutVideoInfo(size[0], size[1], fps, bitrate);
         if(customPreviewSize!=null){
             videoProcessor.setCustomPreviewSizeAndOpenFixSizeMode(customPreviewSize);
+            videoProcessor.addVideoEffectFilterModel(new BlurSideRatioAdapterEffectModule(customPreviewSize));
         }
         mCustomPreviewSize = customPreviewSize;
     }
@@ -697,6 +701,20 @@ public class VideoEditPresenter implements IProcessPresenter {
     public void setFilterIntensity(float value) {
         if (null != videoProcessor) {
             videoProcessor.setFilterIntensity(value);
+        }
+    }
+
+    @Override
+    public void addVideoEffectFilterModel(IVideoEffectFilterModule effectFilterModule) {
+        if (null != videoProcessor) {
+            videoProcessor.addVideoEffectFilterModel(effectFilterModule);
+        }
+    }
+
+    @Override
+    public void removeVideoEffectFilterModel(IVideoEffectFilterModule effectFilterModule) {
+        if (null != videoProcessor) {
+            videoProcessor.removeVideoEffectFilterModel(effectFilterModule);
         }
     }
 }

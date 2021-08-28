@@ -2,13 +2,15 @@ package com.mm.recorduisdk.recorder.editor.player;
 
 import android.graphics.Bitmap;
 import android.graphics.PointF;
-import android.support.annotation.FloatRange;
-import android.support.annotation.Nullable;
 import android.view.TextureView;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.Nullable;
 
 import com.immomo.moment.mediautils.cmds.EffectModel;
 import com.immomo.moment.mediautils.cmds.TimeRangeScale;
 import com.immomo.moment.mediautils.cmds.VideoCut;
+import com.mm.mediasdk.IVideoEffectFilterModule;
 import com.mm.recorduisdk.bean.MomentExtraInfo;
 import com.mm.recorduisdk.recorder.model.MusicContent;
 import com.mm.recorduisdk.recorder.model.Video;
@@ -113,5 +115,20 @@ public interface IProcessPresenter extends TextureView.SurfaceTextureListener {
      */
     void setFilterIntensity(@FloatRange(from = 0, to = 1.0f) float value);
 
+    /**
+     * 添加视频处理虑镜模块
+     *
+     * @param effectFilterModule
+     */
+    void addVideoEffectFilterModel(IVideoEffectFilterModule effectFilterModule);
+
+    /**
+     * 删除视频处理虑镜模块
+     *
+     * @param effectFilterModule
+     */
+    void removeVideoEffectFilterModel(IVideoEffectFilterModule effectFilterModule);
+
+    //</editor-fold>
 
 }

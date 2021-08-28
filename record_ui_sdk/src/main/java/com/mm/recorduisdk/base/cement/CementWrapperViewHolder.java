@@ -1,7 +1,8 @@
 package com.mm.recorduisdk.base.cement;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 //<editor-fold desc="Wrapper Model">
 public abstract class CementWrapperViewHolder<VH extends CementViewHolder> extends CementViewHolder {

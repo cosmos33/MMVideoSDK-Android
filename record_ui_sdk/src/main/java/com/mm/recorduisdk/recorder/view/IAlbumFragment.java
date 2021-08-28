@@ -1,7 +1,7 @@
 package com.mm.recorduisdk.recorder.view;
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.mm.recorduisdk.bean.MMChooseMediaParams;
 import com.mm.recorduisdk.recorder.model.Photo;

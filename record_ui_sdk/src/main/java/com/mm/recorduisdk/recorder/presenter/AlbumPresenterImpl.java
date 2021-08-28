@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.presenter;
 
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import com.mm.recorduisdk.bean.MMChooseMediaParams;
 import com.mm.recorduisdk.recorder.view.IAlbumView;

@@ -19,7 +19,8 @@ package com.mm.recorduisdk.utils.album;
 import android.content.Context;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.content.CursorLoader;
+
+import androidx.loader.content.CursorLoader;
 
 /**
  * Load images and videos into a single cursor.

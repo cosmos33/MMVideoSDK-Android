@@ -1,16 +1,17 @@
 package com.mm.recorduisdk.recorder.musicpanel.edit.model;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.mm.base_business.glide.ImageLoaderX;
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.base.cement.CementAdapter;
 import com.mm.recorduisdk.base.cement.CementModel;
 import com.mm.recorduisdk.base.cement.CementViewHolder;
-import com.mm.base_business.glide.ImageLoaderX;
 import com.mm.recorduisdk.recorder.model.MusicContent;
 
 public class EditMusicModel extends CementModel<EditMusicModel.ViewHolder> {

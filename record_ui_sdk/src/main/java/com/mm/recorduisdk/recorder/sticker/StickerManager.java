@@ -1,8 +1,9 @@
 package com.mm.recorduisdk.recorder.sticker;
 
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.mm.mediasdk.utils.DownloadUtil;
 import com.mm.mmutil.FileUtil;
@@ -178,7 +179,7 @@ public class StickerManager {
     }
 
     public static void cleanStickerHomeDir() {
-        FileUtil.deleteDir(getDynamicStickerHomeDir());
+        com.mm.mmutil.FileUtil.deleteDir(getDynamicStickerHomeDir());
     }
 
     /**

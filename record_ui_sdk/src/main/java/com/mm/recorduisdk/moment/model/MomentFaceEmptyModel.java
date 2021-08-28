@@ -1,7 +1,8 @@
 package com.mm.recorduisdk.moment.model;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.base.cement.CementAdapter;
@@ -22,12 +23,12 @@ public class MomentFaceEmptyModel extends CementModel<MomentFaceEmptyModel.ViewH
 
     @NonNull
     @Override
-    public CementAdapter.IViewHolderCreator<ViewHolder> getViewHolderCreator() {
-        return new CementAdapter.IViewHolderCreator<ViewHolder>() {
+    public CementAdapter.IViewHolderCreator<MomentFaceEmptyModel.ViewHolder> getViewHolderCreator() {
+        return new CementAdapter.IViewHolderCreator<MomentFaceEmptyModel.ViewHolder>() {
             @NonNull
             @Override
-            public ViewHolder create(@NonNull View view) {
-                return new ViewHolder(view);
+            public MomentFaceEmptyModel.ViewHolder create(@NonNull View view) {
+                return new MomentFaceEmptyModel.ViewHolder(view);
             }
         };
     }

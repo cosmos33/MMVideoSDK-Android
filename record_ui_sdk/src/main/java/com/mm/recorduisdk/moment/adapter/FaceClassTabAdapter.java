@@ -1,12 +1,13 @@
 package com.mm.recorduisdk.moment.adapter;
 
 import android.animation.ObjectAnimator;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mm.base_business.utils.UIUtils;
 import com.mm.recorduisdk.R;
@@ -34,12 +35,12 @@ public class FaceClassTabAdapter extends RecyclerView.Adapter<FaceClassTabAdapte
     }
 
     @Override
-    public FaceClassTabHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FaceClassTabHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_face_tab, parent, false));
+    public FaceClassTabAdapter.FaceClassTabHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new FaceClassTabAdapter.FaceClassTabHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_face_tab, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final FaceClassTabHolder holder, int position) {
+    public void onBindViewHolder(final FaceClassTabAdapter.FaceClassTabHolder holder, int position) {
         FaceClass faceClass = datas.get(position);
         holder.itemView.setSelected(position == selectTab);
         setTab(holder, faceClass);

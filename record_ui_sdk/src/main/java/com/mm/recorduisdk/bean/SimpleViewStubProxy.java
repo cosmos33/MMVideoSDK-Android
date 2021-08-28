@@ -1,10 +1,11 @@
 package com.mm.recorduisdk.bean;
 
-import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+
+import androidx.annotation.IdRes;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.listener;
 
-import android.support.annotation.IntRange;
+import androidx.annotation.IntRange;
 
 import com.mm.recorduisdk.utils.ScreenOrientationManager;
 

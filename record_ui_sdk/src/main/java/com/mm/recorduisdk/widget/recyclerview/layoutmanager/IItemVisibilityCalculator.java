@@ -1,7 +1,7 @@
 package com.mm.recorduisdk.widget.recyclerview.layoutmanager;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Size;
+import androidx.annotation.NonNull;
+import androidx.annotation.Size;
 
 /**
  * Created by xudshen on 28/11/2017.

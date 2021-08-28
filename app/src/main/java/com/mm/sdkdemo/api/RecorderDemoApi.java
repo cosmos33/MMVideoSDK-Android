@@ -97,7 +97,7 @@ public class RecorderDemoApi extends RecordBaseApi {
         //先解析分类
         JSONArray clsItems = result.getJSONArray("class");
         JSONObject faceItems = result.getJSONObject("items");
-        ArrayList<FaceClass> classList = new ArrayList<>();
+        java.util.ArrayList<FaceClass> classList = new ArrayList<>();
 
         for (int i = 0, len = clsItems.length(); i < len; i++) {
             FaceClass bean = FaceClass.fromJson(clsItems.getJSONObject(i));
@@ -105,7 +105,7 @@ public class RecorderDemoApi extends RecordBaseApi {
             if (bean != null && !TextUtils.isEmpty(bean.getId()) && faceItems.has(bean.getId())) {
                 JSONArray items = faceItems.getJSONArray(bean.getId());
 
-                ArrayList<MomentFace> list = new ArrayList<>();
+                java.util.ArrayList<MomentFace> list = new ArrayList<>();
                 for (int j = 0, len2 = items.length(); j < len2; j++) {
                     MomentFace face = MomentFace.fromJson(items.getJSONObject(j));
                     if (face != null) {

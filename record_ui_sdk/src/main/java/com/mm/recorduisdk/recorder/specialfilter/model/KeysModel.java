@@ -1,10 +1,11 @@
 package com.mm.recorduisdk.recorder.specialfilter.model;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
 
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.recorduisdk.R;

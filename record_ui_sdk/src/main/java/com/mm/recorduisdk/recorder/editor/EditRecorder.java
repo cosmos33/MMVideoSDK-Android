@@ -1,7 +1,8 @@
 package com.mm.recorduisdk.recorder.editor;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by XiongFangyu on 2017/8/9.

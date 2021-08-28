@@ -16,6 +16,8 @@ public abstract class Configs {
     public static final int DEFAULT_BEAUTY = 3;
     public static final int DEFAULT_BIG_EYE = 3;
     public static final int DEFAULT_FILTER_INDEX = 0;
+    public static final int DEFAULT_MICROBEAUTY_INDEX = 0;
+    public static final int DEFAULT_MAKEUP_INDEX = 0;
 
     public static final float[] DOKI_BEAUTY = new float[]{0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f};
 

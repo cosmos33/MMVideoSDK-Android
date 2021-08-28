@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.musicpanel.edit.model;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created on 2019/5/24.

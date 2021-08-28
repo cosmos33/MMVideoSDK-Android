@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.utils.album;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 /**
  * @author shidefeng

@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
+import com.google.android.material.appbar.AppBarLayout;
 import com.mm.base_business.base.BaseFragment;
 import com.mm.base_business.base.BaseScrollTabGroupFragment;
 import com.mm.base_business.base.BaseTabOptionFragment;

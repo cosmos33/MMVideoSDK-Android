@@ -2,12 +2,13 @@ package com.mm.recorduisdk.moment.model;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.cosmos.mdlog.MDLog;
 import com.mm.base_business.glide.ImageLoaderX;

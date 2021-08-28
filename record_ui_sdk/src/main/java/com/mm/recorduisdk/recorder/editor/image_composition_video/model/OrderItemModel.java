@@ -1,15 +1,16 @@
 package com.mm.recorduisdk.recorder.editor.image_composition_video.model;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.request.RequestOptions;
+import com.mm.base_business.glide.ImageLoaderX;
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.base.cement.CementAdapter;
 import com.mm.recorduisdk.base.cement.CementModel;
 import com.mm.recorduisdk.base.cement.CementViewHolder;
-import com.mm.base_business.glide.ImageLoaderX;
 import com.mm.recorduisdk.recorder.model.Photo;
 
 

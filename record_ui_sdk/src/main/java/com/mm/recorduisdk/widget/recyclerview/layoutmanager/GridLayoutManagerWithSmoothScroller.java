@@ -2,12 +2,13 @@ package com.mm.recorduisdk.widget.recyclerview.layoutmanager;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.support.annotation.NonNull;
-import android.support.annotation.Size;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Size;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by xudong on 2016/11/21.

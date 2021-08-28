@@ -2,7 +2,8 @@ package com.mm.recorduisdk.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.IntDef;
+
+import androidx.annotation.IntDef;
 
 import com.mm.recorduisdk.Constants;
 

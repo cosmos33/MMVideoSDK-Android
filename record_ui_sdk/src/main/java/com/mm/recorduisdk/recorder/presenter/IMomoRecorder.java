@@ -1,8 +1,9 @@
 package com.mm.recorduisdk.recorder.presenter;
 
 import android.content.res.Configuration;
-import android.support.annotation.FloatRange;
 import android.view.MotionEvent;
+
+import androidx.annotation.FloatRange;
 
 import com.mm.recorduisdk.recorder.model.MusicContent;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
@@ -54,4 +55,14 @@ public interface IMomoRecorder extends IRecorder {
     boolean switchPhotoOrVideo(boolean isVideo);
 
     void switchCameraResolution();
+
+    void setFaceBeautyValue(String id, float value);
+
+    void addMakeup(String path);
+
+    void setMakeupIntensity(String type, float intensity);
+
+    void removeMakeupWithType(String type);
+
+    void removeMakeupAll();
 }

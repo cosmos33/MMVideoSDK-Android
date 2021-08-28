@@ -1,7 +1,8 @@
 package com.mm.recorduisdk.recorder.musicpanel.edit.model;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.base.cement.CementAdapter;

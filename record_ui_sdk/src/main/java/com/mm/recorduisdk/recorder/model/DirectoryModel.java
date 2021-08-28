@@ -1,9 +1,10 @@
 package com.mm.recorduisdk.recorder.model;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.base.cement.CementAdapter;

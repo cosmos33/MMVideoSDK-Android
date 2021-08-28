@@ -14,9 +14,6 @@ import android.graphics.PixelFormat;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.TextureView;
 import android.view.View;
@@ -28,6 +25,10 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.cosmos.mdlog.MDLog;
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
@@ -81,6 +82,7 @@ import com.mm.recorduisdk.utils.KeyBoardUtil;
 import com.mm.recorduisdk.utils.OnAnimationEndListener;
 import com.mm.recorduisdk.utils.VideoCompressUtil;
 import com.mm.recorduisdk.utils.VideoUtils;
+import com.mm.recorduisdk.widget.BeautyAdapterData;
 import com.mm.recorduisdk.widget.DynamicStickerPanel;
 import com.mm.recorduisdk.widget.DynamicStickerPanelContainerHelper;
 import com.mm.recorduisdk.widget.IndeterminateDrawable;
@@ -2084,12 +2086,11 @@ public class VideoEditFragment extends BaseFragment
                 }
 
                 @Override
-                public void onBeautyTabSelect(int selectPosition, int type) {
-
+                public void onBeautyTabSelect(int selectPosition, int type, BeautyAdapterData data) {
                 }
 
                 @Override
-                public void onBeautyMoreChanged(float[] value, int type) {
+                public void onBeautyMoreChanged(float[] value, int type, BeautyAdapterData currentData) {
 
                 }
             }, true);

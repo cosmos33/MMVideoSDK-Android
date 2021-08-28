@@ -1,13 +1,14 @@
 package com.mm.recorduisdk.base.cement.eventhook;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.base.cement.CementAdapter;
 import com.mm.recorduisdk.base.cement.CementModel;
 import com.mm.recorduisdk.base.cement.CementViewHolder;
 
-import static android.support.v7.widget.RecyclerView.NO_POSITION;
+import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 /**
  * @author xudong

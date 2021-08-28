@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.cosmos.mdlog.MDLog;
 import com.mm.base_business.base.BaseFragment;

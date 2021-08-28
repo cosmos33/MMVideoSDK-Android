@@ -52,6 +52,7 @@ import com.mm.recorduisdk.recorder.model.Photo;
 import com.mm.recorduisdk.utils.AnimUtils;
 import com.mm.recorduisdk.utils.album.AlbumConstant;
 import com.mm.recorduisdk.utils.filter.FiltersManager;
+import com.mm.recorduisdk.widget.BeautyAdapterData;
 import com.mm.recorduisdk.widget.MomentEdittextPannel;
 import com.mm.recorduisdk.widget.MomentFilterPanelLayout;
 import com.mm.recorduisdk.widget.MomentFilterPanelTabLayout;
@@ -61,6 +62,7 @@ import com.mm.recorduisdk.widget.paint.PaintPanelView;
 import com.mm.recorduisdk.widget.sticker.StickerContainerView;
 import com.mm.recorduisdk.widget.sticker.StickerView;
 import com.momo.mcamera.filtermanager.MMPresetFilter;
+import com.momo.xeengine.lightningrender.ILightningRender;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -503,7 +505,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 @Override
-                public void onBeautyTabSelect(int selectPosition, int type) {
+                public void onBeautyTabSelect(int selectPosition, int type, BeautyAdapterData data) {
                     if (imageProcess == null) {
                         return;
                     }
@@ -533,6 +535,11 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                             imageProcess.updateBodyWarpAndLegLen(bodyWrapWidth, bodyWrapLegWidth);
                             mCurrentLongLegsSelectPosition = selectPosition;
                             break;
+                        case MomentSkinAndFacePanelLayout.TYPE_MICROBEAUTY:
+                            imageProcess.setFaceBeautyValue(data.beautyInnerType, 1f);
+                            break;
+                        case MomentSkinAndFacePanelLayout.TYPE_MAKEUP:
+                            imageProcess.addMakeup(data.path);
                         default:
                             break;
                     }
@@ -540,7 +547,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 @Override
-                public void onBeautyMoreChanged(float[] value, int type) {
+                public void onBeautyMoreChanged(float[] value, int type, BeautyAdapterData currentData) {
                     if (imageProcess == null) {
                         return;
                     }
@@ -550,6 +557,15 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                             break;
                         case MomentFilterPanelLayout.TYPE_EYE_AND_THIN: //  大眼 瘦脸
                             imageProcess.updateBigEyeAndThin(value[0], value[1]);
+                            break;
+                        case MomentSkinAndFacePanelLayout.TYPE_MAKEUP:
+                            imageProcess.setMakeupIntensity(currentData.beautyInnerType, value[0]);
+                            break;
+                        case MomentSkinAndFacePanelLayout.TYPE_MAKEUP_LUT:
+                            imageProcess.setMakeupIntensity(ILightningRender.IMakeupLevel.MAKEUP_LUT, value[1]);
+                            break;
+                        case MomentSkinAndFacePanelLayout.TYPE_MICROBEAUTY:
+                            imageProcess.setFaceBeautyValue(currentData.beautyInnerType, value[0]);
                             break;
                         default:
                             break;

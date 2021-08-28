@@ -1,13 +1,14 @@
 package com.mm.recorduisdk.widget;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
@@ -24,11 +25,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements View.OnClickListener {
     // 滤镜、美肌、美颜、瘦身、长腿
-    public static final int ON_CLICK_FILTER = 0, ON_CLICK_SKIN = 1, ON_CLICK_FACE = 2, ON_CLICK_SLIMMING = 3, ON_CLICK_LONG_LEGS = 4;
+    public static final int ON_CLICK_FILTER = 0, ON_CLICK_SKIN = 1, ON_CLICK_FACE = 2, ON_CLICK_SLIMMING = 3,
+            ON_CLICK_LONG_LEGS = 4, ON_CLICK_MICRO_BEAUTY = 5, ON_CLICK_MAKEUP = 6;
 
     public static final int CLICK_INNER = 1, CLICK_OUTER = 2;
 
-    @IntDef({ON_CLICK_FILTER, ON_CLICK_SKIN, ON_CLICK_FACE, ON_CLICK_SLIMMING, ON_CLICK_LONG_LEGS})
+    @IntDef({ON_CLICK_FILTER, ON_CLICK_SKIN, ON_CLICK_FACE, ON_CLICK_SLIMMING, ON_CLICK_LONG_LEGS,
+            ON_CLICK_MICRO_BEAUTY, ON_CLICK_MAKEUP})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TabSelectedPosition {
 
@@ -45,7 +48,7 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
 
     private View tabMore;
 
-    private DrawLineTextView filterTv, beautyTv, bigeyeTv, slimmingTv, legsTv;
+    private DrawLineTextView filterTv, beautyTv, bigeyeTv, slimmingTv, legsTv, tvMicroBeauty, tvMakeup;
 
     private AtomicInteger selectType = new AtomicInteger();
 
@@ -82,11 +85,15 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
         bigeyeTv = findViewById(R.id.filter_bigeye_thin_text);
         slimmingTv = findViewById(R.id.filter_slimming_text);
         legsTv = findViewById(R.id.filter_long_legs_text);
+        tvMakeup = findViewById(R.id.tvMakeup);
+        tvMicroBeauty = findViewById(R.id.tvMicroBeauty);
         filterTv.setOnClickListener(this);
         beautyTv.setOnClickListener(this);
         bigeyeTv.setOnClickListener(this);
         slimmingTv.setOnClickListener(this);
         legsTv.setOnClickListener(this);
+        tvMakeup.setOnClickListener(this);
+        tvMicroBeauty.setOnClickListener(this);
 
         tabMore = findViewById(R.id.tab_more_btn);
         tabMore.setOnClickListener(new OnClickListener() {
@@ -106,6 +113,8 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
         bigeyeTv.setVisibility(View.INVISIBLE);
         slimmingTv.setVisibility(View.INVISIBLE);
         legsTv.setVisibility(View.INVISIBLE);
+        tvMicroBeauty.setVisibility(View.INVISIBLE);
+        tvMakeup.setVisibility(View.INVISIBLE);
     }
 
     private DrawLineTextView lastView;
@@ -137,6 +146,12 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
         } else if (view == legsTv) {
             selectType.set(ON_CLICK_LONG_LEGS);
             listener.onTabClick(ON_CLICK_LONG_LEGS, CLICK_INNER);
+        } else if (view == tvMakeup) {
+            selectType.set(ON_CLICK_MAKEUP);
+            listener.onTabClick(ON_CLICK_MAKEUP, CLICK_INNER);
+        } else if (view == tvMicroBeauty) {
+            selectType.set(ON_CLICK_MICRO_BEAUTY);
+            listener.onTabClick(ON_CLICK_MICRO_BEAUTY, CLICK_INNER);
         }
     }
 
@@ -175,12 +190,22 @@ public class MomentFilterPanelTabLayout extends DrawLineLinearLayout implements 
             case ON_CLICK_LONG_LEGS:
                 lastView = legsTv;
                 break;
+            case ON_CLICK_MAKEUP:
+                lastView = tvMakeup;
+                break;
+            case ON_CLICK_MICRO_BEAUTY:
+                lastView = tvMicroBeauty;
+                break;
         }
         if (lastView != null) {
             lastView.setSelected(true);
             lastView.setDrawline(true);
         }
-        if (tabSelectPosition == MomentFilterPanelTabLayout.ON_CLICK_SKIN || tabSelectPosition == MomentFilterPanelTabLayout.ON_CLICK_FACE || tabSelectPosition == MomentFilterPanelTabLayout.ON_CLICK_FILTER) {
+        if (tabSelectPosition == ON_CLICK_SKIN
+                || tabSelectPosition == ON_CLICK_FACE
+                || tabSelectPosition == ON_CLICK_FILTER
+                || tabSelectPosition == ON_CLICK_MAKEUP
+                || tabSelectPosition == ON_CLICK_MICRO_BEAUTY) {
             tabMore.setVisibility(View.VISIBLE);
         } else {
             tabMore.setVisibility(View.INVISIBLE);

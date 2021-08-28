@@ -8,8 +8,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.ViewDragHelper;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.customview.widget.ViewDragHelper;
 
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.log.Log4Android;

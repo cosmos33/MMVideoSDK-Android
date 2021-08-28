@@ -64,8 +64,8 @@ public class FiltersManager {
                 filter.mFilterId = id;
                 //需要确保文件存在
 
-                filter.lookupPath = folder.getPath() + "/" + "lookup.png";
-                filter.manifestPath = folder.getPath() + "/" + "manifest.json";
+                filter.lookupUrl = folder.getPath() + "/" + "lookup.png";
+                filter.manifestUrl = folder.getPath() + "/" + "manifest.json";
                 if (TextUtils.isEmpty(filter.mFilterName)) {
                     filter.isFilterFileExist = false;
                     continue;

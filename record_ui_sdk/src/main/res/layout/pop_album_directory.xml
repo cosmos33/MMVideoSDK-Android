@@ -13,12 +13,12 @@
         app:bottomLeftRadius="10dp"
         app:bottomRightRadius="10dp">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="450dp">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </com.mm.recorduisdk.widget.RoundCornerFrameLayout>
 

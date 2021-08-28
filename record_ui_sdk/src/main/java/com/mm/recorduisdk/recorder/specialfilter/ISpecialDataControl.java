@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.specialfilter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.recorder.specialfilter.bean.FrameFilter;
 import com.mm.recorduisdk.recorder.specialfilter.bean.TimeFilter;

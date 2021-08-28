@@ -1,12 +1,13 @@
 package com.mm.recorduisdk.widget;
 
 import android.content.Context;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.recorduisdk.IRecordResourceConfig;
@@ -124,8 +125,8 @@ public class MomentFilterPanelLayout extends MomentSkinAndFacePanelLayout {
     }
 
     @Override
-    protected void handleMoreClick() {
-        super.handleMoreClick();
+    protected void handleMoreClick(BeautyAdapterData data) {
+        super.handleMoreClick(data);
         if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_FILTER) {
             if (panelFilterRecView.getVisibility() == VISIBLE) {
                 panelFilterRecView.setVisibility(GONE);

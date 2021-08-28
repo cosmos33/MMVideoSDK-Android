@@ -1,10 +1,11 @@
 package com.mm.recorduisdk.recorder.presenter;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.mm.base_business.base.BaseTabOptionFragment;
 import com.mm.mediasdk.utils.UIUtils;

@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.mm.base_business.base.BaseActivity;
 import com.mm.recorduisdk.bean.FinishGotoInfo;

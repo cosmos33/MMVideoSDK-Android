@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
@@ -18,6 +17,8 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.immomo.moment.config.MRecorderActions;
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;

@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.editor.image_composition_video.bean;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 
 public class LiveAnimate {

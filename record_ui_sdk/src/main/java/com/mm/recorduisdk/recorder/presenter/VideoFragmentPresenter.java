@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.base.cement.CementModel;
 import com.mm.recorduisdk.bean.MMChooseMediaParams;

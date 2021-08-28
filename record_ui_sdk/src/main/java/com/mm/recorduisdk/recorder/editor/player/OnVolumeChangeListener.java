@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.editor.player;
 
-import android.support.annotation.IntRange;
+import androidx.annotation.IntRange;
 
 /**
  * Created by tangyuchun on 2018/5/23.

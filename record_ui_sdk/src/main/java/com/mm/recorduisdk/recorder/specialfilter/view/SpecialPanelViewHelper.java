@@ -5,21 +5,22 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewStub;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.immomo.moment.mediautils.cmds.TimeRangeScale;
 import com.immomo.moment.mediautils.cmds.VideoCut;
+import com.mm.base_business.base.BaseFragment;
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.task.MomoMainThreadExecutor;
 import com.mm.mmutil.toast.Toaster;
 import com.mm.recorduisdk.R;
-import com.mm.base_business.base.BaseFragment;
 import com.mm.recorduisdk.base.cement.CementAdapter;
 import com.mm.recorduisdk.base.cement.CementModel;
 import com.mm.recorduisdk.base.cement.SimpleCementAdapter;

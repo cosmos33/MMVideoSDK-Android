@@ -1,8 +1,9 @@
 package com.mm.recorduisdk.widget.paint.gestures.creator;
 
 import android.graphics.RectF;
-import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
+
+import androidx.core.view.MotionEventCompat;
 
 import com.mm.recorduisdk.widget.paint.DrawableViewConfig;
 import com.mm.recorduisdk.widget.paint.draw.SerializablePath;

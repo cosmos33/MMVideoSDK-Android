@@ -2,8 +2,9 @@ package com.mm.recorduisdk.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.IntDef;
-import android.support.annotation.IntRange;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
 
 import com.mm.mediasdk.RecorderConstants;
 import com.mm.mediasdk.scope.BigEyeThinFaceTypeScope;

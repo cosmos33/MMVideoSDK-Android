@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.moment;
 
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 
 import com.mm.recorduisdk.bean.CommonMomentFaceBean;
 

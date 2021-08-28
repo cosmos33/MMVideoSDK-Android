@@ -22,13 +22,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.support.v4.util.LongSparseArray;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
+
+import androidx.annotation.NonNull;
+import androidx.collection.LongSparseArray;
+import androidx.fragment.app.FragmentActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import com.mm.mmutil.StringUtils;
 import com.mm.mmutil.task.MomoTaskExecutor;

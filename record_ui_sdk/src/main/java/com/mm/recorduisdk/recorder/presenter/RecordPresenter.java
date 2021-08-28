@@ -5,11 +5,12 @@ import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.support.annotation.FloatRange;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+
+import androidx.annotation.FloatRange;
+import androidx.annotation.Nullable;
 
 import com.core.glcore.camera.ICamera;
 import com.core.glcore.config.MRConfig;
@@ -146,6 +147,31 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
         multiRecorder.switchCameraResolution(mrConfig.getTargetVideoSize());
     }
 
+    @Override
+    public void setFaceBeautyValue(String id, float value) {
+        multiRecorder.setFaceBeautyValue(id, value);
+    }
+
+    @Override
+    public void addMakeup(String path) {
+        multiRecorder.addMakeup(path);
+    }
+
+    @Override
+    public void setMakeupIntensity(String type, float intensity) {
+        multiRecorder.setMakeupIntensity(type, intensity);
+    }
+
+    @Override
+    public void removeMakeupWithType(String type) {
+        multiRecorder.removeMakeupWithType(type);
+    }
+
+    @Override
+    public void removeMakeupAll() {
+        multiRecorder.removeMakeupAll();
+    }
+
     private Size chooseStandardSize4Width(int width) {
         if (width <= 480) {
             return new Size(640, 480);
@@ -226,7 +252,7 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
             }
             takingPhoto = true;
             try {
-                multiRecorder.takePhoto(mPhotoPath, new MRecorderActions.OnTakePhotoListener() {
+                multiRecorder.takePhoto(mPhotoPath, true, new MRecorderActions.OnTakePhotoListener() {
                     @Override
                     public void onTakePhotoComplete(int status, Exception e) {
                         takingPhoto = false;
@@ -786,5 +812,11 @@ public class RecordPresenter implements IRecorder, SurfaceHolder.Callback, IMomo
     @Override
     public MaskModel getCurrentMaskModel() {
         return mCurrentMaskModel;
+    }
+
+    public void enableRenderBeauty(boolean enableRenderBeauty) {
+        if (multiRecorder != null) {
+            multiRecorder.enableRenderBeauty(enableRenderBeauty);
+        }
     }
 }

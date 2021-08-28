@@ -11,10 +11,11 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
-import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+
+import androidx.annotation.ColorInt;
+import androidx.core.view.animation.PathInterpolatorCompat;
 
 /**
  * 实现 无限重复的圆形进度条

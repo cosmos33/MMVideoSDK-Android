@@ -1,7 +1,7 @@
 package com.mm.recorduisdk.recorder.musicpanel.edit;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mm.recorduisdk.recorder.model.MusicContent;
 

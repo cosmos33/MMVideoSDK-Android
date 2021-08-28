@@ -15,13 +15,14 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.R;
 

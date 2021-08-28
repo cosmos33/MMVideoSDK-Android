@@ -2,7 +2,8 @@ package com.mm.recorduisdk.widget.sticker.text;
 
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
-import android.support.annotation.FloatRange;
+
+import androidx.annotation.FloatRange;
 
 /**
  * Created by XiongFangyu on 17/2/10.

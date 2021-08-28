@@ -1,8 +1,9 @@
 package com.mm.recorduisdk.local_music_picker.view;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mm.base_business.base.BaseFragment;
 import com.mm.recorduisdk.R;

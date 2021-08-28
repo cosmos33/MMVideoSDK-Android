@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.widget.seekbar;
 
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 /**
  * created by zhuangguangquan on 2018/6/6

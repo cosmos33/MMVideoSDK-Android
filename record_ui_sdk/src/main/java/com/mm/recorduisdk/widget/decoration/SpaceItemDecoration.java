@@ -1,8 +1,9 @@
 package com.mm.recorduisdk.widget.decoration;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by joel on 16/3/16.

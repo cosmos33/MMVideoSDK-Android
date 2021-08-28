@@ -2,21 +2,10 @@ package com.mm.sdkdemo;
 
 import android.content.Context;
 import android.os.Environment;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 
-import com.cosmos.radar.core.Radar;
-import com.cosmos.radar.core.RadarConfig;
-import com.cosmos.radar.lag.anr.ANRKit;
-import com.cosmos.radar.lag.lag.LagKit;
-import com.cosmos.radar.memory.alert.MemoryAlertKit;
-import com.cosmos.radar.memory.leak.MemoryLeakKit;
-import com.cosmos.radar.pagespeed.PageLaunchTimeKit;
-import com.immomo.performance.core.BlockConfiguration;
-import com.immomo.performance.core.CaptureConfiguration;
-import com.immomo.performance.core.Configuration;
-import com.immomo.performance.core.PerformanceMonitor;
-import com.immomo.performance.utils.PerformanceUtil;
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
+
 import com.mm.mediasdk.MoMediaManager;
 import com.mm.mediasdk.bean.RecorderInitConfig;
 import com.mm.mmutil.FileUtil;
@@ -29,7 +18,6 @@ import com.mm.recorduisdk.bean.CommonMomentFaceBean;
 import com.mm.recorduisdk.bean.MomentSticker;
 import com.mm.recorduisdk.recorder.model.MusicContent;
 import com.mm.recorduisdk.recorder.sticker.DynamicSticker;
-import com.mm.rifle.Rifle;
 import com.mm.sdkdemo.api.RecorderDemoApi;
 import com.mm.sdkdemo.utils.FilterFileUtil;
 import com.mm.sdkdemo.utils.LivePhotoUtil;
@@ -54,14 +42,13 @@ public class DemoApplication extends MultiDexApplication {
             PlayerManager.openDebugLog(true, null);
         }
 
-        Rifle.init(this, 你的appid, true);
 
-        RecorderInitConfig recorderInitConfig = new RecorderInitConfig.Builder(你的appid)
+        RecorderInitConfig recorderInitConfig = new RecorderInitConfig.Builder("9dac61837c9bc9eba14f8a32584bde1f")
                 .setUserVersionCode(BuildConfig.VERSION_CODE)
                 .setUserVersionName("demo:" + BuildConfig.VERSION_NAME)
                 .build();
 
-        PlayerInitConfig playerConfig = new PlayerInitConfig.Builder(你的appid)
+        PlayerInitConfig playerConfig = new PlayerInitConfig.Builder("9dac61837c9bc9eba14f8a32584bde1f")
                 .setUserVersionCode(BuildConfig.VERSION_CODE)
                 .setUserVersionName("demo:" + BuildConfig.VERSION_NAME)
                 .build();
@@ -98,65 +85,17 @@ public class DemoApplication extends MultiDexApplication {
             FileUtil.unzip(new File(FilterFileUtil.getCacheDirectory(), "doki_res.zip").getAbsolutePath(), FilterFileUtil.getCacheDirectory().getAbsolutePath(), false);
         }
 
-        //bugly
-//        CrashReport.initCrashReport(getApplicationContext(), "1ce7b8c2d3", false);
-
-        initPerformance();
-        initRader();
+        File makeupHomeDir = FilterFileUtil.getMakeupHomeDir();
+        if (FilterFileUtil.needUpdateMakeup(getApplicationContext()) || !makeupHomeDir.exists() || makeupHomeDir.list().length <= 0) {
+            if (makeupHomeDir.exists()) {
+                FileUtil.deleteDir(makeupHomeDir);
+            }
+            FileUtil.copyAssets(this, FilterFileUtil.MAKEUP_ASSETS_FILE, new File(FilterFileUtil.getCacheDirectory(), FilterFileUtil.MAKEUP_ASSETS_FILE));
+            FileUtil.unzip(new File(FilterFileUtil.getCacheDirectory(), FilterFileUtil.MAKEUP_ASSETS_FILE).getAbsolutePath(), FilterFileUtil.getCacheDirectory().getAbsolutePath(), false);
+            FilterFileUtil.saveCurrentMakeupVersion(getApplicationContext());
+        }
     }
 
-    // demo性能统计
-    private void initRader() {
-        RadarConfig.Builder builder =
-                new RadarConfig.Builder(this, 你的appid)
-                        .kits(
-                                new ANRKit(),                    // ANR
-                                new LagKit(),                    // 卡顿
-                                new PageLaunchTimeKit(),         // 页面启动时间
-                                new MemoryLeakKit(),             // 内存泄露
-                                new MemoryAlertKit()             // 内存峰值报警
-                        );
-        builder.forceTurnOnANR(true)
-                .forceTurnOn(true)
-                .analyzeLeakForeground(true)
-                .analyzeLagForeground(true);
-        Radar.with(builder.build());
-    }
-
-    private void initPerformance() {
-        PerformanceMonitor.install(new Configuration.Builder(this)
-                // 设置卡顿监测配置
-                .setBlockConfiguration(new BlockConfiguration.Builder(this)
-                        // 卡顿日志保存目录
-                        .setLogPath("/sdcard/MMVideoSDK/")
-                        .build())
-                // 打开卡顿监测（默认就是打开的）
-                .setMonitorBlock(true)
-                // 打开性能数据抓取（默认就是打开的）
-                .setCapturePerformance(true)
-                // 设置抓取性能数据的配置
-                .setCaptureConfiguration(new CaptureConfiguration.Builder()
-                        // 抓取时间间隔（ms）
-                        .setClockTimeMillis(2000L)
-                        // 后台抓取时间间隔（ms）
-                        .setClockTimeMillisBackGround(15000L)
-                        // 飘红警报
-                        .setAlarmThreshold(true)
-                        // CPU预警阈值百分比（1-100）
-                        .setCPUThreshold(40)
-                        // JAVA内存预警阈值百分比（1-100）
-                        // 内存最大可用值可以通过MemoryUtils.getRuntimeMaxHeapSize()查看
-                        .setJavaMemoryThreshold(40)
-                        // 预警内存值，超过这个值出发红色警告
-                        .setMaxJavaMemory(100)
-                        .setMaxThreadCount(40)
-                        .setMaxRunningThreadCount(8)
-                        .build())
-                // 设置当前应用的信息（卡顿日志会保存这些信息）
-                .setAppInfo(PerformanceUtil.getSimpleAppInfo(this))
-                .build());
-
-    }
 
     static class DemoRecordResourceGetterImpl implements IRecordResourceGetter {
         private RecorderDemoApi demoApi = new RecorderDemoApi();
@@ -201,7 +140,7 @@ public class DemoApplication extends MultiDexApplication {
 
                 @Override
                 public File getResource() {
-                    return FilterFileUtil.getDokiFilterHomeDir();
+                    return FilterFileUtil.getMakeupHomeDir();
                 }
             };
         }

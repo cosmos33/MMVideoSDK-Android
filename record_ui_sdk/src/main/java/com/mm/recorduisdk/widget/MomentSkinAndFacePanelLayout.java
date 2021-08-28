@@ -1,13 +1,14 @@
 package com.mm.recorduisdk.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.base.cement.CementModel;
@@ -21,6 +22,7 @@ import com.mm.recorduisdk.widget.recyclerview.layoutmanager.GridLayoutManagerWit
 import com.mm.recorduisdk.widget.seekbar.OnSeekChangeListener;
 import com.mm.recorduisdk.widget.seekbar.SeekParams;
 import com.mm.recorduisdk.widget.seekbar.TickSeekBar;
+import com.momo.xeengine.lightningrender.ILightningRender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,9 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     public static final int TYPE_EYE_AND_THIN = 2;
     public static final int TYPE_SLIMMING = 3;
     public static final int TYPE_LONG_LEGS = 4;
+    public static final int TYPE_MICROBEAUTY = 5;
+    public static final int TYPE_MAKEUP = 6;
+    public static final int TYPE_MAKEUP_LUT = 7;
 
     private static final int COLUMNS = 6;
 
@@ -51,6 +56,8 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     private MomentFilterEditFaceItemModel lastSkinAndFaceItemModel;
 
     private List mSkinAndFaceList = new ArrayList();
+    private List microBeautyList = new ArrayList();
+    private List makeupList = new ArrayList();
     protected FilterSelectListener selectListener;
 
     //首次进入默认的2来自loadData初始化
@@ -59,6 +66,10 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
 
     protected int filterSlimmingSelectPos = 0;
     protected int filterLongLegsSelectPos = 0;
+    protected int makeupSelectPos = 0;
+    protected int microBeautySelectPos = 0;
+    private BeautyAdapterData currentData;
+
 
     public MomentSkinAndFacePanelLayout(Context context) {
         super(context);
@@ -127,6 +138,12 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
                     case MomentFilterPanelTabLayout.ON_CLICK_LONG_LEGS:
                         initSkinAndFaceData(filterLongLegsSelectPos);
                         break;
+                    case MomentFilterPanelTabLayout.ON_CLICK_MAKEUP:
+                        initMakeupData(makeupSelectPos);
+                        break;
+                    case MomentFilterPanelTabLayout.ON_CLICK_MICRO_BEAUTY:
+                        initMicroBeautyData(microBeautySelectPos);
+                        break;
                     default:
                         break;
                 }
@@ -140,7 +157,7 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
         tabLayout.setonMoreViewClickListener(new MomentFilterPanelTabLayout.OnMoreViewClickListener() {
             @Override
             public void onMoreViewClick(View view) {
-                handleMoreClick();
+                handleMoreClick(currentData);
             }
         });
     }
@@ -162,12 +179,16 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
                 value[0] = seekBar1.getProgress() / 100f;
                 value[1] = seekBar2.getProgress() / 100f;
                 if (selectListener != null) {
-                    selectListener.onBeautyMoreChanged(value, tabLayout.getCurrentSelected().get());
+                    selectListener.onBeautyMoreChanged(value, tabLayout.getCurrentSelected().get(), currentData);
                 }
                 if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_SKIN) {
                     mopiPercent = (int) seekParams.progress;
                 } else if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_FACE) {
                     dayanPercent = (int) seekParams.progress;
+                } else if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_MICRO_BEAUTY) {
+                    currentData.intensity = seekParams.progress;
+                } else if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_MAKEUP) {
+                    currentData.intensity = seekParams.progress;
                 }
             }
 
@@ -188,7 +209,11 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
                 value[0] = seekBar1.getProgress() / 100f;
                 value[1] = seekBar2.getProgress() / 100f;
                 if (selectListener != null) {
-                    selectListener.onBeautyMoreChanged(value, tabLayout.getCurrentSelected().get());
+                    int type = tabLayout.getCurrentSelected().get();
+                    if (type == MomentSkinAndFacePanelLayout.TYPE_MAKEUP) {
+                        type = TYPE_MAKEUP_LUT;
+                    }
+                    selectListener.onBeautyMoreChanged(value, type, currentData);
                 }
 
                 if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_SKIN) {
@@ -219,7 +244,7 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
         panelSkinAndFaceAdapter.setOnItemClickListener(new SimpleCementAdapter.OnItemClickListener() {
             @Override
             public void onClick(@NonNull View itemView, @NonNull CementViewHolder viewHolder, int position, @NonNull CementModel<?> model) {
-                handleBeautySelect(position);
+                handleBeautySelect(position, ((MomentFilterEditFaceItemModel) model).getData());
                 showFaceAndSkinBg(position);
             }
         });
@@ -227,9 +252,10 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     }
 
     //外层最终实现美颜效果
-    private void handleBeautySelect(int selectIndex) {
+    private void handleBeautySelect(int selectIndex, BeautyAdapterData data) {
+        currentData = data;
         if (selectListener != null) {
-            selectListener.onBeautyTabSelect(selectIndex, tabLayout.getCurrentSelected().get());
+            selectListener.onBeautyTabSelect(selectIndex, tabLayout.getCurrentSelected().get(), data);
         }
     }
 
@@ -237,11 +263,33 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     protected void initSkinAndFaceData(int index) {
         if (mSkinAndFaceList == null || mSkinAndFaceList.size() <= 0) {
             mSkinAndFaceList = transInteger2Models(VideoPanelFaceAndSkinManager.getInstance().getFaceEditType());
-            panelSkinAndFaceAdapter.updateDataList(mSkinAndFaceList);
         }
+        panelSkinAndFaceAdapter.updateDataList(mSkinAndFaceList);
 
         showFaceAndSkinBg(index);
-        handleBeautySelect(index);
+        handleBeautySelect(index, ((MomentFilterEditFaceItemModel) mSkinAndFaceList.get(0)).getData());
+    }
+
+    //微整形
+    protected void initMicroBeautyData(int index) {
+        if (microBeautyList == null || microBeautyList.size() <= 0) {
+            microBeautyList = transInteger2Models(VideoPanelFaceAndSkinManager.getInstance().getMicroBeautyData());
+        }
+        panelSkinAndFaceAdapter.updateDataList(microBeautyList);
+
+        showFaceAndSkinBg(index);
+        handleBeautySelect(index, ((MomentFilterEditFaceItemModel) microBeautyList.get(microBeautySelectPos)).getData());
+    }
+
+    //美妆
+    protected void initMakeupData(int index) {
+        if (makeupList == null || makeupList.size() <= 0) {
+            makeupList = transInteger2Models(VideoPanelFaceAndSkinManager.getInstance().getMakeupData());
+        }
+        panelSkinAndFaceAdapter.updateDataList(makeupList);
+
+        showFaceAndSkinBg(index);
+        handleBeautySelect(index, ((MomentFilterEditFaceItemModel) makeupList.get(makeupSelectPos)).getData());
     }
 
     protected void selectFilter() {
@@ -260,13 +308,15 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     protected void onTabChanged(int index) {
         tabMoreContainer.setVisibility(View.GONE);
         switch (index) {
-            case 0:
+            case MomentFilterPanelTabLayout.ON_CLICK_FILTER:
                 selectFilter();
                 break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
+            case MomentFilterPanelTabLayout.ON_CLICK_SKIN:
+            case MomentFilterPanelTabLayout.ON_CLICK_FACE:
+            case MomentFilterPanelTabLayout.ON_CLICK_SLIMMING:
+            case MomentFilterPanelTabLayout.ON_CLICK_LONG_LEGS:
+            case MomentFilterPanelTabLayout.ON_CLICK_MICRO_BEAUTY:
+            case MomentFilterPanelTabLayout.ON_CLICK_MAKEUP:
                 selectSkinAndFace();
                 break;
             default:
@@ -290,8 +340,11 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
     private int dayanPercent;
     private int shoulianPercent;
 
-    protected void handleMoreClick() {
-        if (lastTabPos != MomentFilterPanelTabLayout.ON_CLICK_SKIN && lastTabPos != MomentFilterPanelTabLayout.ON_CLICK_FACE) {
+    protected void handleMoreClick(BeautyAdapterData data) {
+        if (lastTabPos != MomentFilterPanelTabLayout.ON_CLICK_SKIN
+                && lastTabPos != MomentFilterPanelTabLayout.ON_CLICK_FACE
+                && lastTabPos != MomentFilterPanelTabLayout.ON_CLICK_MAKEUP
+                && lastTabPos != MomentFilterPanelTabLayout.ON_CLICK_MICRO_BEAUTY) {
             tabMoreContainer.setVisibility(View.GONE);
             return;
         }
@@ -302,18 +355,40 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
             panelSkinAndFaceRecView.setVisibility(View.GONE);
             tabMoreContainer.setVisibility(View.VISIBLE);
             if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_SKIN) {
+                titleTv2.setVisibility(View.VISIBLE);
+                seekBar2.setVisibility(View.VISIBLE);
                 //美颜，磨皮
                 titleTv1.setText("磨皮");
                 titleTv2.setText("美白");
                 seekBar1.setProgress(mopiPercent);
                 seekBar2.setProgress(meibaiPercent);
-            }
-            if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_FACE) {
+            } else if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_FACE) {
+                titleTv2.setVisibility(View.VISIBLE);
+                seekBar2.setVisibility(View.VISIBLE);
                 //大眼、瘦脸
                 titleTv1.setText("大眼");
                 titleTv2.setText("瘦脸");
                 seekBar1.setProgress(dayanPercent);
                 seekBar2.setProgress(shoulianPercent);
+            } else if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_MICRO_BEAUTY) {
+                titleTv2.setVisibility(View.GONE);
+                seekBar2.setVisibility(View.GONE);
+                titleTv1.setText("浓度");
+                seekBar1.setProgress(data.intensity);
+            } else if (lastTabPos == MomentFilterPanelTabLayout.ON_CLICK_MAKEUP) {
+                if (currentData.beautyInnerType.equals(ILightningRender.IMakeupLevel.MAKEUP_ALL)) {
+                    titleTv2.setVisibility(View.VISIBLE);
+                    seekBar2.setVisibility(View.VISIBLE);
+                    titleTv1.setText("整妆");
+                    seekBar1.setProgress(data.intensity);
+                    titleTv2.setText("滤镜");
+                    seekBar2.setProgress(data.intensity);
+                } else {
+                    titleTv2.setVisibility(View.GONE);
+                    seekBar2.setVisibility(View.GONE);
+                    titleTv1.setText("浓度");
+                    seekBar1.setProgress(data.intensity);
+                }
             }
         }
     }
@@ -354,17 +429,21 @@ public class MomentSkinAndFacePanelLayout extends RelativeLayout {
             case TYPE_LONG_LEGS:
                 filterLongLegsSelectPos = position;
                 break;
+            case TYPE_MAKEUP:
+                makeupSelectPos = position;
+                break;
+            case TYPE_MICROBEAUTY:
+                microBeautySelectPos = position;
+                break;
             default:
                 break;
         }
     }
 
-    private List<CementModel<?>> transInteger2Models(List list) {
+    private List<CementModel<?>> transInteger2Models(List<BeautyAdapterData> list) {
         List<CementModel<?>> models = new ArrayList<>();
-        for (Object object : list) {
-            if (object instanceof Integer) {
-                models.add(new MomentFilterEditFaceItemModel((Integer) object));
-            }
+        for (BeautyAdapterData object : list) {
+            models.add(new MomentFilterEditFaceItemModel(object));
         }
         return models;
     }

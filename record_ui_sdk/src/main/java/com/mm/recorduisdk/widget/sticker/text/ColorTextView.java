@@ -5,10 +5,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Shader;
 import android.os.Build;
-import android.support.annotation.FloatRange;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import androidx.annotation.FloatRange;
 
 /**
  * Created by XiongFangyu on 17/2/9.

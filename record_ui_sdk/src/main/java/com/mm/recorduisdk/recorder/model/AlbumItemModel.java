@@ -1,9 +1,10 @@
 package com.mm.recorduisdk.recorder.model;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.Constants;
 import com.mm.recorduisdk.R;

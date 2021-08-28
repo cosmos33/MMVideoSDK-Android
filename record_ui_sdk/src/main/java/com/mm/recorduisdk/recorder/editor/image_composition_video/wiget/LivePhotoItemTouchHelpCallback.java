@@ -1,9 +1,9 @@
 package com.mm.recorduisdk.recorder.editor.image_composition_video.wiget;
 
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LivePhotoItemTouchHelpCallback extends ItemTouchHelper.Callback {
 

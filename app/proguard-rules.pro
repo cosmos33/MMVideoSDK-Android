@@ -24,8 +24,8 @@
 -keep class com.mm.rifle.**{*;}
 
 #mmfile
+-keep class com.mm.mmfile.**{*;}
 -keep class com.cosmos.mmfile.**{*;}
-
 
 # 保留本地native方法不被混淆
 -keepclasseswithmembernames class * {
@@ -62,6 +62,9 @@ native <methods>;
 -keep class com.momo.mcamera.** {*;}
 -dontwarn com.momo.mcamera.mask.**
 -keep class com.google.gson.** {*;}
+
+# dns
+-keep public class com.immomo.mmdns.**{*;}
 
 # 播放器
 -keep class tv.danmaku.ijk.media.** {*;}

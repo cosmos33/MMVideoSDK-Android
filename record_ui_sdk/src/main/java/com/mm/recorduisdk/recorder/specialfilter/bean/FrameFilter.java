@@ -1,8 +1,8 @@
 package com.mm.recorduisdk.recorder.specialfilter.bean;
 
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 
 import project.android.imageprocessing.inter.IEffectFilterDataController;
 

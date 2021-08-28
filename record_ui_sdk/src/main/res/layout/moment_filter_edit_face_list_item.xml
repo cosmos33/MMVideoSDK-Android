@@ -13,7 +13,7 @@
         android:background="@drawable/moment_filter_edit_face_selector"
         android:text="1"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_40px"
+        android:textSize="@dimen/text_30px"
         android:gravity="center"/>
 
 </FrameLayout>

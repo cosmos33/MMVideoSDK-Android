@@ -1,13 +1,16 @@
 package com.mm.recorduisdk.recorder.model;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.base.cement.CementAdapter;
 import com.mm.recorduisdk.base.cement.CementModel;
 import com.mm.recorduisdk.base.cement.CementViewHolder;
+import com.mm.recorduisdk.recorder.helper.VideoPanelFaceAndSkinManager;
+import com.mm.recorduisdk.widget.BeautyAdapterData;
 
 /**
  * Created by liuhuan on 2017/6/6.
@@ -15,16 +18,16 @@ import com.mm.recorduisdk.base.cement.CementViewHolder;
  */
 public class MomentFilterEditFaceItemModel extends CementModel<MomentFilterEditFaceItemModel.ViewHolder> {
 
-    private int type;
+    private BeautyAdapterData data;
 
-    public MomentFilterEditFaceItemModel(int type) {
-        this.type = type;
+    public MomentFilterEditFaceItemModel(BeautyAdapterData data) {
+        this.data = data;
 
         id(this.hashCode());
     }
 
-    public int getType() {
-        return this.type;
+    public BeautyAdapterData getData() {
+        return this.data;
     }
 
     @Override
@@ -47,12 +50,25 @@ public class MomentFilterEditFaceItemModel extends CementModel<MomentFilterEditF
     @Override
     public void bindData(@NonNull final ViewHolder holder) {
         super.bindData(holder);
-        if (getType() != 0) {
-            holder.editFaceText.setText(String.valueOf(getType()));
-            holder.editFaceText.setBackgroundResource(R.drawable.moment_filter_edit_face_selector);
+        if (getData().beautyType == null) {
+            if (!"0".equals(getData())) {
+                holder.editFaceText.setText(getData().content);
+                holder.editFaceText.setBackgroundResource(R.drawable.moment_filter_edit_face_selector);
+            } else {
+                holder.editFaceText.setText("");
+                holder.editFaceText.setBackgroundResource(R.drawable.filter_no_select);
+            }
         } else {
-            holder.editFaceText.setText("");
-            holder.editFaceText.setBackgroundResource(R.drawable.filter_no_select);
+            switch (getData().beautyType) {
+                case VideoPanelFaceAndSkinManager.TYPE_MICRO:
+                    holder.editFaceText.setText(getData().content);
+                    holder.editFaceText.setBackgroundResource(R.drawable.moment_filter_edit_face_selector);
+                    break;
+                case VideoPanelFaceAndSkinManager.TYPE_MAKEUP:
+                    holder.editFaceText.setText(getData().content);
+                    break;
+                default:
+            }
         }
         if (isShowBg) {
             holder.editFaceText.setSelected(true);

@@ -7,12 +7,13 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.os.Build;
 import android.os.Parcelable;
-import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+
+import androidx.core.view.MotionEventCompat;
 
 import com.mm.recorduisdk.widget.paint.draw.PathDrawer;
 import com.mm.recorduisdk.widget.paint.draw.SerializablePath;

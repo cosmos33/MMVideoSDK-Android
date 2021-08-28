@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.musicpanel.edit;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.mm.base_business.base.BaseFragment;
 import com.mm.recorduisdk.recorder.model.MusicContent;

@@ -6,10 +6,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -18,6 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mm.base_business.utils.UIUtils;
 import com.mm.mmutil.toast.Toaster;
@@ -76,7 +77,7 @@ public class MomentFacePanelLayout extends FrameLayout implements View.OnClickLi
     // 当前选中的类别
     private FaceClass mSelectedFaceClass;
     // 辅助定位变脸项的类对象
-    private LocateHelper mLocateHelper;
+    private MomentFacePanelLayout.LocateHelper mLocateHelper;
     // 当前选中的所有models
     private List<MomentFaceItemModel> mSelectedModels;
     private int mSelectedClassIndex = -1;
@@ -265,10 +266,8 @@ public class MomentFacePanelLayout extends FrameLayout implements View.OnClickLi
 
     /**
      * 设置定位辅助对象
-     *
-     *
      */
-    public void setLocateHelper(LocateHelper locateHelper) {
+    public void setLocateHelper(MomentFacePanelLayout.LocateHelper locateHelper) {
         mLocateHelper = locateHelper;
     }
 

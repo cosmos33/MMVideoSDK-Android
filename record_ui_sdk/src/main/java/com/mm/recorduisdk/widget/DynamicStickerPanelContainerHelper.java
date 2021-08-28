@@ -3,11 +3,12 @@ package com.mm.recorduisdk.widget;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mm.mediasdk.utils.UIUtils;
 import com.mm.mmutil.task.MomoMainThreadExecutor;

@@ -2,9 +2,10 @@ package com.mm.sdkdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.mm.recorduisdk.recorder.MediaConstants;
 import com.mm.recorduisdk.recorder.model.Photo;

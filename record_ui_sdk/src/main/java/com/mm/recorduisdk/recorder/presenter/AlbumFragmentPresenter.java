@@ -1,6 +1,6 @@
 package com.mm.recorduisdk.recorder.presenter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.immomo.moment.ImageMovieManager;
 import com.mm.mmutil.app.AppContext;

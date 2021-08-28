@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +12,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.core.glcore.config.MediaModuleGlobalConfig;
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
+import com.immomo.moment.util.SDKUtils;
 import com.immomo.resdownloader.manager.DynamicResourceConstants;
 import com.immomo.resdownloader.manager.ModelResourceManager;
 import com.mm.base_business.base.BaseFullScreenActivity;
@@ -473,7 +475,7 @@ public class SelectMomentCoverActivity extends BaseFullScreenActivity implements
 
         if (MediaModuleGlobalConfig.hasCV()) {
             File faFilePath = ModelResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_FA_MODEL);
-            File fdFilePath = ModelResourceManager.getInstance().getResource(DynamicResourceConstants.ITEM_NAME_MMCV_MACE_FD_MODEL);
+            File fdFilePath = ModelResourceManager.getInstance().getResource(getFdModel());
             List<String> modlePath = new ArrayList<>();
             if (fdFilePath != null && fdFilePath.exists() && faFilePath != null && faFilePath.exists()) {
                 modlePath.add(0, fdFilePath.getAbsolutePath());
@@ -483,6 +485,13 @@ public class SelectMomentCoverActivity extends BaseFullScreenActivity implements
         }
 
         videoDataRetrieve.executeFrameFilter();
+    }
+
+    public static String getFdModel() {
+        if (SDKUtils.isLowerDevice()) {
+            return DynamicResourceConstants.ITEM_NAME_MMCV_FD_MODEL_222_SMALL_OUTER;
+        }
+        return DynamicResourceConstants.ITEM_NAME_MMCV_FD_MODEL_222_BIG_OUTER;
     }
 
     private void decodeAllThumbFromFile() {

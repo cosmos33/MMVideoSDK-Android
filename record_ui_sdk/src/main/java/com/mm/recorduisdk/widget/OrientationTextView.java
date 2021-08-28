@@ -3,8 +3,9 @@ package com.mm.recorduisdk.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mm.recorduisdk.R;
 

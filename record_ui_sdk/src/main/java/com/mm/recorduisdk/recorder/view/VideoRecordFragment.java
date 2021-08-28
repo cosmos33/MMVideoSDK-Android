@@ -18,13 +18,6 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -40,6 +33,14 @@ import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import com.core.glcore.config.MRConfig;
 import com.core.glcore.config.Size;
@@ -99,6 +100,8 @@ import com.mm.recorduisdk.utils.VideoUtils;
 import com.mm.recorduisdk.utils.XEngineEventHelper;
 import com.mm.recorduisdk.utils.album.AlbumConstant;
 import com.mm.recorduisdk.utils.filter.FiltersManager;
+import com.mm.recorduisdk.widget.BeautyAdapterData;
+import com.mm.recorduisdk.widget.CompareImageView;
 import com.mm.recorduisdk.widget.FaceTipView;
 import com.mm.recorduisdk.widget.FilterScrollMoreViewPager;
 import com.mm.recorduisdk.widget.FocusView;
@@ -120,6 +123,7 @@ import com.momo.mcamera.filtermanager.MMPresetFilter;
 import com.momo.mcamera.mask.MaskModel;
 import com.momo.mcamera.mask.Sticker;
 import com.momo.xeengine.XE3DEngine;
+import com.momo.xeengine.lightningrender.ILightningRender;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -145,7 +149,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private DelayStartShooting delayStartShootingTask;
     private ShowDelayTimeTask delayTextTask;
     private DelayStartRecord delayStartRecordTask;
-    private View mMakeUp;
+//    private View mMakeUp;
 
 
     private static final int MIN_BACK_TIME = 400;
@@ -228,6 +232,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private int mCurFilterPos = Configs.DEFAULT_FILTER_INDEX;
     private int mCurFilterBeautyPos = Configs.DEFAULT_BEAUTY;
     private int mCurFilterEyeThinPos = Configs.DEFAULT_BIG_EYE;
+    private int mCurMicroBeautyPos = Configs.DEFAULT_MICROBEAUTY_INDEX;
+    private int mCurMakeupPos = Configs.DEFAULT_MAKEUP_INDEX;
     private int mCurFilterSlimmingPos;
     private int mCurFilterLongLegPos;
 
@@ -291,6 +297,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     private MomentPropPanelHelper mMomentPropPanelHelper;
     private FocusView mFocusView;
     private TestTextHelper testTextHelper;
+    private CompareImageView ivCompare;
 
     @Override
     protected int getLayout() {
@@ -384,7 +391,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         filterNameTip = findViewById(R.id.filter_name_tv);
         tvFilterName = findViewById(R.id.tv_filter_name);
         stubDeleteTip = findViewById(R.id.stub_delete_tip);
-        mMakeUp = findViewById(R.id.video_beauty);
+//        mMakeUp = findViewById(R.id.video_beauty);
 
         videoRecordControllerLayout = findViewById(R.id.video_record_btn_layout);
         // 变脸面板ViewStub对象
@@ -401,6 +408,18 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         if (recordTipManager != null) {
             recordTipManager.setTipView(mStickerTriggerTipView);
         }
+        ivCompare = findViewById(R.id.ivCompare);
+        ivCompare.setOnTouchEventListener(new CompareImageView.OnTouchEventListener() {
+            @Override
+            public void onTouchDown() {
+                mPresenter.enableRenderBeauty(false);
+            }
+
+            @Override
+            public void onTouchUp() {
+                mPresenter.enableRenderBeauty(true);
+            }
+        });
 
         setPreView();
         initRecorder();
@@ -440,7 +459,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
 
         tvFilterName.setVisibility((filtersImgHomeDirConfig != null && filtersImgHomeDirConfig.isOpen()) ? View.VISIBLE : View.GONE);
         videoFaceContainer.setVisibility((momentFaceDataConfig != null && momentFaceDataConfig.isOpen()) ? View.VISIBLE : View.GONE);
-        mMakeUp.setVisibility((makeUpHomeDirConfig != null && makeUpHomeDirConfig.isOpen()) ? View.VISIBLE : View.GONE);
+//        mMakeUp.setVisibility((makeUpHomeDirConfig != null && makeUpHomeDirConfig.isOpen()) ? View.VISIBLE : View.GONE);
         videoSelectMusicTv.setVisibility((recommendMusicConfig != null && recommendMusicConfig.isOpen()) ? View.VISIBLE : View.GONE);
 
 
@@ -457,11 +476,11 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     }
 
     private void setMakeUpIconVisibility(int visibility) {
-        IRecordResourceConfig<File> makeUpHomeDirConfig = RecordUISDK.getResourceGetter().getMakeUpHomeDirConfig();
-        if (makeUpHomeDirConfig == null || !makeUpHomeDirConfig.isOpen()) {
-            return;
-        }
-        mMakeUp.setVisibility(visibility);
+//        IRecordResourceConfig<File> makeUpHomeDirConfig = RecordUISDK.getResourceGetter().getMakeUpHomeDirConfig();
+//        if (makeUpHomeDirConfig == null || !makeUpHomeDirConfig.isOpen()) {
+//            return;
+//        }
+//        mMakeUp.setVisibility(visibility);
     }
 
     private void setMomentFaceIconVisibility(int visibility) {
@@ -1223,7 +1242,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         videoAdvancedBtnDelete.setOnClickListener(this);
         tvFilterName.setOnClickListener(this);
         videoSlimmingContainer.setOnClickListener(this);
-        mMakeUp.setOnClickListener(this);
+//        mMakeUp.setOnClickListener(this);
         videoFaceContainer.setOnClickListener(this);
         videoSpeed.setOnClickListener(this);
 
@@ -1319,19 +1338,19 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 hideFilterPanel();
             }
             switchFacePanel();
-        } else if (v == mMakeUp) {
-            hideSpeedView();
-            if (isFacePanelShowing()) {
-                hideFacePanel();
-            }
-            if (isFilterPanelShow()) {
-                hideFilterPanel();
-            }
-            if (beautyPanelLayout.getVisibility() == View.VISIBLE) {
-                beautyPanelLayout.setVisibility(View.GONE);
-            } else {
-                beautyPanelLayout.setVisibility(View.VISIBLE);
-            }
+//        } else if (v == mMakeUp) {
+//            hideSpeedView();
+//            if (isFacePanelShowing()) {
+//                hideFacePanel();
+//            }
+//            if (isFilterPanelShow()) {
+//                hideFilterPanel();
+//            }
+//            if (beautyPanelLayout.getVisibility() == View.VISIBLE) {
+//                beautyPanelLayout.setVisibility(View.GONE);
+//            } else {
+//                beautyPanelLayout.setVisibility(View.VISIBLE);
+//            }
         } else if (v == videoSpeed) {
             if (beautyPanelLayout.getVisibility() == View.VISIBLE) {
                 beautyPanelLayout.setVisibility(View.GONE);
@@ -1558,7 +1577,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         listener.setNormalRotationViews(videoFaceContainer, videoSpeed, tvFilterName, videoSlimmingContainer, btnClose,
                 videoDefaultBtnSwitchCamera, videoDefaultBtnFlash,
                 videoAdvancedBtnDelay, videoSelectMusicTv,
-                videoAdvancedBtnDelete, mMakeUp);
+                videoAdvancedBtnDelete);
         listener.setFinishBtn(videoAdvancedBtnGotoEdit);
         orientationManager.setAngleChangedListener(listener);
         orientationManager.start();
@@ -1576,8 +1595,8 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 initFlashAndSwitchButton();
                 mPresenter.startPreview();
                 mPresenter.initFilter(filters);
-                onBeautyTabSelect(mCurFilterBeautyPos, MomentFilterPanelLayout.TYPE_BEAUTY);
-                onBeautyTabSelect(mCurFilterEyeThinPos, MomentFilterPanelLayout.TYPE_EYE_AND_THIN);
+                onBeautyTabSelect(mCurFilterBeautyPos, MomentFilterPanelLayout.TYPE_BEAUTY, null);
+                onBeautyTabSelect(mCurFilterEyeThinPos, MomentFilterPanelLayout.TYPE_EYE_AND_THIN, null);
                 if (filter != null) {
                     mPresenter.addFilter(filter);
                     beautyPanelLayout.clickCurrentTab();
@@ -1988,7 +2007,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                         recordTipManager.onClearMask();
                     }
                     onBeautyTabSelect(mCurFilterEyeThinPos
-                            , MomentFilterPanelLayout.TYPE_EYE_AND_THIN);
+                            , MomentFilterPanelLayout.TYPE_EYE_AND_THIN, null);
                 }
             });
 
@@ -2061,7 +2080,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                             recordTipManager.onClearMask();
                         }
                         onBeautyTabSelect(mCurFilterEyeThinPos
-                                , MomentFilterPanelLayout.TYPE_EYE_AND_THIN);
+                                , MomentFilterPanelLayout.TYPE_EYE_AND_THIN, null);
 
                         recordTipManager.reset();
                         dialog.dismiss();
@@ -2301,8 +2320,19 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
         return videoAdvancedProgressView.getRecordDuration() > 0;
     }
 
-    public void onTakePhoto(String path, Exception e) {
+    public void onTakePhoto(final String path, Exception e) {
         if (e == null) {
+            //打开以下注释解密图片；以及使拍照按钮enable
+//            videoDefaultRecordBtn.setEnabled(true);
+//            ThreadTools.execute(ThreadTools.TYPE_RIGHT_NOW, new Runnable() {
+//                @Override
+//                public void run() {
+//                    Bitmap bitmap = com.core.glcore.util.BitmapPrivateProtocolUtil.getBitmap(path);
+//                    String file = new File(path).getParent();
+//                    File fff = new File(file,"testsss:"+System.currentTimeMillis()+".jpg");
+//                    FileUtil.saveBitmap(bitmap,fff.getAbsolutePath());
+//                }
+//            });
             gotoEditImage(path);
         } else {
             videoDefaultRecordBtn.setEnabled(true);
@@ -2970,7 +3000,7 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
     }
 
     @Override
-    public void onBeautyTabSelect(int selectPosition, int type) {
+    public void onBeautyTabSelect(int selectPosition, int type, BeautyAdapterData data) {
         float[] value = new float[2];
         switch (type) {
             case MomentFilterPanelLayout.TYPE_BEAUTY:   // 美肤 美白
@@ -2995,13 +3025,21 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 mPresenter.setLongLegScale(VideoPanelFaceAndSkinManager.getInstance().getSlimmingAndLongLegsLevel(selectPosition, type));
                 mCurFilterLongLegPos = selectPosition;
                 break;
+            case MomentFilterPanelLayout.TYPE_MICROBEAUTY:
+                mPresenter.setFaceBeautyValue(data.beautyInnerType, 1f);
+                mCurMicroBeautyPos = selectPosition;
+                break;
+            case MomentFilterPanelLayout.TYPE_MAKEUP:
+                mPresenter.addMakeup(data.path);
+                mCurMakeupPos = selectPosition;
+                break;
             default:
                 break;
         }
     }
 
     @Override
-    public void onBeautyMoreChanged(float[] value, int type) {
+    public void onBeautyMoreChanged(float[] value, int type, BeautyAdapterData currentData) {
         switch (type) {
             case MomentFilterPanelLayout.TYPE_BEAUTY:   // 美肤 美白
                 mPresenter.setItemSelectSkinLevel(value);
@@ -3011,6 +3049,15 @@ public class VideoRecordFragment extends BaseFragment implements IMomoRecordView
                 //                value[1] = Configs.DOKI_THIN_FACE[selectPosition];
                 mPresenter.setFaceEyeScale(value[0]);
                 mPresenter.setFaceThinScale(value[1]);
+                break;
+            case MomentSkinAndFacePanelLayout.TYPE_MAKEUP:
+                mPresenter.setMakeupIntensity(currentData.beautyInnerType, value[0]);
+                break;
+            case MomentSkinAndFacePanelLayout.TYPE_MAKEUP_LUT:
+                mPresenter.setMakeupIntensity(ILightningRender.IMakeupLevel.MAKEUP_LUT, value[1]);
+                break;
+            case MomentSkinAndFacePanelLayout.TYPE_MICROBEAUTY:
+                mPresenter.setFaceBeautyValue(currentData.beautyInnerType, value[0]);
                 break;
             default:
                 break;

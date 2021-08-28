@@ -1,8 +1,9 @@
 package com.mm.recorduisdk.utils;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.immomo.moment.mediautils.VideoDataRetrieverBySoft;
 import com.mm.mmutil.StringUtils;

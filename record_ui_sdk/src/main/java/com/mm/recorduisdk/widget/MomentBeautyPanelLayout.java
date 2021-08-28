@@ -3,7 +3,6 @@ package com.mm.recorduisdk.widget;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,13 +10,16 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 
+import androidx.annotation.Nullable;
+
 import com.mm.recorduisdk.IRecordResourceConfig;
 import com.mm.recorduisdk.R;
 import com.mm.recorduisdk.RecordUISDK;
-//import com.mm.recorduisdk.bean.MomentFacePanelElement;
 import com.momo.mcamera.dokibeauty.MakeupHelper;
 
 import java.io.File;
+
+//import com.mm.recorduisdk.bean.MomentFacePanelElement;
 
 /**
  * 美妆面板         <br/>

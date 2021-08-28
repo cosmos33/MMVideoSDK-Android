@@ -1,7 +1,7 @@
 package com.mm.recorduisdk.base.cement;
 
-import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 
 /**
  * @author xudong

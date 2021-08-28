@@ -14,7 +14,7 @@
         app:lineLeftMargin="20dp"
         app:lineRightMargin="20dp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filter_drawer_main_panel"
         android:layout_width="match_parent"
         android:layout_height="160dp"
@@ -24,7 +24,7 @@
         android:background="@color/filter_bg"
         android:visibility="gone" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filter_drawer_edit_face_panel"
         android:layout_width="match_parent"
         android:layout_height="160dp"
