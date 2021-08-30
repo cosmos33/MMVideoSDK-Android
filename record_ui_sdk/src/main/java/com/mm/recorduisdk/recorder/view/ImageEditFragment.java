@@ -561,7 +561,7 @@ public class ImageEditFragment extends BaseFragment implements View.OnClickListe
                             break;
                         case MomentFilterPanelLayout.TYPE_EYE_AND_THIN: //  大眼 瘦脸
                             imageProcess.setFaceBeautyValue(FaceBeautyID.BIG_EYE, value[0]);
-                            imageProcess.setFaceBeautyValue(FaceBeautyID.THIN_FACE, value[0]);
+                            imageProcess.setFaceBeautyValue(FaceBeautyID.THIN_FACE, value[1]);
                             break;
                         case MomentSkinAndFacePanelLayout.TYPE_MAKEUP:
                             imageProcess.setMakeupIntensity(currentData.beautyInnerType, value[0]);
